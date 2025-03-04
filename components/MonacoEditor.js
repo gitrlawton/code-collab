@@ -4,7 +4,6 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 
 // Dynamically import Monaco Editor to avoid SSR issues
 const MonacoEditor = dynamic(() => import("@monaco-editor/react"), {
@@ -25,6 +24,55 @@ export default function CollaborativeEditor({ roomId, user }) {
   const pendingContentRef = useRef(null);
   const decorationsRef = useRef([]); // Track decoration IDs
   const router = useRouter();
+  const [output, setOutput] = useState("");
+  const [isRunning, setIsRunning] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      isLocalChangeRef.current = false;
+    };
+  }, []);
+
+  // Add this helper function near the top of your component
+  const handleRemoteChange = (payload) => {
+    if (!editorRef.current) {
+      setContent(payload.payload.content);
+      return;
+    }
+
+    const model = editorRef.current.getModel();
+    if (!model) return;
+
+    // Save cursor and scroll state
+    const selections = editorRef.current.getSelections();
+    const viewState = editorRef.current.saveViewState();
+
+    // Update content
+    setContent(payload.payload.content);
+    model.pushEditOperations(
+      [],
+      [
+        {
+          range: model.getFullModelRange(),
+          text: payload.payload.content,
+        },
+      ],
+      () => selections
+    );
+
+    // Update version if needed
+    if (payload.payload.version > versionRef.current) {
+      versionRef.current = payload.payload.version;
+    }
+
+    // Restore state
+    requestAnimationFrame(() => {
+      if (editorRef.current) {
+        editorRef.current.restoreViewState(viewState);
+        editorRef.current.setSelections(selections);
+      }
+    });
+  };
 
   // Handle editor mounting
   const handleEditorDidMount = (editor) => {
@@ -48,6 +96,95 @@ export default function CollaborativeEditor({ roomId, user }) {
 
     // Request latest content from other users when joining
     requestLatestContent();
+  };
+
+  // Function to run the code
+  const runCode = async () => {
+    if (!editorRef.current) return;
+
+    const code = editorRef.current.getValue();
+    if (!code || code === "// Start coding here...") return;
+
+    setIsRunning(true);
+    setOutput(""); // Clear previous output
+
+    try {
+      // Create a proxy console to capture logs
+      const logs = [];
+      const originalConsoleLog = console.log;
+
+      // Override console.log temporarily
+      console.log = (...args) => {
+        logs.push(
+          args
+            .map((arg) =>
+              typeof arg === "object" ? JSON.stringify(arg) : String(arg)
+            )
+            .join(" ")
+        );
+        // Still log to the browser console for debugging
+        originalConsoleLog(...args);
+      };
+
+      // Execute the code in a try-catch block
+      try {
+        // Only execute JavaScript code
+        if (language === "javascript") {
+          const executedFunction = new Function(code);
+          await executedFunction();
+          const outputText = logs.join("\n");
+          setOutput(outputText);
+
+          // Broadcast the output to all users in the room
+          await supabase.channel(`room:${roomId}`).send({
+            type: "broadcast",
+            event: "code-output",
+            payload: {
+              output: outputText,
+              userName: user?.user_metadata?.name || user?.email || "Anonymous",
+              timestamp: new Date().toISOString(),
+            },
+          });
+        } else {
+          setOutput("Only JavaScript execution is supported.");
+        }
+      } catch (error) {
+        const errorOutput = `Error: ${error.message}`;
+        setOutput(errorOutput);
+
+        // Broadcast the error to all users in the room
+        await supabase.channel(`room:${roomId}`).send({
+          type: "broadcast",
+          event: "code-output",
+          payload: {
+            output: errorOutput,
+            userName: user?.user_metadata?.name || user?.email || "Anonymous",
+            timestamp: new Date().toISOString(),
+            isError: true,
+          },
+        });
+      } finally {
+        // Restore the original console.log
+        console.log = originalConsoleLog;
+      }
+    } catch (error) {
+      const executionError = `Execution error: ${error.message}`;
+      setOutput(executionError);
+
+      // Broadcast the execution error
+      await supabase.channel(`room:${roomId}`).send({
+        type: "broadcast",
+        event: "code-output",
+        payload: {
+          output: executionError,
+          userName: user?.user_metadata?.name || user?.email || "Anonymous",
+          timestamp: new Date().toISOString(),
+          isError: true,
+        },
+      });
+    } finally {
+      setIsRunning(false);
+    }
   };
 
   // Broadcast cursor position to other users
@@ -107,52 +244,53 @@ export default function CollaborativeEditor({ roomId, user }) {
     if (!pendingContentRef.current) return;
 
     const contentToUpdate = pendingContentRef.current;
-    const currentVersion = versionRef.current++;
+    const timestamp = Date.now();
 
     try {
-      isLocalChangeRef.current = true;
-
-      // Update content in Supabase
-      await supabase
-        .from("rooms")
-        .update({
-          content: contentToUpdate,
-          version: currentVersion,
-        })
-        .eq("code", roomId);
-
-      // Broadcast change to other users
+      // Broadcast changes first
       await supabase.channel(`room:${roomId}:content`).send({
         type: "broadcast",
         event: "content",
         payload: {
           content: contentToUpdate,
           userId: user.id,
-          version: currentVersion,
+          timestamp: timestamp,
         },
       });
 
-      // Clear pending content
+      // Then update database
+      const { error: updateError } = await supabase
+        .from("rooms")
+        .update({
+          content: contentToUpdate,
+          last_updated: timestamp,
+        })
+        .eq("code", roomId);
+
+      if (updateError) {
+        console.error("Error updating room:", updateError);
+        return;
+      }
+
       pendingContentRef.current = null;
     } catch (error) {
-      console.error("Error updating content:", error);
-    } finally {
-      // Reset the local change flag after a delay
-      setTimeout(() => {
-        isLocalChangeRef.current = false;
-      }, 100);
+      console.error("Error in real-time update:", error);
     }
   }, [roomId, user]);
 
   // Handle content changes with debouncing
   const handleEditorChange = (value) => {
-    // Update local state immediately for responsive UI
-    setContent(value);
+    // Skip if this is a remote change being applied
+    if (isLocalChangeRef.current) return;
 
-    // Store the latest content
+    // Skip if content hasn't actually changed
+    if (value === content) return;
+
+    // Update local state and pending content
+    setContent(value);
     pendingContentRef.current = value;
 
-    // Add this: Save to localStorage immediately
+    // Save to localStorage
     if (value && value !== "// Start coding here...") {
       localStorage.setItem(`room_${roomId}_content`, value);
     }
@@ -162,10 +300,10 @@ export default function CollaborativeEditor({ roomId, user }) {
       clearTimeout(debounceTimerRef.current);
     }
 
-    // Set new timer for debounced update
+    // Debounce the update with a longer delay
     debounceTimerRef.current = setTimeout(() => {
       updateContentDebounced();
-    }, 300); // 300ms debounce time
+    }, 300); // Increased to 300ms for better stability
   };
 
   // Set up real-time collaboration
@@ -213,80 +351,53 @@ export default function CollaborativeEditor({ roomId, user }) {
         const contentSubscription = supabase
           .channel(`room:${roomId}:content`)
           .on("broadcast", { event: "content" }, (payload) => {
-            console.log(
-              "Received content update:",
-              payload.payload.isJoinSync ? "join sync" : "regular update"
-            );
+            // Skip if this is our own change
+            if (payload.payload.userId === user.id) {
+              return;
+            }
 
-            // Always apply join sync messages, even if they originated from this user
-            if (payload.payload.isJoinSync) {
-              setContent(payload.payload.content);
+            if (editorRef.current) {
+              const model = editorRef.current.getModel();
+              if (!model) return;
 
-              if (
-                editorRef.current &&
-                editorRef.current.getValue() !== payload.payload.content
-              ) {
-                // Save cursor position
-                const selection = editorRef.current.getSelection();
-                const scrollTop = editorRef.current.getScrollTop();
-                const scrollLeft = editorRef.current.getScrollLeft();
+              // Skip if content hasn't changed
+              const currentContent = model.getValue();
+              if (currentContent === payload.payload.content) {
+                return;
+              }
+
+              // Set flag before making changes
+              isLocalChangeRef.current = true;
+
+              try {
+                // Save cursor and scroll state
+                const selections = editorRef.current.getSelections();
+                const viewState = editorRef.current.saveViewState();
 
                 // Update content
-                editorRef.current.setValue(payload.payload.content);
+                setContent(payload.payload.content);
 
-                // Restore cursor position and scroll
-                editorRef.current.setSelection(selection);
-                editorRef.current.setScrollTop(scrollTop);
-                editorRef.current.setScrollLeft(scrollLeft);
+                // Update model in a single operation
+                model.pushEditOperations(
+                  [],
+                  [
+                    {
+                      range: model.getFullModelRange(),
+                      text: payload.payload.content,
+                    },
+                  ],
+                  () => selections
+                );
+
+                // Restore state immediately
+                editorRef.current.restoreViewState(viewState);
+                editorRef.current.setSelections(selections);
+              } finally {
+                // Reset flag immediately after changes
+                isLocalChangeRef.current = false;
               }
-
-              // Update version
-              if (
-                payload.payload.version &&
-                payload.payload.version >= versionRef.current
-              ) {
-                versionRef.current = payload.payload.version + 1;
-              }
-
-              return;
-            }
-
-            // Skip applying regular changes that originated from this user
-            if (
-              payload.payload.userId === user.id &&
-              isLocalChangeRef.current
-            ) {
-              return;
-            }
-
-            // Add this section to handle regular content updates
-            setContent(payload.payload.content);
-
-            // Update editor content if it differs from current state
-            if (
-              editorRef.current &&
-              editorRef.current.getValue() !== payload.payload.content
-            ) {
-              // Save cursor position
-              const selection = editorRef.current.getSelection();
-              const scrollTop = editorRef.current.getScrollTop();
-              const scrollLeft = editorRef.current.getScrollLeft();
-
-              // Update content
-              editorRef.current.setValue(payload.payload.content);
-
-              // Restore cursor position and scroll
-              editorRef.current.setSelection(selection);
-              editorRef.current.setScrollTop(scrollTop);
-              editorRef.current.setScrollLeft(scrollLeft);
-            }
-
-            // Update version if remote version is higher
-            if (
-              payload.payload.version &&
-              payload.payload.version >= versionRef.current
-            ) {
-              versionRef.current = payload.payload.version + 1;
+            } else {
+              setContent(payload.payload.content);
             }
           })
           .subscribe();
@@ -344,7 +455,7 @@ export default function CollaborativeEditor({ roomId, user }) {
 
         const presenceSubscription = presenceChannel
           .on("presence", { event: "join" }, async ({ newPresences }) => {
-            // Update users list
+            // Update users list first
             setUsers((prevUsers) => {
               const updatedUsers = [...prevUsers];
               newPresences.forEach((presence) => {
@@ -355,30 +466,52 @@ export default function CollaborativeEditor({ roomId, user }) {
               return updatedUsers;
             });
 
-            // If this user has been in the room for a while and has content,
-            // immediately save and broadcast the current content to ensure new users get it
-            if (editorRef.current && !loading) {
+            // Only sync content if we're the longest-present user
+            const isLongestPresentUser = users.length === 0;
+
+            if (isLongestPresentUser && editorRef.current && !loading) {
               const currentContent = editorRef.current.getValue();
               if (
                 currentContent &&
                 currentContent !== "// Start coding here..."
               ) {
-                console.log("New user joined, broadcasting current content");
+                console.log("New user joined, syncing content as primary user");
 
-                // Save to database first
-                await saveContentImmediately(currentContent);
+                // Set a sync lock
+                isLocalChangeRef.current = true;
 
-                // Then broadcast to all users
-                await supabase.channel(`room:${roomId}:content`).send({
-                  type: "broadcast",
-                  event: "content",
-                  payload: {
-                    content: currentContent,
-                    userId: user.id,
-                    version: versionRef.current,
-                    isJoinSync: true, // Flag to indicate this is a sync message for new users
-                  },
-                });
+                try {
+                  // Update database first
+                  const { error: updateError } = await supabase
+                    .from("rooms")
+                    .update({
+                      content: currentContent,
+                      last_updated: Date.now(),
+                    })
+                    .eq("code", roomId);
+
+                  if (!updateError) {
+                    // Then broadcast to all users
+                    await supabase.channel(`room:${roomId}:content`).send({
+                      type: "broadcast",
+                      event: "content",
+                      payload: {
+                        content: currentContent,
+                        userId: user.id,
+                        version: versionRef.current,
+                        isJoinSync: true,
+                        timestamp: Date.now(),
+                      },
+                    });
+                  }
+                } catch (error) {
+                  console.error("Error syncing content for new user:", error);
+                } finally {
+                  // Release the sync lock after a delay
+                  setTimeout(() => {
+                    isLocalChangeRef.current = false;
+                  }, 500);
+                }
               }
             }
           })
@@ -433,25 +566,6 @@ export default function CollaborativeEditor({ roomId, user }) {
 
     fetchRoomData();
   }, [roomId, user, updateContentDebounced]);
-
-  // Add this useEffect after your existing useEffects
-  useEffect(() => {
-    // Save content periodically (every 10 seconds)
-    const intervalId = setInterval(() => {
-      if (editorRef.current) {
-        const currentContent = editorRef.current.getValue();
-        if (currentContent && currentContent !== "// Start coding here...") {
-          // Save to localStorage
-          localStorage.setItem(`room_${roomId}_content`, currentContent);
-
-          // Save to database
-          saveContentImmediately(currentContent);
-        }
-      }
-    }, 10000);
-
-    return () => clearInterval(intervalId);
-  }, [roomId, saveContentImmediately]);
 
   // Render cursors for other users
   useEffect(() => {
@@ -539,17 +653,10 @@ export default function CollaborativeEditor({ roomId, user }) {
 
     const handleBeforeUnload = () => {
       if (editorRef.current) {
-        // Save content before page unload
         const currentContent = editorRef.current.getValue();
         if (currentContent && currentContent !== "// Start coding here...") {
-          // Use synchronous localStorage as a backup
           localStorage.setItem(`room_${roomId}_content`, currentContent);
-
-          // Try to save to database (may not complete if page is unloading)
-          navigator.sendBeacon(
-            "/api/save-content",
-            JSON.stringify({ roomId, content: currentContent })
-          );
+          // Don't use sendBeacon, just save to localStorage
         }
       }
     };
@@ -564,6 +671,34 @@ export default function CollaborativeEditor({ roomId, user }) {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [roomId, user, saveContentImmediately]);
+
+  // Add a useEffect to listen for output broadcasts
+  useEffect(() => {
+    if (!roomId) return;
+
+    // Subscribe to code output events
+    const channel = supabase.channel(`room:${roomId}`);
+
+    channel
+      .on("broadcast", { event: "code-output" }, (payload) => {
+        const {
+          output: receivedOutput,
+          userName,
+          timestamp,
+          isError,
+        } = payload.payload;
+
+        // Format the output with user information
+        const formattedOutput = `[${new Date(timestamp).toLocaleTimeString()}] ${userName} ran the code:\n${receivedOutput}`;
+
+        setOutput(formattedOutput);
+      })
+      .subscribe();
+
+    return () => {
+      channel.unsubscribe();
+    };
+  }, [roomId]);
 
   if (loading) {
     return (
@@ -625,9 +760,6 @@ export default function CollaborativeEditor({ roomId, user }) {
             className="rounded border border-solid border-black/[.08] dark:border-white/[.145] bg-transparent px-2 py-1"
           >
             <option value="javascript">JavaScript</option>
-            <option value="typescript">TypeScript</option>
-            <option value="html">HTML</option>
-            <option value="css">CSS</option>
             <option value="python">Python</option>
             <option value="java">Java</option>
           </select>
@@ -650,7 +782,7 @@ export default function CollaborativeEditor({ roomId, user }) {
         </div>
       </div>
 
-      <div className="flex-grow">
+      <div className="flex-grow grid grid-rows-[1fr_auto]">
         <MonacoEditor
           height="100%"
           language={language}
@@ -666,7 +798,39 @@ export default function CollaborativeEditor({ roomId, user }) {
             automaticLayout: true,
           }}
         />
+
+        {/* Output section with user attribution */}
+        <div className="border-t border-black/[.08] dark:border-white/[.145]">
+          <div className="flex justify-end p-2">
+            <button
+              onClick={runCode}
+              disabled={isRunning || language !== "javascript"}
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed"
+            >
+              {isRunning ? "Running..." : "Run"}
+            </button>
+          </div>
+
+          <div className="border-t border-black/[.08] dark:border-white/[.145] p-2">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="font-medium">Output</h3>
+              {output && (
+                <button
+                  onClick={() => setOutput("")}
+                  className="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+            <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded overflow-auto h-32 font-mono text-sm">
+              {output || "Run your code to see output here..."}
+            </pre>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
+
+// Adding changes 6:30pm
