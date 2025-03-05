@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
+import CodingQuestion from "@/components/CodingQuestion";
 
 // Dynamically import Monaco Editor to avoid SSR issues
 const MonacoEditor = dynamic(() => import("@monaco-editor/react"), {
@@ -26,12 +27,51 @@ export default function CollaborativeEditor({ roomId, user }) {
   const router = useRouter();
   const [output, setOutput] = useState("");
   const [isRunning, setIsRunning] = useState(false);
+  const [showQuestion, setShowQuestion] = useState(true);
 
   useEffect(() => {
     return () => {
       isLocalChangeRef.current = false;
     };
   }, []);
+
+  // Add this new function to handle starter code selection
+  const handleSelectStarterCode = (starterCode) => {
+    if (!editorRef.current) return;
+
+    // Save cursor and scroll state
+    const selections = editorRef.current.getSelections();
+    const viewState = editorRef.current.saveViewState();
+
+    // Update content
+    setContent(starterCode);
+    const model = editorRef.current.getModel();
+    if (model) {
+      model.pushEditOperations(
+        [],
+        [
+          {
+            range: model.getFullModelRange(),
+            text: starterCode,
+          },
+        ],
+        () => selections
+      );
+    }
+
+    // Restore state
+    requestAnimationFrame(() => {
+      if (editorRef.current) {
+        editorRef.current.restoreViewState(viewState);
+        editorRef.current.setSelections(selections);
+      }
+    });
+
+    // Save to localStorage and broadcast changes
+    localStorage.setItem(`room_${roomId}_content`, starterCode);
+    pendingContentRef.current = starterCode;
+    updateContentDebounced();
+  };
 
   // Add this helper function near the top of your component
   const handleRemoteChange = (payload) => {
@@ -303,7 +343,7 @@ export default function CollaborativeEditor({ roomId, user }) {
     // Debounce the update with a longer delay
     debounceTimerRef.current = setTimeout(() => {
       updateContentDebounced();
-    }, 300); // Increased to 300ms for better stability
+    }, 300); // Number of ms to wait after user is done typing before updating
   };
 
   // Set up real-time collaboration
@@ -725,112 +765,128 @@ export default function CollaborativeEditor({ roomId, user }) {
   }
 
   return (
-    <div className="flex flex-col h-screen">
-      <div className="flex justify-between items-center p-4 border-b border-black/[.08] dark:border-white/[.145]">
-        <div className="flex items-center">
-          <h2 className="text-lg font-bold">Room: {roomId}</h2>
-          <button
-            onClick={() => {
-              navigator.clipboard.writeText(roomId);
-            }}
-            className="ml-2 p-2 rounded hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a]"
-            title="Copy room code"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-            </svg>
-          </button>
+    <div className="flex h-screen">
+      {showQuestion && (
+        <div className="w-1/3">
+          <CodingQuestion onSelectStarterCode={handleSelectStarterCode} />
         </div>
+      )}
 
-        <div className="flex items-center gap-2">
-          <select
-            value={language}
-            onChange={(e) => setLanguage(e.target.value)}
-            className="rounded border border-solid border-black/[.08] dark:border-white/[.145] bg-transparent px-2 py-1"
-          >
-            <option value="javascript">JavaScript</option>
-            <option value="python">Python</option>
-            <option value="java">Java</option>
-          </select>
-
-          <div className="flex items-center gap-1">
-            {users.map((user, index) => (
-              <div
-                key={user.userId}
-                className="w-8 h-8 rounded-full bg-foreground text-background flex items-center justify-center text-xs"
-                title={user.userName}
-                style={{
-                  backgroundColor: `hsl(${(index * 137) % 360}, 70%, 50%)`,
-                  marginLeft: index > 0 ? "-0.5rem" : "0",
+      <div className={showQuestion ? "w-2/3" : "w-full"}>
+        <div className="flex flex-col h-screen">
+          <div className="flex justify-between items-center p-4 border-b border-black/[.08] dark:border-white/[.145]">
+            <div className="flex items-center">
+              <h2 className="text-lg font-bold">Room: {roomId}</h2>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(roomId);
                 }}
+                className="ml-2 p-2 rounded hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a]"
+                title="Copy room code"
               >
-                {user.userName?.charAt(0) || "A"}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="flex-grow grid grid-rows-[1fr_auto]">
-        <MonacoEditor
-          height="100%"
-          language={language}
-          value={content}
-          onChange={handleEditorChange}
-          onMount={handleEditorDidMount}
-          theme="vs-dark"
-          options={{
-            minimap: { enabled: false },
-            scrollBeyondLastLine: false,
-            fontSize: 14,
-            wordWrap: "on",
-            automaticLayout: true,
-          }}
-        />
-
-        {/* Output section with user attribution */}
-        <div className="border-t border-black/[.08] dark:border-white/[.145]">
-          <div className="flex justify-end p-2">
-            <button
-              onClick={runCode}
-              disabled={isRunning || language !== "javascript"}
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed"
-            >
-              {isRunning ? "Running..." : "Run"}
-            </button>
-          </div>
-
-          <div className="border-t border-black/[.08] dark:border-white/[.145] p-2">
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="font-medium">Output</h3>
-              {output && (
-                <button
-                  onClick={() => setOutput("")}
-                  className="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 >
-                  Clear
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+
+              {!showQuestion && (
+                <button
+                  onClick={() => setShowQuestion(true)}
+                  className="ml-4 px-3 py-1 text-sm bg-blue-600 text-white rounded"
+                >
+                  Show Problem
                 </button>
               )}
             </div>
-            <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded overflow-auto h-32 font-mono text-sm">
-              {output || "Run your code to see output here..."}
-            </pre>
+
+            <div className="flex items-center gap-2">
+              <select
+                value={language}
+                onChange={(e) => setLanguage(e.target.value)}
+                className="rounded border border-solid border-black/[.08] dark:border-white/[.145] bg-transparent px-2 py-1"
+              >
+                <option value="javascript">JavaScript</option>
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+              </select>
+
+              <div className="flex items-center gap-1">
+                {users.map((user, index) => (
+                  <div
+                    key={user.userId}
+                    className="w-8 h-8 rounded-full bg-foreground text-background flex items-center justify-center text-xs"
+                    title={user.userName}
+                    style={{
+                      backgroundColor: `hsl(${(index * 137) % 360}, 70%, 50%)`,
+                      marginLeft: index > 0 ? "-0.5rem" : "0",
+                    }}
+                  >
+                    {user.userName?.charAt(0) || "A"}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex-grow grid grid-rows-[1fr_auto]">
+            <MonacoEditor
+              height="100%"
+              language={language}
+              value={content}
+              onChange={handleEditorChange}
+              onMount={handleEditorDidMount}
+              theme="vs-dark"
+              options={{
+                minimap: { enabled: false },
+                scrollBeyondLastLine: false,
+                fontSize: 14,
+                wordWrap: "on",
+                automaticLayout: true,
+              }}
+            />
+
+            <div className="border-t border-black/[.08] dark:border-white/[.145]">
+              <div className="flex justify-end p-2">
+                <button
+                  onClick={runCode}
+                  disabled={isRunning || language !== "javascript"}
+                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed"
+                >
+                  {isRunning ? "Running..." : "Run"}
+                </button>
+              </div>
+
+              <div className="border-t border-black/[.08] dark:border-white/[.145] p-2">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="font-medium">Output</h3>
+                  {output && (
+                    <button
+                      onClick={() => setOutput("")}
+                      className="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                    >
+                      Clear
+                    </button>
+                  )}
+                </div>
+                <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded overflow-auto h-32 font-mono text-sm">
+                  {output || "Run your code to see output here..."}
+                </pre>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
 }
-
-// Adding changes 6:30pm
