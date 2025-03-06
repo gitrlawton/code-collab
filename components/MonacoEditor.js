@@ -19,6 +19,7 @@ export default function CollaborativeEditor({ roomId, user }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const editorRef = useRef(null);
+  const presenceChannelRef = useRef(null);
   const isLocalChangeRef = useRef(false);
   const versionRef = useRef(1);
   const debounceTimerRef = useRef(null);
@@ -112,6 +113,39 @@ export default function CollaborativeEditor({ roomId, user }) {
         editorRef.current.setSelections(selections);
       }
     });
+  };
+
+  // Function to handle cleanup for user leaving the room
+  const leaveRoom = async () => {
+    try {
+      // Save any pending content before leaving
+      if (editorRef.current) {
+        const currentContent = editorRef.current.getValue();
+        if (currentContent && currentContent !== "// Start coding here...") {
+          await saveContentImmediately(currentContent);
+        }
+      }
+
+      // Remove user presence from the room using the stored channel reference
+      if (presenceChannelRef.current) {
+        await presenceChannelRef.current.untrack();
+      }
+
+      // Unsubscribe from all room channels
+      await supabase.removeAllChannels();
+
+      // Clear any pending timers
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+
+      // Navigate back to homepage
+      router.push("/");
+    } catch (error) {
+      console.error("Error leaving room:", error);
+      // Still navigate even if there's an error
+      router.push("/");
+    }
   };
 
   // Handle editor mounting
@@ -490,8 +524,10 @@ export default function CollaborativeEditor({ roomId, user }) {
           })
           .subscribe();
 
-        // Track room presence - MOVE THIS BEFORE THE RETURN STATEMENT
+        // Track room presence
         const presenceChannel = supabase.channel(`room:${roomId}:presence`);
+        // Store the reference
+        presenceChannelRef.current = presenceChannel;
 
         const presenceSubscription = presenceChannel
           .on("presence", { event: "join" }, async ({ newPresences }) => {
@@ -808,6 +844,15 @@ export default function CollaborativeEditor({ roomId, user }) {
                   Show Problem
                 </button>
               )}
+
+              {/* Leave Room button */}
+              <button
+                onClick={leaveRoom}
+                className="ml-4 px-3 py-1 text-sm bg-red-600 text-white rounded"
+                title="Leave this room"
+              >
+                Leave Room
+              </button>
             </div>
 
             <div className="flex items-center gap-2">
