@@ -74,47 +74,6 @@ export default function CollaborativeEditor({ roomId, user }) {
     updateContentDebounced();
   };
 
-  // Add this helper function near the top of your component
-  const handleRemoteChange = (payload) => {
-    if (!editorRef.current) {
-      setContent(payload.payload.content);
-      return;
-    }
-
-    const model = editorRef.current.getModel();
-    if (!model) return;
-
-    // Save cursor and scroll state
-    const selections = editorRef.current.getSelections();
-    const viewState = editorRef.current.saveViewState();
-
-    // Update content
-    setContent(payload.payload.content);
-    model.pushEditOperations(
-      [],
-      [
-        {
-          range: model.getFullModelRange(),
-          text: payload.payload.content,
-        },
-      ],
-      () => selections
-    );
-
-    // Update version if needed
-    if (payload.payload.version > versionRef.current) {
-      versionRef.current = payload.payload.version;
-    }
-
-    // Restore state
-    requestAnimationFrame(() => {
-      if (editorRef.current) {
-        editorRef.current.restoreViewState(viewState);
-        editorRef.current.setSelections(selections);
-      }
-    });
-  };
-
   // Function to handle cleanup for user leaving the room
   const leaveRoom = async () => {
     try {
@@ -622,7 +581,6 @@ export default function CollaborativeEditor({ roomId, user }) {
 
         setLoading(false);
 
-        // NOW place the return statement at the end of the function
         return () => {
           // Clear any pending debounce timer on cleanup
           if (debounceTimerRef.current) {
@@ -732,7 +690,6 @@ export default function CollaborativeEditor({ roomId, user }) {
         const currentContent = editorRef.current.getValue();
         if (currentContent && currentContent !== "// Start coding here...") {
           localStorage.setItem(`room_${roomId}_content`, currentContent);
-          // Don't use sendBeacon, just save to localStorage
         }
       }
     };
@@ -748,7 +705,7 @@ export default function CollaborativeEditor({ roomId, user }) {
     };
   }, [roomId, user, saveContentImmediately]);
 
-  // Add a useEffect to listen for output broadcasts
+  // useEffect to listen for output broadcasts
   useEffect(() => {
     if (!roomId) return;
 
@@ -804,7 +761,11 @@ export default function CollaborativeEditor({ roomId, user }) {
     <div className="flex h-screen">
       {showQuestion && (
         <div className="w-1/3">
-          <CodingQuestion onSelectStarterCode={handleSelectStarterCode} />
+          <CodingQuestion
+            onSelectStarterCode={handleSelectStarterCode}
+            roomId={roomId}
+            user={user}
+          />
         </div>
       )}
 

@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
+import LoadingSpinner from "./LoadingSpinner";
 
 const SAMPLE_QUESTIONS = [
   {
@@ -86,9 +88,59 @@ const SAMPLE_QUESTIONS = [
   },
 ];
 
-export default function CodingQuestion({ onSelectStarterCode }) {
+export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
   const [currentQuestion, setCurrentQuestion] = useState(SAMPLE_QUESTIONS[0]);
   const [isOpen, setIsOpen] = useState(true);
+  const [questionIndex, setQuestionIndex] = useState(0);
+  const [isJoining, setIsJoining] = useState(true);
+
+  useEffect(() => {
+    if (!roomId) return;
+
+    // Fetch the current question index from the room data
+    const fetchQuestionIndex = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("rooms")
+          .select("question_index")
+          .eq("code", roomId)
+          .single();
+
+        if (error) throw error;
+
+        // If question_index exists in the room data, use it
+        if (
+          data &&
+          data.question_index !== null &&
+          data.question_index !== undefined
+        ) {
+          const index = data.question_index;
+          setQuestionIndex(index);
+          setCurrentQuestion(SAMPLE_QUESTIONS[index]);
+        }
+      } catch (err) {
+        console.error("Error fetching question index:", err);
+      } finally {
+        setIsJoining(false); // Set joining to false after fetch completes
+      }
+    };
+
+    fetchQuestionIndex();
+
+    // Subscribe to question changes
+    const questionSubscription = supabase
+      .channel(`room:${roomId}:question`)
+      .on("broadcast", { event: "question_change" }, (payload) => {
+        const newIndex = payload.payload.questionIndex;
+        setQuestionIndex(newIndex);
+        setCurrentQuestion(SAMPLE_QUESTIONS[newIndex]);
+      })
+      .subscribe();
+
+    return () => {
+      questionSubscription.unsubscribe();
+    };
+  }, [roomId]);
 
   const handleUseStarterCode = () => {
     if (onSelectStarterCode) {
@@ -96,10 +148,40 @@ export default function CodingQuestion({ onSelectStarterCode }) {
     }
   };
 
-  const selectRandomQuestion = () => {
-    const randomIndex = Math.floor(Math.random() * SAMPLE_QUESTIONS.length);
-    setCurrentQuestion(SAMPLE_QUESTIONS[randomIndex]);
+  const selectNextQuestion = async () => {
+    if (!roomId || !user) return;
+
+    // Calculate next index, wrapping around to 0 if we reach the end
+    const nextIndex = (questionIndex + 1) % SAMPLE_QUESTIONS.length;
+
+    // Update local state
+    setQuestionIndex(nextIndex);
+    setCurrentQuestion(SAMPLE_QUESTIONS[nextIndex]);
+
+    try {
+      // Update the question index in the database
+      await supabase
+        .from("rooms")
+        .update({ question_index: nextIndex })
+        .eq("code", roomId);
+
+      // Broadcast the question change to all users
+      await supabase.channel(`room:${roomId}:question`).send({
+        type: "broadcast",
+        event: "question_change",
+        payload: {
+          questionIndex: nextIndex,
+          userId: user.id,
+        },
+      });
+    } catch (error) {
+      console.error("Error updating question:", error);
+    }
   };
+
+  if (isJoining) {
+    return <LoadingSpinner />;
+  }
 
   if (!isOpen) {
     return (
@@ -194,10 +276,10 @@ export default function CodingQuestion({ onSelectStarterCode }) {
           Use Starter Code
         </button>
         <button
-          onClick={selectRandomQuestion}
+          onClick={selectNextQuestion}
           className="px-4 py-2 border border-foreground rounded hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a]"
         >
-          New Question
+          Next Question
         </button>
       </div>
     </div>
