@@ -825,6 +825,7 @@ export default function CollaborativeEditor({ roomId, user }) {
                 <option value="javascript">JavaScript</option>
                 <option value="python">Python</option>
                 <option value="java">Java</option>
+                <option value="c++">C++</option>
               </select>
 
               <div className="flex items-center gap-1">
