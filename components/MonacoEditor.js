@@ -77,6 +77,12 @@ export default function CollaborativeEditor({ roomId, user }) {
   // Function to handle cleanup for user leaving the room
   const leaveRoom = async () => {
     try {
+      // Log user leaving
+      console.log(
+        `%c${user.user_metadata?.name || "Anonymous"} left the room...`,
+        "color: red"
+      );
+
       // Save any pending content before leaving
       if (editorRef.current) {
         const currentContent = editorRef.current.getValue();
@@ -551,12 +557,45 @@ export default function CollaborativeEditor({ roomId, user }) {
             }
           })
           .on("presence", { event: "leave" }, ({ leftPresences }) => {
-            setUsers((prevUsers) =>
-              prevUsers.filter(
+            // Log user leaving in red
+            leftPresences.forEach((presence) => {
+              console.log(
+                `%c${presence.userName} left the room...`,
+                "color: red"
+              );
+            });
+
+            setUsers((prevUsers) => {
+              const updatedUsers = prevUsers.filter(
                 (user) =>
                   !leftPresences.some((left) => left.userId === user.userId)
-              )
-            );
+              );
+
+              // Check if this was the last user leaving
+              if (updatedUsers.length === 0) {
+                console.log(
+                  "%cAll users have left. Cleaning up room...",
+                  "color: red"
+                );
+                // Delete the room from the database
+                supabase
+                  .from("rooms")
+                  .delete()
+                  .eq("code", roomId)
+                  .then(({ error }) => {
+                    if (error) {
+                      console.error("Error deleting empty room:", error);
+                    } else {
+                      console.log(
+                        `%cRoom ${roomId} has been deleted`,
+                        "color: red"
+                      );
+                    }
+                  });
+              }
+
+              return updatedUsers;
+            });
 
             // Remove cursor for users who left
             setCursors((prev) => {
@@ -585,6 +624,17 @@ export default function CollaborativeEditor({ roomId, user }) {
           // Clear any pending debounce timer on cleanup
           if (debounceTimerRef.current) {
             clearTimeout(debounceTimerRef.current);
+          }
+
+          // Log the user leaving when the component unmounts
+          console.log(
+            `%c${user.user_metadata?.name || "Anonymous"} left the room...`,
+            "color: red"
+          );
+
+          // Make sure to untrack presence when component unmounts
+          if (presenceChannelRef.current) {
+            presenceChannelRef.current.untrack();
           }
 
           contentSubscription.unsubscribe();
@@ -686,10 +736,32 @@ export default function CollaborativeEditor({ roomId, user }) {
     };
 
     const handleBeforeUnload = () => {
+      // Log user leaving when they close the tab or navigate away
+      console.log(
+        `%c${user.user_metadata?.name || "Anonymous"} left the room...`,
+        "color: red"
+      );
+
+      // Make sure to untrack presence
+      if (presenceChannelRef.current) {
+        // This is async but we can't await in beforeunload
+        presenceChannelRef.current.untrack();
+      }
+
       if (editorRef.current) {
         const currentContent = editorRef.current.getValue();
         if (currentContent && currentContent !== "// Start coding here...") {
           localStorage.setItem(`room_${roomId}_content`, currentContent);
+          // Try to save content to server too
+          fetch("/api/save-content", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ roomId, content: currentContent }),
+            // Use keepalive to allow the request to complete even as the page unloads
+            keepalive: true,
+          }).catch(() => {
+            // We can't do anything if this fails during page unload
+          });
         }
       }
     };
