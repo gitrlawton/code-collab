@@ -4,128 +4,54 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import LoadingSpinner from "./LoadingSpinner";
 
-const SAMPLE_QUESTIONS = [
-  {
-    title: "Two Sum",
-    difficulty: "Easy",
-    description:
-      "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.\n\n" +
-      "You may assume that each input would have exactly one solution, and you may not use the same element twice.",
-    examples: [
-      {
-        input: "nums = [2,7,11,15], target = 9",
-        output: "[0,1]",
-        explanation: "Because nums[0] + nums[1] == 9, we return [0, 1].",
-      },
-      {
-        input: "nums = [3,2,4], target = 6",
-        output: "[1,2]",
-        explanation: "Because nums[1] + nums[2] == 6, we return [1, 2].",
-      },
-    ],
-    constraints: [
-      "2 <= nums.length <= 10^4",
-      "-10^9 <= nums[i] <= 10^9",
-      "-10^9 <= target <= 10^9",
-      "Only one valid answer exists.",
-    ],
-    starterCode: "function twoSum(nums, target) {\n  // Your code here\n}",
-  },
-  {
-    title: "Valid Parentheses",
-    difficulty: "Easy",
-    description:
-      "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.\n\n" +
-      "An input string is valid if:\n" +
-      "1. Open brackets must be closed by the same type of brackets.\n" +
-      "2. Open brackets must be closed in the correct order.\n" +
-      "3. Every close bracket has a corresponding open bracket of the same type.",
-    examples: [
-      {
-        input: 's = "()"',
-        output: "true",
-      },
-      {
-        input: 's = "()[]{}"',
-        output: "true",
-      },
-      {
-        input: 's = "(]"',
-        output: "false",
-      },
-    ],
-    constraints: [
-      "1 <= s.length <= 10^4",
-      "s consists of parentheses only '()[]{}'.",
-    ],
-    starterCode: "function isValid(s) {\n  // Your code here\n}",
-  },
-  {
-    title: "Reverse Linked List",
-    difficulty: "Easy",
-    description:
-      "Given the head of a singly linked list, reverse the list, and return the reversed list.",
-    examples: [
-      {
-        input: "head = [1,2,3,4,5]",
-        output: "[5,4,3,2,1]",
-      },
-      {
-        input: "head = [1,2]",
-        output: "[2,1]",
-      },
-      {
-        input: "head = []",
-        output: "[]",
-      },
-    ],
-    constraints: [
-      "The number of nodes in the list is the range [0, 5000]",
-      "-5000 <= Node.val <= 5000",
-    ],
-    starterCode:
-      "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n\nfunction reverseList(head) {\n  // Your code here\n}",
-  },
-];
-
 export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
-  const [currentQuestion, setCurrentQuestion] = useState(SAMPLE_QUESTIONS[0]);
+  const [problemSet, setProblemSet] = useState(null);
+  const [currentQuestion, setCurrentQuestion] = useState(null);
   const [isOpen, setIsOpen] = useState(true);
   const [questionIndex, setQuestionIndex] = useState(0);
-  const [isJoining, setIsJoining] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [roomDetails, setRoomDetails] = useState(null);
 
   useEffect(() => {
     if (!roomId) return;
 
-    // Fetch the current question index from the room data
-    const fetchQuestionIndex = async () => {
+    // Fetch the room details and problem set information
+    const fetchRoomAndProblemSet = async () => {
       try {
-        const { data, error } = await supabase
+        // Fetch room details including subject_name, difficulty, set_number, and question_index
+        const { data: roomData, error: roomError } = await supabase
           .from("rooms")
-          .select("question_index")
+          .select("subject_name, difficulty, set_number, question_index")
           .eq("code", roomId)
           .single();
 
-        if (error) throw error;
+        if (roomError) throw roomError;
+        setRoomDetails(roomData);
 
-        // If question_index exists in the room data, use it
-        if (
-          data &&
-          data.question_index !== null &&
-          data.question_index !== undefined
-        ) {
-          const index = data.question_index;
-          setQuestionIndex(index);
-          setCurrentQuestion(SAMPLE_QUESTIONS[index]);
-        }
+        // Load the problem set from the JSON file
+        const problemSetsData = await import("@/codepath_problem_sets.json");
+
+        // Navigate to the current problem set based on room details
+        const subject = roomData.subject_name;
+        const difficulty = roomData.difficulty;
+        const setNumber = roomData.set_number.toString();
+        const currentProblemSet =
+          problemSetsData.default[subject][difficulty][setNumber];
+
+        setProblemSet(currentProblemSet);
+
+        // Set the current question based on the question_index
+        const index = roomData.question_index || 0;
+        setQuestionIndex(index);
+        setCurrentQuestion(currentProblemSet.problems[index]);
       } catch (err) {
-        console.error("Error fetching question index:", err);
+        console.error("Error fetching room details or problem set:", err);
       } finally {
-        setIsJoining(false); // Set joining to false after fetch completes
+        setLoading(false);
       }
     };
 
-    fetchQuestionIndex();
+    fetchRoomAndProblemSet();
 
     // Subscribe to question changes
     const questionSubscription = supabase
@@ -133,7 +59,9 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
       .on("broadcast", { event: "question_change" }, (payload) => {
         const newIndex = payload.payload.questionIndex;
         setQuestionIndex(newIndex);
-        setCurrentQuestion(SAMPLE_QUESTIONS[newIndex]);
+        if (problemSet && problemSet.problems) {
+          setCurrentQuestion(problemSet.problems[newIndex]);
+        }
       })
       .subscribe();
 
@@ -142,21 +70,15 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
     };
   }, [roomId]);
 
-  const handleUseStarterCode = () => {
-    if (onSelectStarterCode) {
-      onSelectStarterCode(currentQuestion.starterCode);
-    }
-  };
-
   const selectNextQuestion = async () => {
-    if (!roomId || !user) return;
+    if (!roomId || !user || !problemSet || !problemSet.problems) return;
 
     // Calculate next index, wrapping around to 0 if we reach the end
-    const nextIndex = (questionIndex + 1) % SAMPLE_QUESTIONS.length;
+    const nextIndex = (questionIndex + 1) % problemSet.problems.length;
 
     // Update local state
     setQuestionIndex(nextIndex);
-    setCurrentQuestion(SAMPLE_QUESTIONS[nextIndex]);
+    setCurrentQuestion(problemSet.problems[nextIndex]);
 
     try {
       // Update the question index in the database
@@ -174,12 +96,54 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
           userId: user.id,
         },
       });
+
+      // Update the editor content with the new problem's 'given' code
+      if (onSelectStarterCode && problemSet.problems[nextIndex].given) {
+        onSelectStarterCode(problemSet.problems[nextIndex].given);
+      }
     } catch (error) {
       console.error("Error updating question:", error);
     }
   };
 
-  if (isJoining) {
+  const selectPreviousQuestion = async () => {
+    if (!roomId || !user || !problemSet || !problemSet.problems) return;
+
+    // Calculate previous index, wrapping around to the last problem if we're at the first
+    const prevIndex =
+      questionIndex === 0 ? problemSet.problems.length - 1 : questionIndex - 1;
+
+    // Update local state
+    setQuestionIndex(prevIndex);
+    setCurrentQuestion(problemSet.problems[prevIndex]);
+
+    try {
+      // Update the question index in the database
+      await supabase
+        .from("rooms")
+        .update({ question_index: prevIndex })
+        .eq("code", roomId);
+
+      // Broadcast the question change to all users
+      await supabase.channel(`room:${roomId}:question`).send({
+        type: "broadcast",
+        event: "question_change",
+        payload: {
+          questionIndex: prevIndex,
+          userId: user.id,
+        },
+      });
+
+      // Update the editor content with the new problem's 'given' code
+      if (onSelectStarterCode && problemSet.problems[prevIndex].given) {
+        onSelectStarterCode(problemSet.problems[prevIndex].given);
+      }
+    } catch (error) {
+      console.error("Error updating question:", error);
+    }
+  };
+
+  if (loading) {
     return <LoadingSpinner />;
   }
 
@@ -196,21 +160,24 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
     );
   }
 
+  if (!currentQuestion) {
+    return (
+      <div className="h-full flex items-center justify-center">
+        <p>No problem available.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="h-full overflow-y-auto p-4 bg-[#f8f9fa] dark:bg-[#1e1e1e] border-r border-black/[.08] dark:border-white/[.145] relative">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">{currentQuestion.title}</h2>
+        <h2 className="text-xl font-bold">
+          Problem {currentQuestion.problem_number}:{" "}
+          {currentQuestion.problem_name}
+        </h2>
         <div className="flex items-center gap-2">
-          <span
-            className={`px-2 py-1 rounded text-sm ${
-              currentQuestion.difficulty === "Easy"
-                ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                : currentQuestion.difficulty === "Medium"
-                  ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
-                  : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
-            }`}
-          >
-            {currentQuestion.difficulty}
+          <span className="px-2 py-1 rounded text-sm bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+            {roomDetails?.difficulty || "Standard"}
           </span>
           <button
             onClick={() => setIsOpen(false)}
@@ -234,46 +201,35 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
       </div>
 
       <div className="mb-4">
-        <p className="whitespace-pre-line">{currentQuestion.description}</p>
+        <p className="whitespace-pre-line">
+          {currentQuestion.problem_instructions}
+        </p>
       </div>
 
       <div className="mb-4">
-        <h3 className="font-bold mb-2">Examples:</h3>
-        {currentQuestion.examples.map((example, index) => (
-          <div
-            key={index}
-            className="mb-3 p-3 bg-white dark:bg-[#252525] rounded"
-          >
-            <p>
-              <strong>Input:</strong> {example.input}
-            </p>
-            <p>
-              <strong>Output:</strong> {example.output}
-            </p>
-            {example.explanation && (
-              <p>
-                <strong>Explanation:</strong> {example.explanation}
-              </p>
-            )}
+        <h3 className="font-bold mb-2">Example:</h3>
+        <div className="p-3 bg-white dark:bg-[#252525] rounded">
+          <div>
+            <strong>Usage:</strong>
+            <pre className="mt-1 p-2 bg-gray-100 dark:bg-gray-800 rounded overflow-x-auto">
+              {currentQuestion.example_usage}
+            </pre>
           </div>
-        ))}
+          <div className="mt-2">
+            <strong>Output:</strong>
+            <pre className="mt-1 p-2 bg-gray-100 dark:bg-gray-800 rounded overflow-x-auto">
+              {currentQuestion.example_output}
+            </pre>
+          </div>
+        </div>
       </div>
 
-      <div className="mb-4">
-        <h3 className="font-bold mb-2">Constraints:</h3>
-        <ul className="list-disc pl-5">
-          {currentQuestion.constraints.map((constraint, index) => (
-            <li key={index}>{constraint}</li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="flex gap-2 mt-6">
+      <div className="flex justify-between gap-2 mt-6">
         <button
-          onClick={handleUseStarterCode}
-          className="px-4 py-2 bg-foreground text-background rounded hover:bg-[#383838] dark:hover:bg-[#ccc]"
+          onClick={selectPreviousQuestion}
+          className="px-4 py-2 border border-foreground rounded hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a]"
         >
-          Use Starter Code
+          Previous Question
         </button>
         <button
           onClick={selectNextQuestion}

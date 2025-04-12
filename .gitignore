@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# extra
+codepath_problem_sets.json
+sql_schema.md
+problem_set_json_structure.txt

@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import CodingQuestion from "@/components/CodingQuestion";
+import { attemptRoomDeletion } from "@/lib/room-utils";
 
 // Dynamically import Monaco Editor to avoid SSR issues
 const MonacoEditor = dynamic(() => import("@monaco-editor/react"), {
@@ -83,6 +84,12 @@ export default function CollaborativeEditor({ roomId, user }) {
         "color: red"
       );
 
+      // Check if this user is the last one in the room
+      const isLastUser = users.length <= 1;
+      console.log(
+        `Is last user: ${isLastUser}, Current users: ${users.length}`
+      );
+
       // Save any pending content before leaving
       if (editorRef.current) {
         const currentContent = editorRef.current.getValue();
@@ -94,6 +101,26 @@ export default function CollaborativeEditor({ roomId, user }) {
       // Remove user presence from the room using the stored channel reference
       if (presenceChannelRef.current) {
         await presenceChannelRef.current.untrack();
+      }
+
+      // If this is the last user, manually attempt to delete the room
+      if (isLastUser) {
+        console.log(
+          `%cManually attempting to delete room ${roomId} as last user...`,
+          "color: red"
+        );
+        try {
+          const success = await attemptRoomDeletion(roomId, supabase);
+          console.log(
+            `%cManual deletion result: ${success ? "succeeded" : "not completed"}`,
+            "color: red"
+          );
+        } catch (err) {
+          console.log(
+            `%cError during manual deletion: ${err.message}`,
+            "color: red"
+          );
+        }
       }
 
       // Unsubscribe from all room channels
@@ -380,8 +407,35 @@ export default function CollaborativeEditor({ roomId, user }) {
           await saveContentImmediately(localContent);
         }
 
+        // Set the programming language based on the content
+        let languageToUse = data.language || "javascript";
+        if (contentToUse.trim().startsWith("def ")) {
+          languageToUse = "python";
+        } else if (
+          contentToUse.includes("func ") &&
+          contentToUse.includes("-> ")
+        ) {
+          languageToUse = "go";
+        } else if (
+          contentToUse.includes("fn ") &&
+          contentToUse.includes("->")
+        ) {
+          languageToUse = "rust";
+        } else if (
+          contentToUse.includes("public class") ||
+          contentToUse.includes("private class")
+        ) {
+          languageToUse = "java";
+        } else if (
+          contentToUse.includes("#include") &&
+          (contentToUse.includes("<iostream>") ||
+            contentToUse.includes("<stdio.h>"))
+        ) {
+          languageToUse = "cpp";
+        }
+
         setContent(contentToUse || "// Start coding here...");
-        setLanguage(data.language || "javascript");
+        setLanguage(languageToUse);
 
         // Initialize version from database or default to 1
         versionRef.current = data.version ? data.version + 1 : 1;
@@ -577,21 +631,34 @@ export default function CollaborativeEditor({ roomId, user }) {
                   "%cAll users have left. Cleaning up room...",
                   "color: red"
                 );
-                // Delete the room from the database
-                supabase
-                  .from("rooms")
-                  .delete()
-                  .eq("code", roomId)
-                  .then(({ error }) => {
-                    if (error) {
-                      console.error("Error deleting empty room:", error);
-                    } else {
+                // Use the utility function for deletion
+                try {
+                  attemptRoomDeletion(roomId, supabase)
+                    .then((success) => {
+                      if (success) {
+                        console.log(
+                          `%cRoom ${roomId} deleted successfully`,
+                          "color: red"
+                        );
+                      } else {
+                        console.log(
+                          `%cUnable to delete room ${roomId}`,
+                          "color: red"
+                        );
+                      }
+                    })
+                    .catch((err) => {
                       console.log(
-                        `%cRoom ${roomId} has been deleted`,
+                        `%cError during room deletion: ${err.message}`,
                         "color: red"
                       );
-                    }
-                  });
+                    });
+                } catch (err) {
+                  console.log(
+                    `%cException in room deletion: ${err.message}`,
+                    "color: red"
+                  );
+                }
               }
 
               return updatedUsers;
