@@ -412,16 +412,6 @@ export default function CollaborativeEditor({ roomId, user }) {
         if (contentToUse.trim().startsWith("def ")) {
           languageToUse = "python";
         } else if (
-          contentToUse.includes("func ") &&
-          contentToUse.includes("-> ")
-        ) {
-          languageToUse = "go";
-        } else if (
-          contentToUse.includes("fn ") &&
-          contentToUse.includes("->")
-        ) {
-          languageToUse = "rust";
-        } else if (
           contentToUse.includes("public class") ||
           contentToUse.includes("private class")
         ) {
@@ -432,6 +422,8 @@ export default function CollaborativeEditor({ roomId, user }) {
             contentToUse.includes("<stdio.h>"))
         ) {
           languageToUse = "cpp";
+        } else {
+          languageToUse = "javascript"; // Explicitly default to JavaScript
         }
 
         setContent(contentToUse || "// Start coding here...");
@@ -956,6 +948,13 @@ export default function CollaborativeEditor({ roomId, user }) {
             </div>
 
             <div className="flex items-center gap-2">
+              <button
+                onClick={runCode}
+                disabled={isRunning || language !== "javascript"}
+                className="px-4 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed"
+              >
+                {isRunning ? "Running..." : "Run"}
+              </button>
               <select
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
@@ -963,8 +962,6 @@ export default function CollaborativeEditor({ roomId, user }) {
               >
                 <option value="javascript">JavaScript</option>
                 <option value="python">Python</option>
-                <option value="java">Java</option>
-                <option value="c++">C++</option>
               </select>
 
               <div className="flex items-center gap-1">
@@ -1003,16 +1000,6 @@ export default function CollaborativeEditor({ roomId, user }) {
             />
 
             <div className="border-t border-black/[.08] dark:border-white/[.145]">
-              <div className="flex justify-end p-2">
-                <button
-                  onClick={runCode}
-                  disabled={isRunning || language !== "javascript"}
-                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed"
-                >
-                  {isRunning ? "Running..." : "Run"}
-                </button>
-              </div>
-
               <div className="border-t border-black/[.08] dark:border-white/[.145] p-2">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="font-medium">Output</h3>
@@ -1025,6 +1012,7 @@ export default function CollaborativeEditor({ roomId, user }) {
                     </button>
                   )}
                 </div>
+
                 <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded overflow-auto h-32 font-mono text-sm">
                   {output || "Run your code to see output here..."}
                 </pre>

@@ -170,6 +170,20 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
 
   return (
     <div className="h-full overflow-y-auto p-4 bg-[#f8f9fa] dark:bg-[#1e1e1e] border-r border-black/[.08] dark:border-white/[.145] relative">
+      <div className="flex justify-between gap-2 mb-6">
+        <button
+          onClick={selectPreviousQuestion}
+          className="px-4 py-2 border border-foreground rounded hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a]"
+        >
+          Previous Question
+        </button>
+        <button
+          onClick={selectNextQuestion}
+          className="px-4 py-2 border border-foreground rounded hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a]"
+        >
+          Next Question
+        </button>
+      </div>
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold">
           Problem {currentQuestion.problem_number}:{" "}
@@ -179,24 +193,6 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
           <span className="px-2 py-1 rounded text-sm bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
             {roomDetails?.difficulty || "Standard"}
           </span>
-          <button
-            onClick={() => setIsOpen(false)}
-            className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M19 12H5M12 19l-7-7 7-7"></path>
-            </svg>
-          </button>
         </div>
       </div>
 
@@ -222,21 +218,6 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
             </pre>
           </div>
         </div>
-      </div>
-
-      <div className="flex justify-between gap-2 mt-6">
-        <button
-          onClick={selectPreviousQuestion}
-          className="px-4 py-2 border border-foreground rounded hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a]"
-        >
-          Previous Question
-        </button>
-        <button
-          onClick={selectNextQuestion}
-          className="px-4 py-2 border border-foreground rounded hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a]"
-        >
-          Next Question
-        </button>
       </div>
     </div>
   );

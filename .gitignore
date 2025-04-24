@@ -41,6 +41,6 @@ yarn-error.log*
 next-env.d.ts
 
 # extra
-codepath_problem_sets.json
+codepath_problem_sets*
 sql_schema.md
 problem_set_json_structure.txt
