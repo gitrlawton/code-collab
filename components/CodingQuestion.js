@@ -18,6 +18,7 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
     // Fetch the room details and problem set information
     const fetchRoomAndProblemSet = async () => {
       try {
+        setLoading(true);
         // Fetch room details including subject_name, difficulty, set_number, and question_index
         const { data: roomData, error: roomError } = await supabase
           .from("rooms")
@@ -35,15 +36,23 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
         const subject = roomData.subject_name;
         const difficulty = roomData.difficulty;
         const setNumber = roomData.set_number.toString();
-        const currentProblemSet =
-          problemSetsData.default[subject][difficulty][setNumber];
 
-        setProblemSet(currentProblemSet);
+        try {
+          const currentProblemSet =
+            problemSetsData.default[subject][difficulty][setNumber];
 
-        // Set the current question based on the question_index
-        const index = roomData.question_index || 0;
-        setQuestionIndex(index);
-        setCurrentQuestion(currentProblemSet.problems[index]);
+          setProblemSet(currentProblemSet);
+
+          // Set the current question based on the question_index
+          const index = roomData.question_index || 0;
+          setQuestionIndex(index);
+          setCurrentQuestion(currentProblemSet.problems[index]);
+        } catch (err) {
+          console.error("Error loading problem set:", err);
+          // Handle missing problem set gracefully
+          setProblemSet(null);
+          setCurrentQuestion(null);
+        }
       } catch (err) {
         console.error("Error fetching room details or problem set:", err);
       } finally {
@@ -65,10 +74,73 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
       })
       .subscribe();
 
+    // Subscribe to settings changes
+    const settingsSubscription = supabase
+      .channel(`room:${roomId}`)
+      .on("broadcast", { event: "settings_changed" }, (payload) => {
+        // Update roomDetails with new settings
+        setRoomDetails((prev) => ({
+          ...prev,
+          subject_name: payload.payload.subject_name,
+          difficulty: payload.payload.difficulty,
+          set_number: payload.payload.set_number,
+        }));
+      })
+      .subscribe();
+
     return () => {
       questionSubscription.unsubscribe();
+      settingsSubscription.unsubscribe();
     };
   }, [roomId]);
+
+  // Add a new useEffect to reset state when roomDetails change
+  useEffect(() => {
+    if (!roomDetails) return;
+
+    const loadProblemSet = async () => {
+      try {
+        setLoading(true);
+        // Load the problem set from the JSON file
+        const problemSetsData = await import("@/codepath_problem_sets.json");
+
+        // Get the current problem set based on room details
+        const subject = roomDetails.subject_name;
+        const difficulty = roomDetails.difficulty;
+        const setNumber = roomDetails.set_number.toString();
+
+        try {
+          const currentProblemSet =
+            problemSetsData.default[subject][difficulty][setNumber];
+
+          setProblemSet(currentProblemSet);
+
+          // Set the current question based on the question_index
+          const index = roomDetails.question_index || 0;
+          setQuestionIndex(index);
+          setCurrentQuestion(currentProblemSet.problems[index]);
+
+          // If there's a starter code handler, update the editor
+          if (onSelectStarterCode && currentProblemSet.problems[index]?.given) {
+            onSelectStarterCode(currentProblemSet.problems[index].given);
+          }
+        } catch (err) {
+          console.error(
+            "Error loading problem set after settings change:",
+            err
+          );
+          setProblemSet(null);
+          setCurrentQuestion(null);
+        }
+      } catch (err) {
+        console.error("Error importing problem sets data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProblemSet();
+  }, [roomDetails, onSelectStarterCode]);
 
   const selectNextQuestion = async () => {
     if (!roomId || !user || !problemSet || !problemSet.problems) return;
@@ -169,7 +241,10 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
   }
 
   return (
-    <div className="h-full overflow-y-auto p-4 bg-[#f8f9fa] dark:bg-[#1e1e1e] border-r border-black/[.08] dark:border-white/[.145] relative">
+    <div
+      className="h-full overflow-y-auto p-4 bg-[#f8f9fa] dark:bg-[#1e1e1e] border-r border-black/[.08] dark:border-white/[.145] relative"
+      key={`${roomDetails?.subject_name}-${roomDetails?.difficulty}-${roomDetails?.set_number}`}
+    >
       <div className="flex justify-between gap-2 mb-6">
         <button
           onClick={selectPreviousQuestion}

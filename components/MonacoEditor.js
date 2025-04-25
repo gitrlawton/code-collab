@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import CodingQuestion from "@/components/CodingQuestion";
 import { attemptRoomDeletion } from "@/lib/room-utils";
+import RoomSettings from "@/components/RoomSettings";
 
 // Dynamically import Monaco Editor to avoid SSR issues
 const MonacoEditor = dynamic(() => import("@monaco-editor/react"), {
@@ -30,6 +31,12 @@ export default function CollaborativeEditor({ roomId, user }) {
   const [output, setOutput] = useState("");
   const [isRunning, setIsRunning] = useState(false);
   const [showQuestion, setShowQuestion] = useState(true);
+  const [showSettings, setShowSettings] = useState(false);
+  const [roomSettings, setRoomSettings] = useState({
+    subject_name: "",
+    difficulty: "Standard",
+    set_number: 1,
+  });
 
   useEffect(() => {
     return () => {
@@ -857,11 +864,107 @@ export default function CollaborativeEditor({ roomId, user }) {
 
         setOutput(formattedOutput);
       })
+      .on("broadcast", { event: "settings_changed" }, async (payload) => {
+        // Show a notification about settings change
+        const notification = `Room settings updated by ${payload.payload.updatedBy}`;
+        setOutput((prev) => `${notification}\n\n${prev || ""}`);
+
+        // Update local settings state with the broadcast values
+        setRoomSettings({
+          subject_name: payload.payload.subject_name,
+          difficulty: payload.payload.difficulty,
+          set_number: payload.payload.set_number,
+        });
+
+        // Clear any cached content
+        localStorage.removeItem(`room_${roomId}_content`);
+
+        try {
+          // Fetch the updated room data without refreshing the page
+          const { data, error } = await supabase
+            .from("rooms")
+            .select("*")
+            .eq("code", roomId)
+            .single();
+
+          if (!error && data) {
+            // Request latest content to update editor
+            requestLatestContent();
+          }
+        } catch (err) {
+          console.error(
+            "Error refreshing after settings change broadcast:",
+            err
+          );
+        }
+      })
       .subscribe();
 
     return () => {
       channel.unsubscribe();
     };
+  }, [roomId]);
+
+  // Add this effect to keep room settings updated
+  useEffect(() => {
+    if (!roomId) return;
+
+    const fetchRoomSettings = async () => {
+      try {
+        console.log("Fetching room settings for room:", roomId);
+        const { data, error } = await supabase
+          .from("rooms")
+          .select("subject_name, difficulty, set_number")
+          .eq("code", roomId)
+          .single();
+
+        if (error) {
+          console.error("Supabase error fetching room settings:", error);
+          // Provide fallback values if there's an error
+          setRoomSettings({
+            subject_name: "javascript",
+            difficulty: "Standard",
+            set_number: 1,
+          });
+          return;
+        }
+
+        if (!data) {
+          console.error("No data returned when fetching room settings");
+          // Provide fallback values if there's no data
+          setRoomSettings({
+            subject_name: "javascript",
+            difficulty: "Standard",
+            set_number: 1,
+          });
+          return;
+        }
+
+        // Use default values for any missing fields
+        setRoomSettings({
+          subject_name: data.subject_name || "javascript",
+          difficulty: data.difficulty || "Standard",
+          set_number: data.set_number || 1,
+        });
+
+        console.log("Successfully fetched room settings:", data);
+      } catch (err) {
+        // Handle empty error object case
+        console.error(
+          "Error fetching room settings:",
+          err && Object.keys(err).length ? err : "Unknown error"
+        );
+
+        // Set default values as fallback
+        setRoomSettings({
+          subject_name: "javascript",
+          difficulty: "Standard",
+          set_number: 1,
+        });
+      }
+    };
+
+    fetchRoomSettings();
   }, [roomId]);
 
   if (loading) {
@@ -936,6 +1039,30 @@ export default function CollaborativeEditor({ roomId, user }) {
                   Show Problem
                 </button>
               )}
+
+              {/* Settings Button */}
+              <button
+                onClick={() => setShowSettings(true)}
+                className="ml-4 px-3 py-1 text-sm bg-gray-200 dark:bg-gray-700 rounded flex items-center"
+                title="Room Settings"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="mr-1"
+                >
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+                Settings
+              </button>
 
               {/* Leave Room button */}
               <button
@@ -1021,6 +1148,32 @@ export default function CollaborativeEditor({ roomId, user }) {
           </div>
         </div>
       </div>
+
+      {/* Room Settings Modal */}
+      {showSettings && (
+        <RoomSettings
+          roomId={roomId}
+          initialSettings={roomSettings}
+          onClose={() => setShowSettings(false)}
+          onSave={async (updatedSettings) => {
+            setShowSettings(false);
+
+            // Update local state immediately
+            setRoomSettings(updatedSettings);
+
+            // Request the latest content after settings change
+            try {
+              // Clear any cached content to force a re-fetch
+              localStorage.removeItem(`room_${roomId}_content`);
+
+              // This will trigger a reload of the CodingQuestion component
+              requestLatestContent();
+            } catch (err) {
+              console.error("Error refreshing after settings change:", err);
+            }
+          }}
+        />
+      )}
     </div>
   );
 }
