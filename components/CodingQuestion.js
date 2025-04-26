@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import LoadingSpinner from "./LoadingSpinner";
 
@@ -11,9 +11,8 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [roomDetails, setRoomDetails] = useState(null);
-  const isUserAction = useRef(false);
 
-  // Primary effect for initial data load and subscriptions
+  // Main effect for loading initial data and question changes
   useEffect(() => {
     if (!roomId) return;
 
@@ -21,9 +20,7 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
     const fetchRoomAndProblemSet = async () => {
       try {
         setLoading(true);
-        console.log("Fetching room details and problem set...");
-
-        // Fetch room details
+        // Fetch room details including subject_name, difficulty, set_number, and question_index
         const { data: roomData, error: roomError } = await supabase
           .from("rooms")
           .select("subject_name, difficulty, set_number, question_index")
@@ -31,12 +28,12 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
           .single();
 
         if (roomError) throw roomError;
-
-        console.log("Room data fetched:", roomData);
         setRoomDetails(roomData);
 
-        // Load the problem set
+        // Load the problem set from the JSON file
         const problemSetsData = await import("@/codepath_problem_sets.json");
+
+        // Navigate to the current problem set based on room details
         const subject = roomData.subject_name;
         const difficulty = roomData.difficulty;
         const setNumber = roomData.set_number.toString();
@@ -44,19 +41,16 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
         try {
           const currentProblemSet =
             problemSetsData.default[subject][difficulty][setNumber];
-          console.log("Problem set loaded:", currentProblemSet?.name);
 
           setProblemSet(currentProblemSet);
 
-          // Only update question if not during a user navigation action
-          if (!isUserAction.current) {
-            const index = roomData.question_index || 0;
-            console.log("Setting initial question index:", index);
-            setQuestionIndex(index);
-            setCurrentQuestion(currentProblemSet.problems[index]);
-          }
+          // Set the current question based on the question_index
+          const index = roomData.question_index || 0;
+          setQuestionIndex(index);
+          setCurrentQuestion(currentProblemSet.problems[index]);
         } catch (err) {
           console.error("Error loading problem set:", err);
+          // Handle missing problem set gracefully
           setProblemSet(null);
           setCurrentQuestion(null);
         }
@@ -69,132 +63,109 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
 
     fetchRoomAndProblemSet();
 
-    // Real-time subscriptions
+    // Subscribe to question changes
     const questionSubscription = supabase
       .channel(`room:${roomId}:question`)
       .on("broadcast", { event: "question_change" }, (payload) => {
-        // Skip if this was triggered by the current user
-        if (payload.payload.userId === user.id) {
-          console.log("Ignoring my own question change broadcast");
-          return;
-        }
-
-        console.log("Received question change:", payload.payload);
         const newIndex = payload.payload.questionIndex;
-
         setQuestionIndex(newIndex);
         if (problemSet && problemSet.problems) {
           setCurrentQuestion(problemSet.problems[newIndex]);
-
-          // Update editor content if needed
-          if (onSelectStarterCode && problemSet.problems[newIndex]?.given) {
-            onSelectStarterCode(problemSet.problems[newIndex].given);
-          }
         }
-      })
-      .subscribe();
-
-    // Settings change subscription
-    const settingsSubscription = supabase
-      .channel(`room:${roomId}`)
-      .on("broadcast", { event: "settings_changed" }, (payload) => {
-        console.log("Room settings changed:", payload.payload);
-        // Update roomDetails with new settings
-        setRoomDetails((prev) => ({
-          ...prev,
-          subject_name: payload.payload.subject_name,
-          difficulty: payload.payload.difficulty,
-          set_number: payload.payload.set_number,
-        }));
       })
       .subscribe();
 
     return () => {
       questionSubscription.unsubscribe();
+    };
+  }, [roomId]);
+
+  // Separate effect for settings changes to avoid interference
+  useEffect(() => {
+    if (!roomId) return;
+
+    // Subscribe to settings changes
+    const settingsSubscription = supabase
+      .channel(`room:${roomId}`)
+      .on("broadcast", { event: "settings_changed" }, (payload) => {
+        // Only update the settings part of roomDetails
+        setRoomDetails((prev) => {
+          // Keep current question_index to prevent navigation loss
+          return {
+            ...prev,
+            subject_name: payload.payload.subject_name,
+            difficulty: payload.payload.difficulty,
+            set_number: payload.payload.set_number,
+          };
+        });
+
+        // Reload the problem set after a settings change
+        handleSettingsChange(
+          payload.payload.subject_name,
+          payload.payload.difficulty,
+          payload.payload.set_number
+        );
+      })
+      .subscribe();
+
+    return () => {
       settingsSubscription.unsubscribe();
     };
-  }, [roomId, user.id]);
+  }, [roomId]);
 
-  // Effect to handle room details changes (like subject or difficulty)
-  useEffect(() => {
-    if (!roomDetails) return;
+  // Function to handle settings changes separately from question navigation
+  const handleSettingsChange = async (subject, difficulty, setNumber) => {
+    try {
+      setLoading(true);
 
-    const loadProblemSet = async () => {
+      const problemSetsData = await import("@/codepath_problem_sets.json");
+
       try {
-        // Don't set loading state if this is triggered during navigation
-        if (!isUserAction.current) {
-          setLoading(true);
-        }
+        // Get the new problem set
+        const newProblemSet =
+          problemSetsData.default[subject][difficulty][setNumber.toString()];
 
-        console.log("Loading problem set for updated room details");
-        const problemSetsData = await import("@/codepath_problem_sets.json");
-        const subject = roomDetails.subject_name;
-        const difficulty = roomDetails.difficulty;
-        const setNumber = roomDetails.set_number.toString();
+        // Update the problem set
+        setProblemSet(newProblemSet);
 
-        try {
-          const currentProblemSet =
-            problemSetsData.default[subject][difficulty][setNumber];
-          console.log("Updated problem set loaded:", currentProblemSet?.name);
+        // Reset to the first question in the new problem set
+        setQuestionIndex(0);
+        setCurrentQuestion(newProblemSet.problems[0]);
 
-          setProblemSet(currentProblemSet);
-
-          // Only update question if not during a user navigation action
-          if (!isUserAction.current) {
-            const index = roomDetails.question_index || 0;
-            console.log("Updating question to index:", index);
-            setQuestionIndex(index);
-            setCurrentQuestion(currentProblemSet.problems[index]);
-
-            // Update editor content
-            if (
-              onSelectStarterCode &&
-              currentProblemSet.problems[index]?.given
-            ) {
-              onSelectStarterCode(currentProblemSet.problems[index].given);
-            }
-          }
-        } catch (err) {
-          console.error(
-            "Error loading problem set after settings change:",
-            err
-          );
-          setProblemSet(null);
-          setCurrentQuestion(null);
+        // Update editor if there's starter code
+        if (onSelectStarterCode && newProblemSet.problems[0]?.given) {
+          onSelectStarterCode(newProblemSet.problems[0].given);
         }
       } catch (err) {
-        console.error("Error importing problem sets data:", err);
-      } finally {
-        setLoading(false);
+        console.error("Error loading problem set after settings change:", err);
+        setProblemSet(null);
+        setCurrentQuestion(null);
       }
-    };
+    } catch (err) {
+      console.error("Error importing problem sets data:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    loadProblemSet();
-  }, [roomDetails, onSelectStarterCode]);
-
-  // Function to handle navigation to next question
   const selectNextQuestion = async () => {
     if (!roomId || !user || !problemSet || !problemSet.problems) return;
 
+    // Calculate next index, wrapping around to 0 if we reach the end
+    const nextIndex = (questionIndex + 1) % problemSet.problems.length;
+
+    // Update local state
+    setQuestionIndex(nextIndex);
+    setCurrentQuestion(problemSet.problems[nextIndex]);
+
     try {
-      // Set the user action flag to prevent interference
-      isUserAction.current = true;
-
-      // Calculate next index with wrapping
-      const nextIndex = (questionIndex + 1) % problemSet.problems.length;
-      console.log("Navigating to next question:", nextIndex);
-
-      // Update local state immediately
-      setQuestionIndex(nextIndex);
-      setCurrentQuestion(problemSet.problems[nextIndex]);
-
-      // Update the database
+      // Update the question index in the database
       await supabase
         .from("rooms")
         .update({ question_index: nextIndex })
         .eq("code", roomId);
 
-      // Broadcast the change to other users
+      // Broadcast the question change to all users
       await supabase.channel(`room:${roomId}:question`).send({
         type: "broadcast",
         event: "question_change",
@@ -204,47 +175,34 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
         },
       });
 
-      // Update editor content
-      if (onSelectStarterCode && problemSet.problems[nextIndex]?.given) {
+      // Update the editor content with the new problem's 'given' code
+      if (onSelectStarterCode && problemSet.problems[nextIndex].given) {
         onSelectStarterCode(problemSet.problems[nextIndex].given);
       }
     } catch (error) {
-      console.error("Error updating to next question:", error);
-    } finally {
-      // Reset the user action flag after a delay to allow state to settle
-      setTimeout(() => {
-        isUserAction.current = false;
-      }, 500);
+      console.error("Error updating question:", error);
     }
   };
 
-  // Function to handle navigation to previous question
   const selectPreviousQuestion = async () => {
     if (!roomId || !user || !problemSet || !problemSet.problems) return;
 
+    // Calculate previous index, wrapping around to the last problem if we're at the first
+    const prevIndex =
+      questionIndex === 0 ? problemSet.problems.length - 1 : questionIndex - 1;
+
+    // Update local state
+    setQuestionIndex(prevIndex);
+    setCurrentQuestion(problemSet.problems[prevIndex]);
+
     try {
-      // Set the user action flag to prevent interference
-      isUserAction.current = true;
-
-      // Calculate previous index with wrapping
-      const prevIndex =
-        questionIndex === 0
-          ? problemSet.problems.length - 1
-          : questionIndex - 1;
-
-      console.log("Navigating to previous question:", prevIndex);
-
-      // Update local state immediately
-      setQuestionIndex(prevIndex);
-      setCurrentQuestion(problemSet.problems[prevIndex]);
-
-      // Update the database
+      // Update the question index in the database
       await supabase
         .from("rooms")
         .update({ question_index: prevIndex })
         .eq("code", roomId);
 
-      // Broadcast the change to other users
+      // Broadcast the question change to all users
       await supabase.channel(`room:${roomId}:question`).send({
         type: "broadcast",
         event: "question_change",
@@ -254,17 +212,12 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
         },
       });
 
-      // Update editor content
-      if (onSelectStarterCode && problemSet.problems[prevIndex]?.given) {
+      // Update the editor content with the new problem's 'given' code
+      if (onSelectStarterCode && problemSet.problems[prevIndex].given) {
         onSelectStarterCode(problemSet.problems[prevIndex].given);
       }
     } catch (error) {
-      console.error("Error updating to previous question:", error);
-    } finally {
-      // Reset the user action flag after a delay to allow state to settle
-      setTimeout(() => {
-        isUserAction.current = false;
-      }, 500);
+      console.error("Error updating question:", error);
     }
   };
 
@@ -294,10 +247,7 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
   }
 
   return (
-    <div
-      className="h-full overflow-y-auto p-4 bg-[#f8f9fa] dark:bg-[#1e1e1e] border-r border-black/[.08] dark:border-white/[.145] relative"
-      key={`${roomDetails?.subject_name}-${roomDetails?.difficulty}-${roomDetails?.set_number}-${questionIndex}`}
-    >
+    <div className="h-full overflow-y-auto p-4 bg-[#f8f9fa] dark:bg-[#1e1e1e] border-r border-black/[.08] dark:border-white/[.145] relative">
       <div className="flex justify-between gap-2 mb-6">
         <button
           onClick={selectPreviousQuestion}
