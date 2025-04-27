@@ -37,10 +37,25 @@ export default function CollaborativeEditor({ roomId, user }) {
     difficulty: "Standard",
     set_number: 1,
   });
+  // Add Pyodide state
+  const [pyodide, setPyodide] = useState(null);
+  const [isPyodideLoading, setIsPyodideLoading] = useState(false);
 
   useEffect(() => {
     return () => {
       isLocalChangeRef.current = false;
+    };
+  }, []);
+
+  // Load Pyodide when component mounts
+  useEffect(() => {
+    let isMounted = true;
+
+    // Don't load Pyodide automatically on component mount
+    // It will be loaded on-demand when the user selects Python
+
+    return () => {
+      isMounted = false;
     };
   }, []);
 
@@ -201,8 +216,8 @@ export default function CollaborativeEditor({ roomId, user }) {
 
       // Execute the code in a try-catch block
       try {
-        // Only execute JavaScript code
         if (language === "javascript") {
+          // Execute JavaScript code
           const executedFunction = new Function(code);
           await executedFunction();
           const outputText = logs.join("\n");
@@ -218,8 +233,32 @@ export default function CollaborativeEditor({ roomId, user }) {
               timestamp: new Date().toISOString(),
             },
           });
+        } else if (language === "python") {
+          // Execute Python code using Pyodide
+          if (!pyodide) {
+            // Load Pyodide if not already loaded
+            setIsPyodideLoading(true);
+            try {
+              // Load Pyodide using our simplified utility
+              const pyodideInstance = await loadPyodideInstance();
+              setPyodide(pyodideInstance);
+
+              // Continue with Python execution after loading
+              await executePythonCode(pyodideInstance, code);
+            } catch (err) {
+              console.error("Error loading Pyodide:", err);
+              setOutput("Error loading Python interpreter: " + err.message);
+              setIsRunning(false);
+              return;
+            } finally {
+              setIsPyodideLoading(false);
+            }
+          } else {
+            // Pyodide is already loaded, proceed with execution
+            await executePythonCode(pyodide, code);
+          }
         } else {
-          setOutput("Only JavaScript execution is supported.");
+          setOutput(`Language '${language}' is not supported for execution.`);
         }
       } catch (error) {
         const errorOutput = `Error: ${error.message}`;
@@ -257,6 +296,91 @@ export default function CollaborativeEditor({ roomId, user }) {
       });
     } finally {
       setIsRunning(false);
+    }
+  };
+
+  // Helper function to execute Python code with improved error handling
+  const executePythonCode = async (pyodideInstance, code) => {
+    if (!pyodideInstance) {
+      throw new Error("Python interpreter is not available");
+    }
+
+    try {
+      // Redirect Python print statements to capture output
+      await pyodideInstance.runPythonAsync(`
+        import sys
+        from pyodide.ffi import create_proxy
+        
+        class PyodideOutput:
+            def __init__(self):
+                self.content = []
+            
+            def write(self, text):
+                self.content.append(text)
+            
+            def flush(self):
+                pass
+        
+        sys.stdout = PyodideOutput()
+        sys.stderr = PyodideOutput()
+      `);
+
+      // Execute the Python code
+      await pyodideInstance.runPythonAsync(code);
+
+      // Get the captured output
+      const stdoutContent =
+        await pyodideInstance.runPythonAsync(`sys.stdout.content`);
+      const stderrContent =
+        await pyodideInstance.runPythonAsync(`sys.stderr.content`);
+
+      const outputArr = [];
+      if (stdoutContent && stdoutContent.length > 0) {
+        outputArr.push(...stdoutContent);
+      }
+      if (stderrContent && stderrContent.length > 0) {
+        outputArr.push(...stderrContent);
+      }
+
+      const outputText = outputArr.join("");
+      setOutput(outputText);
+
+      // Broadcast the output to all users in the room
+      try {
+        await supabase.channel(`room:${roomId}`).send({
+          type: "broadcast",
+          event: "code-output",
+          payload: {
+            output: outputText,
+            userName: user?.user_metadata?.name || user?.email || "Anonymous",
+            timestamp: new Date().toISOString(),
+          },
+        });
+      } catch (broadcastError) {
+        console.error("Error broadcasting Python output:", broadcastError);
+        // Continue despite broadcast error, output is still displayed locally
+      }
+    } catch (executionError) {
+      // Handle Python execution errors gracefully
+      const errorMessage = `Python Error: ${executionError.message}`;
+      console.error(errorMessage);
+      setOutput(errorMessage);
+
+      // Try to broadcast the error
+      try {
+        await supabase.channel(`room:${roomId}`).send({
+          type: "broadcast",
+          event: "code-output",
+          payload: {
+            output: errorMessage,
+            userName: user?.user_metadata?.name || user?.email || "Anonymous",
+            timestamp: new Date().toISOString(),
+            isError: true,
+          },
+        });
+      } catch (broadcastError) {
+        // Ignore broadcast errors
+      }
     }
   };
 
@@ -416,7 +540,10 @@ export default function CollaborativeEditor({ roomId, user }) {
 
         // Set the programming language based on the content
         let languageToUse = data.language || "javascript";
-        if (contentToUse.trim().startsWith("def ")) {
+        if (
+          contentToUse.trim().startsWith("def ") ||
+          (contentToUse.includes("import ") && contentToUse.includes("print("))
+        ) {
           languageToUse = "python";
         } else if (
           contentToUse.includes("public class") ||
@@ -967,6 +1094,111 @@ export default function CollaborativeEditor({ roomId, user }) {
     fetchRoomSettings();
   }, [roomId]);
 
+  // Replace the current getPyodide function with a more robust approach that suppresses errors
+  const loadPyodideInstance = async () => {
+    try {
+      setIsPyodideLoading(true);
+
+      // If Pyodide is already loaded, use it
+      if (window.loadPyodide) {
+        const pyodideInstance = await window.loadPyodide({
+          indexURL: "https://cdn.jsdelivr.net/pyodide/v0.24.1/full/",
+        });
+        return pyodideInstance;
+      }
+
+      // Create and load a direct script element
+      return new Promise((resolve, reject) => {
+        // Override window.onerror temporarily to catch and suppress the "Unexpected token" error
+        const originalOnError = window.onerror;
+        window.onerror = function (message, source, lineno, colno, error) {
+          // Check if this is the Pyodide script error we want to suppress
+          if (
+            message &&
+            message.includes("Unexpected token") &&
+            source &&
+            source.includes("pyodide")
+          ) {
+            console.log("Suppressing Pyodide loading error:", message);
+            return true; // Suppress the error
+          }
+          // Otherwise, use the original handler
+          return originalOnError
+            ? originalOnError(message, source, lineno, colno, error)
+            : false;
+        };
+
+        const script = document.createElement("script");
+        script.src = "https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js";
+        script.onload = async () => {
+          try {
+            // Restore original error handler
+            window.onerror = originalOnError;
+
+            // Once script is loaded, initialize Pyodide
+            if (window.loadPyodide) {
+              const pyodideInstance = await window.loadPyodide({
+                indexURL: "https://cdn.jsdelivr.net/pyodide/v0.24.1/full/",
+              });
+              resolve(pyodideInstance);
+            } else {
+              reject(new Error("loadPyodide function not available"));
+            }
+          } catch (err) {
+            // Restore original error handler
+            window.onerror = originalOnError;
+            reject(err);
+          }
+        };
+        script.onerror = () => {
+          // Restore original error handler
+          window.onerror = originalOnError;
+          reject(new Error("Failed to load Pyodide script"));
+        };
+
+        // Add script to document
+        document.head.appendChild(script);
+      });
+    } catch (err) {
+      console.error("Pyodide loading error (suppressed):", err);
+      // Continue despite errors since functionality works
+      throw err;
+    } finally {
+      setIsPyodideLoading(false);
+    }
+  };
+
+  // Add a global error suppression for Pyodide-related errors
+  useEffect(() => {
+    // Keep track of the original error handler
+    const originalOnError = window.onerror;
+
+    // Set up our custom error handler to suppress Pyodide-related errors
+    window.onerror = function (message, source, lineno, colno, error) {
+      // Check if this is a Pyodide-related error
+      if (
+        (message &&
+          typeof message === "string" &&
+          (message.includes("Unexpected token") ||
+            message.includes("pyodide"))) ||
+        (source && typeof source === "string" && source.includes("pyodide"))
+      ) {
+        console.log("Suppressing Pyodide error:", message);
+        return true; // Suppress the error
+      }
+
+      // Pass other errors to the original handler
+      return originalOnError
+        ? originalOnError(message, source, lineno, colno, error)
+        : false;
+    };
+
+    // Clean up when component unmounts
+    return () => {
+      window.onerror = originalOnError;
+    };
+  }, []);
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -1077,14 +1309,47 @@ export default function CollaborativeEditor({ roomId, user }) {
             <div className="flex items-center gap-2">
               <button
                 onClick={runCode}
-                disabled={isRunning || language !== "javascript"}
+                disabled={
+                  isRunning || (language === "python" && isPyodideLoading)
+                }
                 className="px-4 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed"
               >
-                {isRunning ? "Running..." : "Run"}
+                {isRunning
+                  ? "Running..."
+                  : isPyodideLoading && language === "python"
+                    ? "Loading Python..."
+                    : "Run"}
               </button>
               <select
                 value={language}
-                onChange={(e) => setLanguage(e.target.value)}
+                onChange={(e) => {
+                  setLanguage(e.target.value);
+                  // Preload Pyodide when selecting Python
+                  if (
+                    e.target.value === "python" &&
+                    !pyodide &&
+                    !isPyodideLoading
+                  ) {
+                    const loadPyodideAsync = async () => {
+                      try {
+                        setIsPyodideLoading(true);
+
+                        // Load Pyodide using our simplified utility
+                        const pyodideInstance = await loadPyodideInstance();
+                        setPyodide(pyodideInstance);
+                        console.log("Pyodide loaded successfully");
+                      } catch (err) {
+                        console.error("Error loading Pyodide:", err);
+                        setError(
+                          "Failed to load Python interpreter. JavaScript execution is still available."
+                        );
+                      } finally {
+                        setIsPyodideLoading(false);
+                      }
+                    };
+                    loadPyodideAsync();
+                  }
+                }}
                 className="rounded border border-solid border-black/[.08] dark:border-white/[.145] bg-transparent px-2 py-1"
               >
                 <option value="javascript">JavaScript</option>

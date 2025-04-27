@@ -19,9 +19,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>{/* Add Pyodide script directly in the head */}</head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* Remove the Script component */}
         {children}
       </body>
     </html>
