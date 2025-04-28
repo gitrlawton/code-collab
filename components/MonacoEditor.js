@@ -1312,8 +1312,17 @@ export default function CollaborativeEditor({ roomId, user }) {
                 disabled={
                   isRunning || (language === "python" && isPyodideLoading)
                 }
-                className="px-4 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed"
+                className="ml-4 px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed flex items-center justify-center"
               >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  className="w-5 h-5 mr-2"
+                  aria-hidden="true"
+                >
+                  <polygon points="6,4 16,10 6,16" />
+                </svg>
                 {isRunning
                   ? "Running..."
                   : isPyodideLoading && language === "python"
@@ -1395,14 +1404,6 @@ export default function CollaborativeEditor({ roomId, user }) {
               <div className="border-t border-black/[.08] dark:border-white/[.145] p-2">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="font-medium">Output</h3>
-                  {output && (
-                    <button
-                      onClick={() => setOutput("")}
-                      className="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
-                    >
-                      Clear
-                    </button>
-                  )}
                 </div>
 
                 <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded overflow-auto h-32 font-mono text-sm">
