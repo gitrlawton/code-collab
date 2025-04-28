@@ -41,7 +41,7 @@ export default function Auth() {
       <button
         onClick={() => handleLogin("github")}
         disabled={loading}
-        className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 w-full"
+        className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 w-full cursor-pointer"
       >
         <Image
           src="/github-mark.svg"
@@ -56,7 +56,7 @@ export default function Auth() {
       <button
         onClick={() => handleLogin("google")}
         disabled={loading}
-        className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 w-full"
+        className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 w-full cursor-pointer"
       >
         <Image
           src="/google-logo.svg"

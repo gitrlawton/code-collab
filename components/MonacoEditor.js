@@ -1215,7 +1215,7 @@ export default function CollaborativeEditor({ roomId, user }) {
         </div>
         <button
           onClick={() => router.push("/")}
-          className="mt-4 rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5"
+          className="mt-4 rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 cursor-pointer"
         >
           Go Back
         </button>
@@ -1244,7 +1244,7 @@ export default function CollaborativeEditor({ roomId, user }) {
                 onClick={() => {
                   navigator.clipboard.writeText(roomId);
                 }}
-                className="ml-2 p-2 rounded hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a]"
+                className="ml-2 p-2 rounded hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] cursor-pointer"
                 title="Copy room code"
               >
                 <svg
@@ -1266,7 +1266,7 @@ export default function CollaborativeEditor({ roomId, user }) {
               {!showQuestion && (
                 <button
                   onClick={() => setShowQuestion(true)}
-                  className="ml-4 px-3 py-1 text-sm bg-blue-600 text-white rounded"
+                  className="ml-4 px-3 py-1 text-sm bg-blue-600 text-white rounded cursor-pointer"
                 >
                   Show Problem
                 </button>
@@ -1275,7 +1275,7 @@ export default function CollaborativeEditor({ roomId, user }) {
               {/* Settings Button */}
               <button
                 onClick={() => setShowSettings(true)}
-                className="ml-4 px-3 py-1 text-sm bg-gray-200 dark:bg-gray-700 rounded flex items-center"
+                className="ml-4 px-3 py-1 text-sm bg-gray-200 dark:bg-gray-700 rounded flex items-center cursor-pointer"
                 title="Room Settings"
               >
                 <svg
@@ -1299,7 +1299,7 @@ export default function CollaborativeEditor({ roomId, user }) {
               {/* Leave Room button */}
               <button
                 onClick={leaveRoom}
-                className="ml-4 px-3 py-1 text-sm bg-red-600 text-white rounded"
+                className="ml-4 px-3 py-1 text-sm bg-red-600 text-white rounded cursor-pointer"
                 title="Leave this room"
               >
                 Leave Room
@@ -1312,7 +1312,7 @@ export default function CollaborativeEditor({ roomId, user }) {
                 disabled={
                   isRunning || (language === "python" && isPyodideLoading)
                 }
-                className="ml-4 px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed flex items-center justify-center"
+                className="ml-4 px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed flex items-center justify-center cursor-pointer"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -1359,7 +1359,7 @@ export default function CollaborativeEditor({ roomId, user }) {
                     loadPyodideAsync();
                   }
                 }}
-                className="rounded border border-solid border-black/[.08] dark:border-white/[.145] bg-transparent px-2 py-1"
+                className="rounded border border-solid border-black/[.08] dark:border-white/[.145] bg-transparent px-2 py-1 cursor-pointer"
               >
                 <option value="javascript">JavaScript</option>
                 <option value="python">Python</option>

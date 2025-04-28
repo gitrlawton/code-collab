@@ -7,6 +7,7 @@ import Image from "next/image";
 import RoomCreation from "@/components/RoomCreation";
 import RoomJoin from "@/components/RoomJoin";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import { Laptop } from "lucide-react";
 
 export default function Home() {
   const [user, setUser] = useState(null);
@@ -59,7 +60,7 @@ export default function Home() {
                   <div className="mt-4">
                     <button
                       onClick={() => router.push("/signin")}
-                      className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-base h-12 px-8"
+                      className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 mt-2 cursor-pointer bg-foreground text-background gap-2"
                     >
                       Get Started
                     </button>
@@ -74,12 +75,19 @@ export default function Home() {
                           key={i}
                           className="w-8 h-8 rounded-full bg-gray-300 dark:bg-gray-700 border-2 border-white dark:border-gray-900 flex items-center justify-center text-xs"
                         >
-                          {String.fromCharCode(64 + i)}
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                            className="w-5 h-5 text-gray-500 dark:text-gray-400"
+                          >
+                            <path d="M10 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0 2c-3.31 0-6 1.343-6 3v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-1c0-1.657-2.69-3-6-3z" />
+                          </svg>
                         </div>
                       ))}
                     </div>
                     <span className="text-sm text-gray-600 dark:text-gray-400">
-                      Join thousands of developers coding together
+                      Join a new wave of programmers coding together.
                     </span>
                   </div>
                 </div>
@@ -161,24 +169,9 @@ export default function Home() {
 
                   <button
                     onClick={handleSignOut}
-                    className="text-sm hover:underline flex items-center gap-1"
+                    className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 mt-2 cursor-pointer bg-foreground text-background gap-2"
                   >
-                    <span>Sign Out</span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                      <polyline points="16 17 21 12 16 7"></polyline>
-                      <line x1="21" y1="12" x2="9" y2="12"></line>
-                    </svg>
+                    Sign Out
                   </button>
                 </div>
 
@@ -251,7 +244,7 @@ export default function Home() {
                 </p>
                 <button
                   onClick={() => router.push("/signin")}
-                  className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-base h-12 px-8 mt-2"
+                  className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 mt-2 cursor-pointer bg-foreground text-background gap-2"
                 >
                   Sign In
                 </button>
@@ -292,20 +285,7 @@ export default function Home() {
 
             <div className="bg-white dark:bg-gray-800/30 p-6 rounded-lg border border-gray-100 dark:border-gray-700/50">
               <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="text-green-600 dark:text-green-400"
-                >
-                  <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
-                </svg>
+                <Laptop className="w-6 h-6 text-green-600" />
               </div>
               <h3 className="text-lg font-bold mb-2">Coding Challenges</h3>
               <p className="text-gray-600 dark:text-gray-300">
@@ -335,7 +315,7 @@ export default function Home() {
               </div>
               <h3 className="text-lg font-bold mb-2">Multiple Languages</h3>
               <p className="text-gray-600 dark:text-gray-300">
-                Support for JavaScript, Python, C++, and Java with syntax
+                Support for JS and Python (more to come) with syntax
                 highlighting and code execution.
               </p>
             </div>

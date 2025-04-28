@@ -146,7 +146,7 @@ export default function RoomSettings() {
               <select
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
-                className="w-full border border-gray-300 dark:border-gray-700 dark:bg-gray-800 rounded-md py-2 px-3"
+                className="w-full border border-gray-300 dark:border-gray-700 dark:bg-gray-800 rounded-md py-2 px-3 cursor-pointer"
                 disabled={availableSubjects.length <= 1}
               >
                 {availableSubjects.map((subj) => (
@@ -167,7 +167,7 @@ export default function RoomSettings() {
               <select
                 value={difficulty}
                 onChange={(e) => setDifficulty(e.target.value)}
-                className="w-full border border-gray-300 dark:border-gray-700 dark:bg-gray-800 rounded-md py-2 px-3"
+                className="w-full border border-gray-300 dark:border-gray-700 dark:bg-gray-800 rounded-md py-2 px-3 cursor-pointer"
                 disabled={availableDifficulties.length <= 1}
               >
                 {availableDifficulties.map((diff) => (
@@ -185,7 +185,7 @@ export default function RoomSettings() {
               <select
                 value={setNumber}
                 onChange={(e) => setSetNumber(e.target.value)}
-                className="w-full border border-gray-300 dark:border-gray-700 dark:bg-gray-800 rounded-md py-2 px-3"
+                className="w-full border border-gray-300 dark:border-gray-700 dark:bg-gray-800 rounded-md py-2 px-3 cursor-pointer"
                 disabled={availableSets.length <= 1}
               >
                 {availableSets.map((set) => (
@@ -200,16 +200,9 @@ export default function RoomSettings() {
               <button
                 onClick={createRoom}
                 disabled={creating}
-                className="w-full rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-base h-12"
+                className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 w-full cursor-pointer"
               >
-                {creating ? (
-                  <>
-                    <LoadingSpinner size="sm" />
-                    Creating...
-                  </>
-                ) : (
-                  "Create Room"
-                )}
+                {creating ? "Creating..." : "Create Room"}
               </button>
             </div>
           </div>
