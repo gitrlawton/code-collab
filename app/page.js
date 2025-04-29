@@ -52,8 +52,8 @@ export default function Home() {
                   Code Collab
                 </h1>
                 <p className="text-lg text-gray-600 dark:text-gray-300 max-w-lg">
-                  Code together in real-time, solve problems collaboratively,
-                  and test your solutions instantly.
+                  Solve coding challenges together in real-time. Collaborate,
+                  code, and test your solutions instantly.
                 </p>
 
                 {!loading && (
@@ -87,7 +87,7 @@ export default function Home() {
                       ))}
                     </div>
                     <span className="text-sm text-gray-600 dark:text-gray-400">
-                      Join a new wave of programmers coding together.
+                      Join a new wave of programmers solving problems together
                     </span>
                   </div>
                 </div>
@@ -107,35 +107,22 @@ export default function Home() {
                 <div className="mt-4 space-y-6">
                   <div className="bg-white dark:bg-gray-800/30 p-6 rounded-lg border border-gray-100 dark:border-gray-700/50">
                     <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="12" y1="8" x2="12" y2="16"></line>
-                        <line x1="8" y1="12" x2="16" y2="12"></line>
-                      </svg>
                       Quick Tips
                     </h3>
                     <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-500 mt-1">•</span>
-                        Create a room to start a new coding session
+                      <li className="flex items-center gap-2">
+                        <span className="text-black">•</span>
+                        <span>Create a room to start a new coding session</span>
                       </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-500 mt-1">•</span>
-                        Share your room code with collaborators
+                      <li className="flex items-center gap-2">
+                        <span className="text-black">•</span>
+                        <span>Share your room code with collaborators</span>
                       </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-500 mt-1">•</span>
-                        Join a room using the code provided by a colleague
+                      <li className="flex items-center gap-2">
+                        <span className="text-black">•</span>
+                        <span>
+                          Join a room using the code provided by a colleague
+                        </span>
                       </li>
                     </ul>
                   </div>
@@ -176,8 +163,8 @@ export default function Home() {
                 </div>
 
                 <div className="border-t border-b border-black/[.08] dark:border-white/[.145] py-6 my-2">
-                  <div className="flex items-center gap-2 mb-4">
-                    <svg
+                  <div className="flex justify-center items-center gap-2 mb-4">
+                    {/* <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="20"
                       height="20"
@@ -190,15 +177,15 @@ export default function Home() {
                     >
                       <path d="M12 5v14"></path>
                       <path d="M5 12h14"></path>
-                    </svg>
+                    </svg> */}
                     <h2 className="text-xl font-bold">Create a Room</h2>
                   </div>
                   <RoomCreation user={user} />
                 </div>
 
                 <div>
-                  <div className="flex items-center gap-2 mb-4">
-                    <svg
+                  <div className="flex justify-center items-center gap-2 mb-4">
+                    {/* <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="20"
                       height="20"
@@ -212,7 +199,7 @@ export default function Home() {
                       <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
                       <polyline points="10 17 15 12 10 7"></polyline>
                       <line x1="15" y1="12" x2="3" y2="12"></line>
-                    </svg>
+                    </svg> */}
                     <h2 className="text-xl font-bold">Join a Room</h2>
                   </div>
                   <RoomJoin />
@@ -237,7 +224,7 @@ export default function Home() {
                   </svg>
                 </div>
                 <h2 className="text-2xl font-bold text-center">
-                  Welcome to CodeCollab
+                  Welcome to Code Collab
                 </h2>
                 <p className="text-center text-gray-600 dark:text-gray-300">
                   Sign in to create or join a collaborative coding session.

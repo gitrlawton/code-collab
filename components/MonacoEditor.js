@@ -1275,7 +1275,7 @@ export default function CollaborativeEditor({ roomId, user }) {
               {/* Settings Button */}
               <button
                 onClick={() => setShowSettings(true)}
-                className="ml-4 px-3 py-1 text-sm bg-gray-200 dark:bg-gray-700 rounded flex items-center cursor-pointer"
+                className="ml-4 px-3 py-1 text-sm bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded flex items-center cursor-pointer"
                 title="Room Settings"
               >
                 <svg
@@ -1299,7 +1299,7 @@ export default function CollaborativeEditor({ roomId, user }) {
               {/* Leave Room button */}
               <button
                 onClick={leaveRoom}
-                className="ml-4 px-3 py-1 text-sm bg-red-600 text-white rounded cursor-pointer"
+                className="ml-4 px-3 py-1 text-sm bg-red-600 hover:bg-red-700 text-white rounded cursor-pointer"
                 title="Leave this room"
               >
                 Leave Room
@@ -1312,7 +1312,7 @@ export default function CollaborativeEditor({ roomId, user }) {
                 disabled={
                   isRunning || (language === "python" && isPyodideLoading)
                 }
-                className="ml-4 px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed flex items-center justify-center cursor-pointer"
+                className="ml-4 px-3 py-1 text-sm bg-gray-200 text-black rounded hover:bg-gray-300 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center cursor-pointer"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

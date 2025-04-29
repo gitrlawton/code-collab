@@ -125,6 +125,29 @@ export default function RoomSettings() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-gray-50 dark:from-background dark:to-gray-900/30">
+      {/* Back Button */}
+      <button
+        className="absolute top-6 left-6 flex items-center text-gray-500 hover:text-gray-800 dark:text-gray-200 rounded-full p-2 transition cursor-pointer"
+        onClick={() => router.push("/")}
+        aria-label="Back to main page"
+        style={{ zIndex: 10 }}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={2}
+          stroke="currentColor"
+          className="w-6 h-6 mr-2"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M15.75 19.5L8.25 12l7.5-7.5"
+          />
+        </svg>
+        <span className="font-medium">Back</span>
+      </button>
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-8">
           <h1 className="text-3xl font-bold">Room Settings</h1>
@@ -141,12 +164,12 @@ export default function RoomSettings() {
           )}
 
           <div className="space-y-6">
-            <div>
+            <div className="relative">
               <label className="block text-sm font-medium mb-2">Subject</label>
               <select
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
-                className="w-full border border-gray-300 dark:border-gray-700 dark:bg-gray-800 rounded-md py-2 px-3 cursor-pointer"
+                className="w-full border border-gray-300 dark:border-gray-700 dark:bg-gray-800 rounded-md py-2 px-3 pr-8 cursor-pointer appearance-none"
                 disabled={availableSubjects.length <= 1}
               >
                 {availableSubjects.map((subj) => (
@@ -155,19 +178,36 @@ export default function RoomSettings() {
                   </option>
                 ))}
               </select>
+              {/* Custom caret */}
+              <span className="pointer-events-none absolute right-3 top-[55%] transform -translate-y-1/2 text-gray-400 dark:text-gray-300">
+                <svg
+                  width="20"
+                  height="20"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </span>
               <p className="text-xs text-gray-500 mt-1">
                 Currently limited to available problem sets
               </p>
             </div>
 
-            <div>
+            <div className="relative">
               <label className="block text-sm font-medium mb-2">
                 Difficulty
               </label>
               <select
                 value={difficulty}
                 onChange={(e) => setDifficulty(e.target.value)}
-                className="w-full border border-gray-300 dark:border-gray-700 dark:bg-gray-800 rounded-md py-2 px-3 cursor-pointer"
+                className="w-full border border-gray-300 dark:border-gray-700 dark:bg-gray-800 rounded-md py-2 px-3 pr-8 cursor-pointer appearance-none"
                 disabled={availableDifficulties.length <= 1}
               >
                 {availableDifficulties.map((diff) => (
@@ -176,16 +216,36 @@ export default function RoomSettings() {
                   </option>
                 ))}
               </select>
+              {/* Custom caret */}
+              <span className="pointer-events-none absolute right-3 top-[55%] transform -translate-y-1/2 text-gray-400 dark:text-gray-300">
+                <svg
+                  width="20"
+                  height="20"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </span>
+              <p className="text-xs text-gray-500 mt-1">
+                Choose your preferred difficulty
+              </p>
             </div>
 
-            <div>
+            <div className="relative">
               <label className="block text-sm font-medium mb-2">
                 Set Number
               </label>
               <select
                 value={setNumber}
                 onChange={(e) => setSetNumber(e.target.value)}
-                className="w-full border border-gray-300 dark:border-gray-700 dark:bg-gray-800 rounded-md py-2 px-3 cursor-pointer"
+                className="w-full border border-gray-300 dark:border-gray-700 dark:bg-gray-800 rounded-md py-2 px-3 pr-8 cursor-pointer appearance-none"
                 disabled={availableSets.length <= 1}
               >
                 {availableSets.map((set) => (
@@ -194,6 +254,26 @@ export default function RoomSettings() {
                   </option>
                 ))}
               </select>
+              {/* Custom caret */}
+              <span className="pointer-events-none absolute right-3 top-[55%] transform -translate-y-1/2 text-gray-400 dark:text-gray-300">
+                <svg
+                  width="20"
+                  height="20"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </span>
+              <p className="text-xs text-gray-500 mt-1">
+                Select a problem set number
+              </p>
             </div>
 
             <div className="pt-4">
