@@ -7,6 +7,7 @@ import Image from "next/image";
 import RoomCreation from "@/components/RoomCreation";
 import RoomJoin from "@/components/RoomJoin";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import ThemeToggle from "@/components/ThemeToggle";
 import { Laptop } from "lucide-react";
 
 export default function Home() {
@@ -42,6 +43,9 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-gray-50 dark:from-background dark:to-gray-900/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="flex justify-end mb-4">
+          <ThemeToggle />
+        </div>
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Hero section - Only shown when user is not logged in */}
           <div className="flex flex-col gap-6 order-2 md:order-1">
@@ -52,15 +56,15 @@ export default function Home() {
                   Code Collab
                 </h1>
                 <p className="text-lg text-gray-600 dark:text-gray-300 max-w-lg">
-                  Solve coding challenges together in real-time. Collaborate,
-                  code, and test your solutions instantly.
+                  Bring your friends, share a room, and code your way through
+                  solving DSA problems—together.
                 </p>
 
                 {!loading && (
                   <div className="mt-4">
                     <button
                       onClick={() => router.push("/signin")}
-                      className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 mt-2 cursor-pointer bg-foreground text-background gap-2"
+                      className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 mt-2 cursor-pointer bg-foreground text-background gap-2"
                     >
                       Get Started
                     </button>

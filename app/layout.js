@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/lib/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,13 +19,14 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>{/* Add Pyodide script directly in the head */}</head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* Remove the Script component */}
-        {children}
+        <ThemeProvider>
+          <div className="min-h-screen">{children}</div>
+        </ThemeProvider>
       </body>
     </html>
   );

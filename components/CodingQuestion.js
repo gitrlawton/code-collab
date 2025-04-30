@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import LoadingSpinner from "./LoadingSpinner";
+import ReactMarkdown from "react-markdown";
 
 export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
   const [problemSet, setProblemSet] = useState(null);
@@ -275,9 +276,9 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
       </div>
 
       <div className="mb-4">
-        <p className="whitespace-pre-line">
-          {currentQuestion.problem_instructions}
-        </p>
+        <div className="prose dark:prose-invert max-w-none">
+          <ReactMarkdown>{currentQuestion.problem_instructions}</ReactMarkdown>
+        </div>
       </div>
 
       <div className="mb-4">

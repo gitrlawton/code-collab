@@ -1,0 +1,166 @@
+{
+  "Strings & Arrays": {
+    "Standard": {
+      "1": {
+        "problems": [
+          {
+            "problem_number": 1,
+            "problem_name": "Galaxy Gateway",
+            "problem_instructions": "Create a function called `launch_message()` that prints the string \"Welcome aboard the Galaxy Gateway!\".",
+            "given": "def launch_message():\n\tpass",
+            "example_usage": "launch_message()",
+            "example_output": "Welcome aboard the Galaxy Gateway!",
+            "given_python": "def launch_message():\n\tpass",
+            "given_java": "public static void launchMessage() {\n    \n}",
+            "given_cpp": "void launchMessage() {\n    \n}",
+            "given_javascript": "function launchMessage() {\n    \n}",
+            "visual": null
+          },
+          {
+            "problem_number": 2,
+            "problem_name": "Captain’s Welcome",
+            "problem_instructions": "Create a function `greet_captain()` that accepts a single string parameter `name`, and prints the message: \"Welcome aboard the Galaxy Gateway, `<name>`! I’m your captain, Zara.\"",
+            "given": "def greet_captain(name):\n\tpass",
+            "example_usage": "greet_captain(\"Nova\")\ngreet_captain(\"Kai\")",
+            "example_output": "Welcome aboard the Galaxy Gateway, Nova! I’m your captain, Zara.\nWelcome aboard the Galaxy Gateway, Kai! I’m your captain, Zara.",
+            "given_python": "def greet_captain(name):\n\tpass",
+            "given_java": "public static void greetCaptain(String name) {\n    \n}",
+            "given_cpp": "void greetCaptain(std::string name) {\n    \n}",
+            "given_javascript": "function greetCaptain(name) {\n    \n}",
+            "visual": null
+          },
+          {
+            "problem_number": 3,
+            "problem_name": "Famous Lines",
+            "problem_instructions": "Create a function `recite_quote()` that takes a character name as input and prints their iconic quote. If the name isn't recognized, print: \"Sorry! I don't know `<character>`'s quote!\"",
+            "given": "def recite_quote(character):\n\tpass",
+            "example_usage": "recite_quote(\"Nova\")\nrecite_quote(\"Blip\")",
+            "example_output": "\"To the stars and beyond!\"\n\"Sorry! I don't know Blip's quote!\"",
+            "given_python": "def recite_quote(character):\n\tpass",
+            "given_java": "public static void reciteQuote(String character) {\n    \n}",
+            "given_cpp": "void reciteQuote(std::string character) {\n    \n}",
+            "given_javascript": "function reciteQuote(character) {\n    \n}",
+            "visual": null
+          },
+          {
+            "problem_number": 4,
+            "problem_name": "Retrieve Cargo",
+            "problem_instructions": "Implement a function `get_cargo()` that takes a list `cargo_bay` and a non-negative integer `index`. Return the item at `index` or `None` if the index is invalid.",
+            "given": "def get_cargo(cargo_bay, index):\n\tpass",
+            "example_usage": "cargo_bay = [\"wrench\", \"helmet\", \"oxygen\", \"map\"]\nget_cargo(cargo_bay, 2)\nget_cargo(cargo_bay, 5)",
+            "example_output": "\"oxygen\"\nNone",
+            "given_python": "def get_cargo(cargo_bay, index):\n\tpass",
+            "given_java": "public static String getCargo(List<String> cargoBay, int index) {\n    \n}",
+            "given_cpp": "std::string getCargo(std::vector<std::string> cargoBay, int index) {\n    \n}",
+            "given_javascript": "function getCargo(cargoBay, index) {\n    \n}",
+            "visual": null
+          },
+          {
+            "problem_number": 5,
+            "problem_name": "Crystal Count",
+            "problem_instructions": "Write a function `count_crystals()` that takes a list of integers `crystals` and returns their sum. Do not use the built-in `sum()` function.",
+            "given": "def count_crystals(crystals):\n\tpass",
+            "example_usage": "crystals = [3, 5, 2, 7]\ncount_crystals(crystals)\n\ncrystals = []\ncount_crystals(crystals)",
+            "example_output": "17\n0",
+            "given_python": "def count_crystals(crystals):\n\tpass",
+            "given_java": "public static int countCrystals(List<Integer> crystals) {\n    \n}",
+            "given_cpp": "int countCrystals(std::vector<int> crystals) {\n    \n}",
+            "given_javascript": "function countCrystals(crystals) {\n    \n}",
+            "visual": null
+          },
+          {
+            "problem_number": 6,
+            "problem_name": "Fuel Boost",
+            "problem_instructions": "The ship’s boosters need a recharge! Write a function `boost_fuel()` that accepts a list of integers `fuel_cells` and returns a new list with each value doubled.",
+            "given": "def boost_fuel(fuel_cells):\n\tpass",
+            "example_usage": "fuel_cells = [3, 1, 4]\nboost_fuel(fuel_cells)",
+            "example_output": "[6, 2, 8]",
+            "given_python": "def boost_fuel(fuel_cells):\n\tpass",
+            "given_java": "public static List<Integer> boostFuel(List<Integer> fuelCells) {\n    \n}",
+            "given_cpp": "std::vector<int> boostFuel(std::vector<int> fuelCells) {\n    \n}",
+            "given_javascript": "function boostFuel(fuelCells) {\n    \n}",
+            "visual": null
+          },
+          {
+            "problem_number": 7,
+            "problem_name": "Meteor Dodge",
+            "problem_instructions": "During a meteor shower, only the quickest pilots survive. Write a function `count_safe_times()` that accepts a list of integers `reaction_times` and an integer `limit`, and returns the number of times that are less than `limit`.",
+            "given": "def count_safe_times(reaction_times, limit):\n\tpass",
+            "example_usage": "reaction_times = [5, 2, 6, 1]\nlimit = 4\ncount_safe_times(reaction_times, limit)\n\nreaction_times = []\nlimit = 4\ncount_safe_times(reaction_times, limit)",
+            "example_output": "2\n0",
+            "given_python": "def count_safe_times(reaction_times, limit):\n\tpass",
+            "given_java": "public static int countSafeTimes(List<Integer> reactionTimes, int limit) {\n    \n}",
+            "given_cpp": "int countSafeTimes(std::vector<int> reactionTimes, int limit) {\n    \n}",
+            "given_javascript": "function countSafeTimes(reactionTimes, limit) {\n    \n}",
+            "visual": null
+          },
+          {
+            "problem_number": 8,
+            "problem_name": "Mission Checklist",
+            "problem_instructions": "Write a function `print_checklist()` that accepts a list of strings called `tasks`. Print each task on a new line, numbered, under the header \"Mission Checklist:\". If the list is empty, only print the header.",
+            "given": "def print_checklist(tasks):\n\tpass",
+            "example_usage": "tasks = [\"Calibrate sensors\", \"Refuel thrusters\", \"Run diagnostics\"]\nprint_checklist(tasks)\n\ntasks = []\nprint_checklist(tasks)",
+            "example_output": "Mission Checklist:\n1. Calibrate sensors\n2. Refuel thrusters\n3. Run diagnostics\n\nMission Checklist:",
+            "given_python": "def print_checklist(tasks):\n\tpass",
+            "given_java": "public static void printChecklist(List<String> tasks) {\n    \n}",
+            "given_cpp": "void printChecklist(std::vector<std::string> tasks) {\n    \n}",
+            "given_javascript": "function printChecklist(tasks) {\n    \n}",
+            "visual": null
+          },
+          {
+            "problem_number": 9,
+            "problem_name": "Balanced Inventory",
+            "problem_instructions": "To maintain ship balance, every supply item must come in even quantities. Write a function `is_balanced()` that takes a list of integers `supplies` and returns `True` if every item is even, else `False`.",
+            "given": "def is_balanced(supplies):\n\tpass",
+            "example_usage": "supplies = [4, 8, 2, 6]\nis_balanced(supplies)\n\nsupplies = [3, 4, 6]\nis_balanced(supplies)\n\nsupplies = []\nis_balanced(supplies)",
+            "example_output": "True\nFalse\nTrue",
+            "given_python": "def is_balanced(supplies):\n\tpass",
+            "given_java": "public static boolean isBalanced(List<Integer> supplies) {\n    \n}",
+            "given_cpp": "bool isBalanced(std::vector<int> supplies) {\n    \n}",
+            "given_javascript": "function isBalanced(supplies) {\n    \n}",
+            "visual": null
+          },
+          {
+            "problem_number": 10,
+            "problem_name": "Distribute Rations",
+            "problem_instructions": "To split food rations fairly, write a function `ration_dividers()` that accepts a positive integer `amount` and returns a list of all of its divisors.",
+            "given": "def ration_dividers(amount):\n\tpass",
+            "example_usage": "ration_dividers(6)\nration_dividers(1)",
+            "example_output": "[1, 2, 3, 6]\n[1]",
+            "given_python": "def ration_dividers(amount):\n\tpass",
+            "given_java": "public static List<Integer> rationDividers(int amount) {\n    \n}",
+            "given_cpp": "std::vector<int> rationDividers(int amount) {\n    \n}",
+            "given_javascript": "function rationDividers(amount) {\n    \n}",
+            "visual": null
+          },
+          {
+            "problem_number": 11,
+            "problem_name": "Signal Jammer",
+            "problem_instructions": "A rogue signal is deleting specific letters. Create a function `jammed_signal()` that takes a string `message` and returns it with all the letters `s`, `i`, `g`, `n`, `a`, and `l` removed.",
+            "given": "def jammed_signal(message):\n\tpass",
+            "example_usage": "jammed_signal(\"signaling\")\njammed_signal(\"Launch\")\njammed_signal(\"echo\")",
+            "example_output": "\"\"\n\"Cuch\"\n\"echo\"",
+            "given_python": "def jammed_signal(message):\n\tpass",
+            "given_java": "public static String jammedSignal(String message) {\n    \n}",
+            "given_cpp": "std::string jammedSignal(std::string message) {\n    \n}",
+            "given_javascript": "function jammedSignal(message) {\n    \n}",
+            "visual": null
+          },
+          {
+            "problem_number": 12,
+            "problem_name": "Locate Beacons",
+            "problem_instructions": "The team is tracking down hidden beacons. Write a function `find_beacons()` that accepts a list of strings `objects` and returns the indices of all elements equal to \"beacon\".",
+            "given": "def find_beacons(objects):\n\tpass",
+            "example_usage": "objects = [\"beacon\", \"wrench\", \"beacon\", \"light\"]\nfind_beacons(objects)\n\nobjects = [\"glove\", \"panel\"]\nfind_beacons(objects)",
+            "example_output": "[0, 2]\n[]",
+            "given_python": "def find_beacons(objects):\n\tpass",
+            "given_java": "public static List<Integer> findBeacons(List<String> objects) {\n    \n}",
+            "given_cpp": "std::vector<int> findBeacons(std::vector<std::string> objects) {\n    \n}",
+            "given_javascript": "function findBeacons(objects) {\n    \n}",
+            "visual": null
+          }
+        ]
+      }
+    }
+  }
+}
