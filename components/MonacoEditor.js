@@ -1224,7 +1224,7 @@ export default function CollaborativeEditor({ roomId, user }) {
   }
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen dark:bg-[#1e1e1e]">
       {showQuestion && (
         <div className="w-1/3">
           <CodingQuestion
@@ -1239,12 +1239,14 @@ export default function CollaborativeEditor({ roomId, user }) {
         <div className="flex flex-col h-screen">
           <div className="flex justify-between items-center p-4 border-b border-black/[.08] dark:border-white/[.145]">
             <div className="flex items-center">
-              <h2 className="text-lg font-bold">Room: {roomId}</h2>
+              <h2 className="text-lg font-bold text-black dark:text-gray-200">
+                Room: {roomId}
+              </h2>
               <button
                 onClick={() => {
                   navigator.clipboard.writeText(roomId);
                 }}
-                className="ml-2 p-2 rounded hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] cursor-pointer"
+                className="ml-2 p-2 rounded hover:bg-[#f2f2f2] dark:text-gray-200 dark:hover:bg-gray-700 cursor-pointer"
                 title="Copy room code"
               >
                 <svg
@@ -1263,19 +1265,10 @@ export default function CollaborativeEditor({ roomId, user }) {
                 </svg>
               </button>
 
-              {!showQuestion && (
-                <button
-                  onClick={() => setShowQuestion(true)}
-                  className="ml-4 px-3 py-1 text-sm bg-blue-600 text-white rounded cursor-pointer"
-                >
-                  Show Problem
-                </button>
-              )}
-
               {/* Settings Button */}
               <button
                 onClick={() => setShowSettings(true)}
-                className="ml-4 px-3 py-1 text-sm bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded flex items-center cursor-pointer"
+                className="ml-4 px-3 py-1 text-sm bg-gray-200 hover:bg-gray-300 dark:text-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 rounded flex items-center cursor-pointer"
                 title="Room Settings"
               >
                 <svg
@@ -1312,7 +1305,7 @@ export default function CollaborativeEditor({ roomId, user }) {
                 disabled={
                   isRunning || (language === "python" && isPyodideLoading)
                 }
-                className="ml-4 px-3 py-1 text-sm bg-gray-200 text-black rounded hover:bg-gray-300 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center cursor-pointer"
+                className="ml-4 px-3 py-1 text-sm bg-gray-200 text-black rounded hover:bg-gray-300 dark:text-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center cursor-pointer"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -1460,7 +1453,7 @@ export default function CollaborativeEditor({ roomId, user }) {
                     loadPyodideAsync();
                   }
                 }}
-                className="rounded border border-solid border-black/[.08] dark:border-white/[.145] bg-transparent px-2 py-1 cursor-pointer"
+                className="rounded border border-solid border-black/[.08] dark:text-gray-200 dark:bg-gray-700 bg-transparent px-2 py-1 cursor-pointer"
               >
                 <option value="python">Python</option>
                 <option value="javascript">JavaScript</option>
@@ -1504,10 +1497,12 @@ export default function CollaborativeEditor({ roomId, user }) {
             <div className="border-t border-black/[.08] dark:border-white/[.145]">
               <div className="border-t border-black/[.08] dark:border-white/[.145] p-2">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-medium">Output</h3>
+                  <strong className="text-black dark:text-gray-200">
+                    Output:
+                  </strong>
                 </div>
 
-                <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded overflow-auto h-32 font-mono text-sm">
+                <pre className="bg-gray-100 dark:bg-[#2d2d2d] dark:text-[#e0e0e0] p-4 rounded overflow-auto h-32 font-mono text-sm">
                   {output || "Run your code to see output here..."}
                 </pre>
               </div>

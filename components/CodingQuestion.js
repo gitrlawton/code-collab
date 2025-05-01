@@ -252,19 +252,19 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
       <div className="flex justify-between gap-2 mb-6">
         <button
           onClick={selectPreviousQuestion}
-          className="px-4 py-2 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 mr-2 cursor-pointer"
+          className="px-4 py-2 rounded bg-gray-200 dark:bg-[#2d2d2d] hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 mr-2 cursor-pointer"
         >
           Previous Question
         </button>
         <button
           onClick={selectNextQuestion}
-          className="px-4 py-2 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 ml-2 cursor-pointer"
+          className="px-4 py-2 rounded bg-gray-200 dark:bg-[#2d2d2d] hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 ml-2 cursor-pointer"
         >
           Next Question
         </button>
       </div>
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">
+        <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200">
           Problem {currentQuestion.problem_number}:{" "}
           {currentQuestion.problem_name}
         </h2>
@@ -276,23 +276,25 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
       </div>
 
       <div className="mb-4">
-        <div className="prose dark:prose-invert max-w-none">
+        <div className="max-w-none text-black dark:text-gray-200">
           <ReactMarkdown>{currentQuestion.problem_instructions}</ReactMarkdown>
         </div>
       </div>
 
       <div className="mb-4">
-        <h3 className="font-bold mb-2">Example:</h3>
+        <h3 className="font-bold mb-2 text-black dark:text-gray-200">
+          Example:
+        </h3>
         <div className="p-3 bg-white dark:bg-[#252525] rounded">
           <div>
-            <strong>Usage:</strong>
-            <pre className="mt-1 p-2 bg-gray-100 dark:bg-gray-800 rounded overflow-x-auto">
+            <strong className="text-black dark:text-gray-200">Usage:</strong>
+            <pre className="mt-1 p-2 bg-gray-100 dark:bg-[#2d2d2d] dark:text-[#e0e0e0] rounded overflow-x-auto">
               {currentQuestion.example_usage}
             </pre>
           </div>
           <div className="mt-2">
-            <strong>Output:</strong>
-            <pre className="mt-1 p-2 bg-gray-100 dark:bg-gray-800 rounded overflow-x-auto">
+            <strong className="text-black dark:text-gray-200">Output:</strong>
+            <pre className="mt-1 p-2 bg-gray-100 dark:bg-[#2d2d2d] dark:text-[#e0e0e0] rounded overflow-x-auto">
               {currentQuestion.example_output}
             </pre>
           </div>
