@@ -52,7 +52,10 @@ export default function RoomJoin() {
         )}
 
         <div className="flex flex-col gap-2">
-          <label htmlFor="roomCode" className="text-sm font-medium">
+          <label
+            htmlFor="roomCode"
+            className="text-sm font-medium dark:text-gray-300"
+          >
             Room Code
           </label>
           <input
@@ -61,14 +64,14 @@ export default function RoomJoin() {
             value={roomCode}
             onChange={(e) => setRoomCode(e.target.value)}
             placeholder="Enter room code"
-            className="rounded border border-solid border-black/[.08] dark:border-white/[.145] bg-transparent px-4 py-2"
+            className="rounded border border-solid border-black/[.08] dark:text-gray-400 dark:hover:ring-1 dark:hover:ring-white/30 dark:border-white/[.145] bg-transparent px-4 py-2"
           />
         </div>
 
         <button
           type="submit"
           disabled={joining}
-          className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 cursor-pointer"
+          className="rounded-full border border-solid border-black/[.08] dark:text-gray-300 dark:hover:bg-gray-700/50 dark:hover:text-white dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 cursor-pointer"
         >
           {joining ? "Joining..." : "Join Room"}
         </button>

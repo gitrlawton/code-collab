@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Code Collab",
-  description: "Collaborative DSA practice platform",
+  title: "CodeCollab",
+  description: "Collaborative DSA practice",
 };
 
 export default function RootLayout({ children }) {

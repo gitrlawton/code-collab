@@ -41,10 +41,10 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-gray-50 dark:from-background dark:to-gray-900/30">
+    <div className="min-h-screen dark:bg-[#1a1c1f]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex justify-end mb-4">
-          <ThemeToggle />
+          <ThemeToggle className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:bg-[#2f3237] dark:hover:text-white" />
         </div>
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Hero section - Only shown when user is not logged in */}
@@ -99,7 +99,7 @@ export default function Home() {
             ) : (
               // Content for logged in users
               <div className="flex flex-col gap-6">
-                <h2 className="text-3xl font-bold">
+                <h2 className="text-3xl font-bold dark:text-gray-200">
                   Welcome, {user.user_metadata?.name || "Coder"}!
                 </h2>
                 <p className="text-lg text-gray-600 dark:text-gray-300">
@@ -110,23 +110,21 @@ export default function Home() {
 
                 <div className="mt-4 space-y-6">
                   <div className="bg-white dark:bg-gray-800/30 p-6 rounded-lg border border-gray-100 dark:border-gray-700/50">
-                    <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
+                    <h3 className="text-lg font-semibold dark:text-gray-300 mb-3 flex items-center gap-2">
                       Quick Tips
                     </h3>
                     <ul className="space-y-2 text-gray-600 dark:text-gray-300">
                       <li className="flex items-center gap-2">
-                        <span className="text-black">•</span>
+                        <span className="text-black dark:text-gray-300">•</span>
                         <span>Create a room to start a new coding session</span>
                       </li>
                       <li className="flex items-center gap-2">
-                        <span className="text-black">•</span>
-                        <span>Share your room code with collaborators</span>
+                        <span className="text-black dark:text-gray-300">•</span>
+                        <span>Share the room code with friends</span>
                       </li>
                       <li className="flex items-center gap-2">
-                        <span className="text-black">•</span>
-                        <span>
-                          Join a room using the code provided by a colleague
-                        </span>
+                        <span className="text-black dark:text-gray-300">•</span>
+                        <span>Join a friend's room via their room code</span>
                       </li>
                     </ul>
                   </div>
@@ -145,22 +143,24 @@ export default function Home() {
               <div className="flex flex-col gap-8">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full bg-foreground text-background flex items-center justify-center text-lg font-medium">
+                    <div className="w-12 h-12 rounded-full bg-foreground dark:bg-gray-700 text-background flex items-center justify-center text-lg font-medium">
                       {user.user_metadata?.name?.charAt(0) ||
                         user.email?.charAt(0) ||
                         "U"}
                     </div>
                     <div>
-                      <p className="font-medium text-lg">
+                      <p className="font-medium text-lg dark:text-gray-200">
                         {user.user_metadata?.name || "User"}
                       </p>
-                      <p className="text-sm opacity-70">{user.email}</p>
+                      <p className="text-sm opacity-70 dark:text-gray-400">
+                        {user.email}
+                      </p>
                     </div>
                   </div>
 
                   <button
                     onClick={handleSignOut}
-                    className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 mt-2 cursor-pointer bg-foreground text-background gap-2"
+                    className="rounded-full border border-solid border-black/[.08] dark:text-gray-300 dark:hover:bg-gray-700/50 dark:hover:text-white dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 mt-2 cursor-pointer bg-foreground text-background gap-2"
                   >
                     Sign Out
                   </button>
@@ -168,43 +168,18 @@ export default function Home() {
 
                 <div className="border-t border-b border-black/[.08] dark:border-white/[.145] py-6 my-2">
                   <div className="flex justify-center items-center gap-2 mb-4">
-                    {/* <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M12 5v14"></path>
-                      <path d="M5 12h14"></path>
-                    </svg> */}
-                    <h2 className="text-xl font-bold">Create a Room</h2>
+                    <h2 className="text-xl font-bold dark:text-gray-300">
+                      Create a Room
+                    </h2>
                   </div>
                   <RoomCreation user={user} />
                 </div>
 
                 <div>
                   <div className="flex justify-center items-center gap-2 mb-4">
-                    {/* <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
-                      <polyline points="10 17 15 12 10 7"></polyline>
-                      <line x1="15" y1="12" x2="3" y2="12"></line>
-                    </svg> */}
-                    <h2 className="text-xl font-bold">Join a Room</h2>
+                    <h2 className="text-xl font-bold dark:text-gray-300">
+                      Join a Room
+                    </h2>
                   </div>
                   <RoomJoin />
                 </div>
