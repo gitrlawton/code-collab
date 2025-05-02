@@ -124,10 +124,10 @@ export default function RoomSettings() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-gray-50 dark:from-background dark:to-gray-900/30">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#161616]">
       {/* Back Button */}
       <button
-        className="absolute top-6 left-6 flex items-center text-gray-500 hover:text-gray-800 dark:text-gray-200 rounded-full p-2 transition cursor-pointer"
+        className="absolute top-6 left-6 flex items-center text-gray-500 hover:text-gray-800 dark:text-gray-200 dark:hover:text-gray-400 rounded-full p-2 transition cursor-pointer"
         onClick={() => router.push("/")}
         aria-label="Back to main page"
         style={{ zIndex: 10 }}
@@ -150,13 +150,15 @@ export default function RoomSettings() {
       </button>
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold">Room Settings</h1>
+          <h1 className="text-3xl font-bold text-black dark:text-gray-200 ">
+            Room Settings
+          </h1>
           <p className="text-gray-600 dark:text-gray-300 mt-2">
-            Configure your coding room before creation
+            Configure your room
           </p>
         </div>
 
-        <div className="bg-white dark:bg-gray-800/50 p-8 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700/50">
+        <div className="bg-white dark:bg-[#1e1e1e] p-8 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700/50">
           {error && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
               {error}
@@ -165,11 +167,13 @@ export default function RoomSettings() {
 
           <div className="space-y-6">
             <div className="relative">
-              <label className="block text-sm font-medium mb-2">Subject</label>
+              <label className="block text-sm font-medium text-black dark:text-gray-200 mb-2">
+                Subject
+              </label>
               <select
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
-                className="w-full border border-gray-300 dark:border-gray-700 dark:bg-gray-800 rounded-md py-2 px-3 pr-8 cursor-pointer appearance-none"
+                className="w-full border border-gray-300 text-black dark:text-gray-200 bg-transparent dark:bg-[#2d2d2d] dark:border-white/[.145] dark:hover:ring-1 dark:hover:ring-white/30 rounded-md py-2 px-3 pr-8 cursor-pointer appearance-none"
                 disabled={availableSubjects.length <= 1}
               >
                 {availableSubjects.map((subj) => (
@@ -195,19 +199,19 @@ export default function RoomSettings() {
                   />
                 </svg>
               </span>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-gray-500 dark:text-gray-300 mt-1">
                 Currently limited to available problem sets
               </p>
             </div>
 
             <div className="relative">
-              <label className="block text-sm font-medium mb-2">
+              <label className="block text-sm font-medium text-black dark:text-gray-200 mb-2">
                 Difficulty
               </label>
               <select
                 value={difficulty}
                 onChange={(e) => setDifficulty(e.target.value)}
-                className="w-full border border-gray-300 dark:border-gray-700 dark:bg-gray-800 rounded-md py-2 px-3 pr-8 cursor-pointer appearance-none"
+                className="w-full border border-gray-300 text-black dark:text-gray-200 bg-transparent dark:bg-[#2d2d2d] dark:border-white/[.145] dark:hover:ring-1 dark:hover:ring-white/30 rounded-md py-2 px-3 pr-8 cursor-pointer appearance-none"
                 disabled={availableDifficulties.length <= 1}
               >
                 {availableDifficulties.map((diff) => (
@@ -233,19 +237,19 @@ export default function RoomSettings() {
                   />
                 </svg>
               </span>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-gray-500 dark:text-gray-300 mt-1">
                 Choose your preferred difficulty
               </p>
             </div>
 
             <div className="relative">
-              <label className="block text-sm font-medium mb-2">
+              <label className="block text-sm font-medium text-black dark:text-gray-200 mb-2">
                 Set Number
               </label>
               <select
                 value={setNumber}
                 onChange={(e) => setSetNumber(e.target.value)}
-                className="w-full border border-gray-300 dark:border-gray-700 dark:bg-gray-800 rounded-md py-2 px-3 pr-8 cursor-pointer appearance-none"
+                className="w-full border border-gray-300 text-black dark:text-gray-200 bg-transparent dark:bg-[#2d2d2d] dark:border-white/[.145] dark:hover:ring-1 dark:hover:ring-white/30 rounded-md py-2 px-3 pr-8 cursor-pointer appearance-none"
                 disabled={availableSets.length <= 1}
               >
                 {availableSets.map((set) => (
@@ -271,7 +275,7 @@ export default function RoomSettings() {
                   />
                 </svg>
               </span>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-gray-500 dark:text-gray-300 mt-1">
                 Select a problem set number
               </p>
             </div>
@@ -280,7 +284,7 @@ export default function RoomSettings() {
               <button
                 onClick={createRoom}
                 disabled={creating}
-                className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 w-full cursor-pointer"
+                className="rounded-full border border-solid border-black/[.08] dark:text-gray-200 dark:bg-[#2d2d2d] dark:hover:bg-[#3a3a3a] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 w-full cursor-pointer"
               >
                 {creating ? "Creating..." : "Create Room"}
               </button>

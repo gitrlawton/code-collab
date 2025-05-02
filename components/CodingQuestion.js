@@ -252,13 +252,13 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
       <div className="flex justify-between gap-2 mb-6">
         <button
           onClick={selectPreviousQuestion}
-          className="px-4 py-2 rounded bg-gray-200 dark:bg-[#2d2d2d] hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 mr-2 cursor-pointer"
+          className="px-4 py-2 rounded bg-gray-200 dark:bg-[#3a3a3a] hover:bg-gray-300 dark:hover:bg-[#505050] text-gray-800 dark:text-gray-200 dark:border-white/[.145] mr-2 cursor-pointer"
         >
           Previous Question
         </button>
         <button
           onClick={selectNextQuestion}
-          className="px-4 py-2 rounded bg-gray-200 dark:bg-[#2d2d2d] hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 ml-2 cursor-pointer"
+          className="px-4 py-2 rounded bg-gray-200 dark:bg-[#3a3a3a] hover:bg-gray-300 dark:hover:bg-[#505050] text-gray-800 dark:text-gray-200 dark:border-white/[.145] ml-2 cursor-pointer"
         >
           Next Question
         </button>

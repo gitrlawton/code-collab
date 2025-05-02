@@ -130,7 +130,9 @@ export default function RoomSettings({
           style={{ height: "420px" }}
         >
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold">Room Settings</h2>
+            <h2 className="text-xl font-bold text-black dark:text-gray-200">
+              Room Settings
+            </h2>
             <button
               onClick={onClose}
               className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
@@ -161,32 +163,29 @@ export default function RoomSettings({
 
           <form className="space-y-4" style={{ minHeight: "320px" }}>
             <div>
-              <label className="block text-sm font-medium mb-1">Subject</label>
+              <label className="block text-sm font-medium text-black dark:text-gray-200 mb-1">
+                Subject
+              </label>
               <select
                 name="subject_name"
                 value={settings.subject_name}
                 onChange={handleChange}
-                className="w-full rounded border border-solid border-black/[.08] dark:border-white/[.145] bg-transparent px-3 py-2"
+                className="w-full rounded border border-solid border-black/[.08] text-black dark:text-gray-200 bg-transparent dark:bg-[#2d2d2d] px-3 py-2"
               >
-                <option value="" disabled>
-                  Select a subject
-                </option>
                 <option value="javascript">JavaScript</option>
                 <option value="python">Python</option>
-                <option value="java">Java</option>
-                <option value="cpp">C++</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">
+              <label className="block text-sm font-medium text-black dark:text-gray-200 mb-1">
                 Difficulty
               </label>
               <select
                 name="difficulty"
                 value={settings.difficulty}
                 onChange={handleChange}
-                className="w-full rounded border border-solid border-black/[.08] dark:border-white/[.145] bg-transparent px-3 py-2"
+                className="w-full rounded border border-solid border-black/[.08] text-black dark:text-gray-200 bg-transparent dark:bg-[#2d2d2d] bg-transparent px-3 py-2"
               >
                 <option value="Standard">Standard</option>
                 <option value="Advanced">Advanced</option>
@@ -194,14 +193,14 @@ export default function RoomSettings({
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">
+              <label className="block text-sm font-medium text-black dark:text-gray-200 mb-1">
                 Problem Set
               </label>
               <select
                 name="set_number"
                 value={settings.set_number}
                 onChange={handleChange}
-                className="w-full rounded border border-solid border-black/[.08] dark:border-white/[.145] bg-transparent px-3 py-2"
+                className="w-full rounded border border-solid border-black/[.08] text-black dark:text-gray-200 bg-transparent dark:bg-[#2d2d2d] bg-transparent px-3 py-2"
                 title="Select which problem set to use for the current subject and difficulty"
               >
                 {[1, 2, 3, 4].map((num) => (
@@ -216,7 +215,7 @@ export default function RoomSettings({
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 border border-foreground rounded hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a]"
+                className="px-4 py-2 rounded hover:bg-[#f2f2f2] dark:text-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
               >
                 Cancel
               </button>
@@ -224,7 +223,7 @@ export default function RoomSettings({
                 type="button"
                 onClick={handleSave}
                 disabled={loading}
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-blue-600 text-white rounded bg-gray-200 hover:bg-gray-300 dark:text-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 disabled:bg-[#f2f2f2] disabled:cursor-not-allowed"
               >
                 {loading ? "Saving..." : "Save"}
               </button>

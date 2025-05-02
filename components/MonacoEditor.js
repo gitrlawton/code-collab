@@ -1246,7 +1246,7 @@ export default function CollaborativeEditor({ roomId, user }) {
                 onClick={() => {
                   navigator.clipboard.writeText(roomId);
                 }}
-                className="ml-2 p-2 rounded hover:bg-[#f2f2f2] dark:text-gray-200 dark:hover:bg-gray-700 cursor-pointer"
+                className="ml-2 p-2 rounded hover:bg-[#f2f2f2] dark:text-gray-200 dark:hover:bg-[#3a3a3a] cursor-pointer"
                 title="Copy room code"
               >
                 <svg
@@ -1292,7 +1292,7 @@ export default function CollaborativeEditor({ roomId, user }) {
               {/* Leave Room button */}
               <button
                 onClick={leaveRoom}
-                className="ml-4 px-3 py-1 text-sm bg-red-600 hover:bg-red-700 text-white rounded cursor-pointer"
+                className="ml-4 px-3 py-1 text-sm bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 text-white rounded cursor-pointer"
                 title="Leave this room"
               >
                 Leave Room
@@ -1453,7 +1453,7 @@ export default function CollaborativeEditor({ roomId, user }) {
                     loadPyodideAsync();
                   }
                 }}
-                className="rounded border border-solid border-black/[.08] dark:text-gray-200 dark:bg-gray-700 bg-transparent px-2 py-1 cursor-pointer"
+                className="rounded border border-solid border-black/[.08] dark:text-gray-200 dark:bg-gray-700 dark:hover:ring-1 dark:hover:ring-white/30 bg-transparent px-2 py-1 cursor-pointer"
               >
                 <option value="python">Python</option>
                 <option value="javascript">JavaScript</option>
