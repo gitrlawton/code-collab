@@ -1,13 +1,12 @@
 {
   "Strings & Arrays": {
-    "Standard": {
+    "Foundational": {
       "1": {
         "problems": [
           {
             "problem_number": 1,
             "problem_name": "Galaxy Gateway",
             "problem_instructions": "Create a function called `launch_message()` that prints the string \"Welcome aboard the Galaxy Gateway!\".",
-            "given": "def launch_message():\n\tpass",
             "example_usage": "launch_message()",
             "example_output": "Welcome aboard the Galaxy Gateway!",
             "given_python": "def launch_message():\n\tpass",
@@ -20,7 +19,6 @@
             "problem_number": 2,
             "problem_name": "Captain’s Welcome",
             "problem_instructions": "Create a function `greet_captain()` that accepts a single string parameter `name`, and prints the message: \"Welcome aboard the Galaxy Gateway, `<name>`! I’m your captain, Zara.\"",
-            "given": "def greet_captain(name):\n\tpass",
             "example_usage": "greet_captain(\"Nova\")\ngreet_captain(\"Kai\")",
             "example_output": "Welcome aboard the Galaxy Gateway, Nova! I’m your captain, Zara.\nWelcome aboard the Galaxy Gateway, Kai! I’m your captain, Zara.",
             "given_python": "def greet_captain(name):\n\tpass",
@@ -32,10 +30,9 @@
           {
             "problem_number": 3,
             "problem_name": "Famous Lines",
-            "problem_instructions": "Create a function `recite_quote()` that takes a character name as input and prints their iconic quote. If the name isn't recognized, print: \"Sorry! I don't know `<character>`'s quote!\"",
-            "given": "def recite_quote(character):\n\tpass",
-            "example_usage": "recite_quote(\"Nova\")\nrecite_quote(\"Blip\")",
-            "example_output": "\"To the stars and beyond!\"\n\"Sorry! I don't know Blip's quote!\"",
+            "problem_instructions": "Create a function `recite_quote()` that takes a string `character` as input and prints their iconic quote.\n\nUse the following quote mappings:\n\n- `Nova`: \"To the stars and beyond!\"\n- `Orion`: \"Steady as she goes.\"\n- `Vega`: \"We ride the solar winds!\"\n\nIf the character isn't listed above, print: \"Sorry! I don't know `<character>`'s quote!\"",
+            "example_usage": "recite_quote(\"Nova\")\nrecite_quote(\"Blip\")\nrecite_quote(\"Orion\")\nrecite_quote(\"Vega\")",
+            "example_output": "\"To the stars and beyond!\"\n\"Sorry! I don't know Blip's quote!\"\n\"Steady as she goes.\"\n\"We ride the solar winds!\"",
             "given_python": "def recite_quote(character):\n\tpass",
             "given_java": "public static void reciteQuote(String character) {\n    \n}",
             "given_cpp": "void reciteQuote(std::string character) {\n    \n}",
@@ -46,7 +43,6 @@
             "problem_number": 4,
             "problem_name": "Retrieve Cargo",
             "problem_instructions": "Implement a function `get_cargo()` that takes a list `cargo_bay` and a non-negative integer `index`. Return the item at `index` or `None` if the index is invalid.",
-            "given": "def get_cargo(cargo_bay, index):\n\tpass",
             "example_usage": "cargo_bay = [\"wrench\", \"helmet\", \"oxygen\", \"map\"]\nget_cargo(cargo_bay, 2)\nget_cargo(cargo_bay, 5)",
             "example_output": "\"oxygen\"\nNone",
             "given_python": "def get_cargo(cargo_bay, index):\n\tpass",
@@ -59,7 +55,6 @@
             "problem_number": 5,
             "problem_name": "Crystal Count",
             "problem_instructions": "Write a function `count_crystals()` that takes a list of integers `crystals` and returns their sum. Do not use the built-in `sum()` function.",
-            "given": "def count_crystals(crystals):\n\tpass",
             "example_usage": "crystals = [3, 5, 2, 7]\ncount_crystals(crystals)\n\ncrystals = []\ncount_crystals(crystals)",
             "example_output": "17\n0",
             "given_python": "def count_crystals(crystals):\n\tpass",
@@ -72,7 +67,6 @@
             "problem_number": 6,
             "problem_name": "Fuel Boost",
             "problem_instructions": "The ship’s boosters need a recharge! Write a function `boost_fuel()` that accepts a list of integers `fuel_cells` and returns a new list with each value doubled.",
-            "given": "def boost_fuel(fuel_cells):\n\tpass",
             "example_usage": "fuel_cells = [3, 1, 4]\nboost_fuel(fuel_cells)",
             "example_output": "[6, 2, 8]",
             "given_python": "def boost_fuel(fuel_cells):\n\tpass",
@@ -83,22 +77,20 @@
           },
           {
             "problem_number": 7,
-            "problem_name": "Meteor Dodge",
-            "problem_instructions": "During a meteor shower, only the quickest pilots survive. Write a function `count_safe_times()` that accepts a list of integers `reaction_times` and an integer `limit`, and returns the number of times that are less than `limit`.",
-            "given": "def count_safe_times(reaction_times, limit):\n\tpass",
-            "example_usage": "reaction_times = [5, 2, 6, 1]\nlimit = 4\ncount_safe_times(reaction_times, limit)\n\nreaction_times = []\nlimit = 4\ncount_safe_times(reaction_times, limit)",
+            "problem_name": "Flight Training",
+            "problem_instructions": "Cadets at the Galactic Flight Academy are practicing evasive maneuvers. Each cadet's reaction time is logged in milliseconds. Write a function `count_fast_reactions()` that accepts a list of integers `reaction_times` and an integer `limit`, and returns the number of reaction times that are faster (i.e., less than) the limit.",
+            "example_usage": "reaction_times = [5, 2, 6, 1]\nlimit = 4\ncount_fast_reactions(reaction_times, limit)\n\nreaction_times = []\nlimit = 4\ncount_fast_reactions(reaction_times, limit)",
             "example_output": "2\n0",
-            "given_python": "def count_safe_times(reaction_times, limit):\n\tpass",
-            "given_java": "public static int countSafeTimes(List<Integer> reactionTimes, int limit) {\n    \n}",
-            "given_cpp": "int countSafeTimes(std::vector<int> reactionTimes, int limit) {\n    \n}",
-            "given_javascript": "function countSafeTimes(reactionTimes, limit) {\n    \n}",
+            "given_python": "def count_fast_reactions(reaction_times, limit):\n    pass",
+            "given_java": "public static int countFastReactions(List<Integer> reactionTimes, int limit) {\n    \n}",
+            "given_cpp": "int countFastReactions(std::vector<int> reactionTimes, int limit) {\n    \n}",
+            "given_javascript": "function countFastReactions(reactionTimes, limit) {\n    \n}",
             "visual": null
           },
           {
             "problem_number": 8,
             "problem_name": "Mission Checklist",
             "problem_instructions": "Write a function `print_checklist()` that accepts a list of strings called `tasks`. Print each task on a new line, numbered, under the header \"Mission Checklist:\". If the list is empty, only print the header.",
-            "given": "def print_checklist(tasks):\n\tpass",
             "example_usage": "tasks = [\"Calibrate sensors\", \"Refuel thrusters\", \"Run diagnostics\"]\nprint_checklist(tasks)\n\ntasks = []\nprint_checklist(tasks)",
             "example_output": "Mission Checklist:\n1. Calibrate sensors\n2. Refuel thrusters\n3. Run diagnostics\n\nMission Checklist:",
             "given_python": "def print_checklist(tasks):\n\tpass",
@@ -111,7 +103,6 @@
             "problem_number": 9,
             "problem_name": "Balanced Inventory",
             "problem_instructions": "To maintain ship balance, every supply item must come in even quantities. Write a function `is_balanced()` that takes a list of integers `supplies` and returns `True` if every item is even, else `False`.",
-            "given": "def is_balanced(supplies):\n\tpass",
             "example_usage": "supplies = [4, 8, 2, 6]\nis_balanced(supplies)\n\nsupplies = [3, 4, 6]\nis_balanced(supplies)\n\nsupplies = []\nis_balanced(supplies)",
             "example_output": "True\nFalse\nTrue",
             "given_python": "def is_balanced(supplies):\n\tpass",
@@ -124,7 +115,6 @@
             "problem_number": 10,
             "problem_name": "Distribute Rations",
             "problem_instructions": "To split food rations fairly, write a function `ration_dividers()` that accepts a positive integer `amount` and returns a list of all of its divisors.",
-            "given": "def ration_dividers(amount):\n\tpass",
             "example_usage": "ration_dividers(6)\nration_dividers(1)",
             "example_output": "[1, 2, 3, 6]\n[1]",
             "given_python": "def ration_dividers(amount):\n\tpass",
@@ -137,7 +127,6 @@
             "problem_number": 11,
             "problem_name": "Signal Jammer",
             "problem_instructions": "A rogue signal is deleting specific letters. Create a function `jammed_signal()` that takes a string `message` and returns it with all the letters `s`, `i`, `g`, `n`, `a`, and `l` removed.",
-            "given": "def jammed_signal(message):\n\tpass",
             "example_usage": "jammed_signal(\"signaling\")\njammed_signal(\"Launch\")\njammed_signal(\"echo\")",
             "example_output": "\"\"\n\"Cuch\"\n\"echo\"",
             "given_python": "def jammed_signal(message):\n\tpass",
@@ -150,7 +139,6 @@
             "problem_number": 12,
             "problem_name": "Locate Beacons",
             "problem_instructions": "The team is tracking down hidden beacons. Write a function `find_beacons()` that accepts a list of strings `objects` and returns the indices of all elements equal to \"beacon\".",
-            "given": "def find_beacons(objects):\n\tpass",
             "example_usage": "objects = [\"beacon\", \"wrench\", \"beacon\", \"light\"]\nfind_beacons(objects)\n\nobjects = [\"glove\", \"panel\"]\nfind_beacons(objects)",
             "example_output": "[0, 2]\n[]",
             "given_python": "def find_beacons(objects):\n\tpass",
@@ -170,9 +158,9 @@
             "example_usage": "recite_oath()",
             "example_output": "By honor and flame, I defend this realm!",
             "given_python": "def recite_oath():\n\tpass",
-            "given_java": "public static void reciteOath() {\n    // TODO\n}",
-            "given_cpp": "void reciteOath() {\n    // TODO\n}",
-            "given_javascript": "function reciteOath() {\n    // TODO\n}",
+            "given_java": "public static void reciteOath() {\n    \n}",
+            "given_cpp": "void reciteOath() {\n    \n}",
+            "given_javascript": "function reciteOath() {\n    \n}",
             "visual": null
           },
           {
@@ -182,9 +170,9 @@
             "example_usage": "creed(\"surrender\")\ncreed(\"hide\")",
             "example_output": "\"A hero may fall, but they never surrender.\"\n\"A hero may fall, but they never hide.\"",
             "given_python": "def creed(verb):\n\tpass",
-            "given_java": "public static void creed(String verb) {\n    // TODO\n}",
-            "given_cpp": "void creed(std::string verb) {\n    // TODO\n}",
-            "given_javascript": "function creed(verb) {\n    // TODO\n}",
+            "given_java": "public static void creed(String verb) {\n    \n}",
+            "given_cpp": "void creed(std::string verb) {\n    \n}",
+            "given_javascript": "function creed(verb) {\n    \n}",
             "visual": null
           },
           {
@@ -194,9 +182,9 @@
             "example_usage": "legend(2005)\nlegend(1999)",
             "example_output": "\"The Siege of Frostmoor\"\n\"No legend was born in 1999.\"",
             "given_python": "def legend(year):\n\tpass",
-            "given_java": "public static void legend(int year) {\n    // TODO\n}",
-            "given_cpp": "void legend(int year) {\n    // TODO\n}",
-            "given_javascript": "function legend(year) {\n    // TODO\n}",
+            "given_java": "public static void legend(int year) {\n    \n}",
+            "given_cpp": "void legend(int year) {\n    \n}",
+            "given_javascript": "function legend(year) {\n    \n}",
             "visual": null
           },
           {
@@ -206,9 +194,9 @@
             "example_usage": "artifacts = [\"sword\", \"shield\", \"helm\"]\nlast_relic(artifacts)\n\nartifacts = []\nlast_relic(artifacts)",
             "example_output": "\"helm\"\nNone",
             "given_python": "def last_relic(artifacts):\n\tpass",
-            "given_java": "public static String lastRelic(List<String> artifacts) {\n    // TODO\n}",
-            "given_cpp": "std::string lastRelic(std::vector<std::string> artifacts) {\n    // TODO\n}",
-            "given_javascript": "function lastRelic(artifacts) {\n    // TODO\n}",
+            "given_java": "public static String lastRelic(List<String> artifacts) {\n    \n}",
+            "given_cpp": "std::string lastRelic(std::vector<std::string> artifacts) {\n    \n}",
+            "given_javascript": "function lastRelic(artifacts) {\n    \n}",
             "visual": null
           },
           {
@@ -218,9 +206,9 @@
             "example_usage": "merge_spells([\"fire\", \"storm\", \"burst\"])\nmerge_spells([])",
             "example_output": "\"firestormburst\"\n\"\"",
             "given_python": "def merge_spells(incantations):\n\tpass",
-            "given_java": "public static String mergeSpells(List<String> incantations) {\n    // TODO\n}",
-            "given_cpp": "std::string mergeSpells(std::vector<std::string> incantations) {\n    // TODO\n}",
-            "given_javascript": "function mergeSpells(incantations) {\n    // TODO\n}",
+            "given_java": "public static String mergeSpells(List<String> incantations) {\n    \n}",
+            "given_cpp": "std::string mergeSpells(std::vector<std::string> incantations) {\n    \n}",
+            "given_javascript": "function mergeSpells(incantations) {\n    \n}",
             "visual": null
           },
           {
@@ -230,9 +218,9 @@
             "example_usage": "runes = [2, 3, 4]\nenchant(runes)",
             "example_output": "[4, 9, 16]",
             "given_python": "def enchant(runes):\n\tpass",
-            "given_java": "public static List<Integer> enchant(List<Integer> runes) {\n    // TODO\n}",
-            "given_cpp": "std::vector<int> enchant(std::vector<int> runes) {\n    // TODO\n}",
-            "given_javascript": "function enchant(runes) {\n    // TODO\n}",
+            "given_java": "public static List<Integer> enchant(List<Integer> runes) {\n    \n}",
+            "given_cpp": "std::vector<int> enchant(std::vector<int> runes) {\n    \n}",
+            "given_javascript": "function enchant(runes) {\n    \n}",
             "visual": null
           },
           {
@@ -242,9 +230,9 @@
             "example_usage": "chant(5)\nchant(0)",
             "example_output": "\"hahahahaha wizard!\"\n\"wizard!\"",
             "given_python": "def chant(x):\n\tpass",
-            "given_java": "public static void chant(int x) {\n    // TODO\n}",
-            "given_cpp": "void chant(int x) {\n    // TODO\n}",
-            "given_javascript": "function chant(x) {\n    // TODO\n}",
+            "given_java": "public static void chant(int x) {\n    \n}",
+            "given_cpp": "void chant(int x) {\n    \n}",
+            "given_javascript": "function chant(x) {\n    \n}",
             "visual": null
           },
           {
@@ -254,9 +242,9 @@
             "example_usage": "villagers = ['Sir Cedric', 'The Thief', 'Blacksmith', 'The Thief']\nthief = 'The Thief'\nseek_thief(villagers, thief)",
             "example_output": "[1, 3]",
             "given_python": "def seek_thief(villagers, thief):\n\tpass",
-            "given_java": "public static List<Integer> seekThief(List<String> villagers, String thief) {\n    // TODO\n}",
-            "given_cpp": "std::vector<int> seekThief(std::vector<std::string> villagers, std::string thief) {\n    // TODO\n}",
-            "given_javascript": "function seekThief(villagers, thief) {\n    // TODO\n}",
+            "given_java": "public static List<Integer> seekThief(List<String> villagers, String thief) {\n    \n}",
+            "given_cpp": "std::vector<int> seekThief(std::vector<std::string> villagers, std::string thief) {\n    \n}",
+            "given_javascript": "function seekThief(villagers, thief) {\n    \n}",
             "visual": null
           },
           {
@@ -266,9 +254,9 @@
             "example_usage": "talismans = [3, 4, 5, 8]\nfind_odds(talismans)\n\ntalismans = [2, 4, 6]\nfind_odds(talismans)",
             "example_output": "[3, 5]\n[]",
             "given_python": "def find_odds(talismans):\n\tpass",
-            "given_java": "public static List<Integer> findOdds(List<Integer> talismans) {\n    // TODO\n}",
-            "given_cpp": "std::vector<int> findOdds(std::vector<int> talismans) {\n    // TODO\n}",
-            "given_javascript": "function findOdds(talismans) {\n    // TODO\n}",
+            "given_java": "public static List<Integer> findOdds(List<Integer> talismans) {\n    \n}",
+            "given_cpp": "std::vector<int> findOdds(std::vector<int> talismans) {\n    \n}",
+            "given_javascript": "function findOdds(talismans) {\n    \n}",
             "visual": null
           },
           {
@@ -278,9 +266,9 @@
             "example_usage": "stones = [1, 2, 3]\nbalance_runes(stones)\n\nstones = [5, 7, 9]\nbalance_runes(stones)\n\nstones = [2, 4, 6, 8]\nbalance_runes(stones)",
             "example_output": "1\n3\n-4",
             "given_python": "def balance_runes(stones):\n\tpass",
-            "given_java": "public static int balanceRunes(List<Integer> stones) {\n    // TODO\n}",
-            "given_cpp": "int balanceRunes(std::vector<int> stones) {\n    // TODO\n}",
-            "given_javascript": "function balanceRunes(stones) {\n    // TODO\n}",
+            "given_java": "public static int balanceRunes(List<Integer> stones) {\n    \n}",
+            "given_cpp": "int balanceRunes(std::vector<int> stones) {\n    \n}",
+            "given_javascript": "function balanceRunes(stones) {\n    \n}",
             "visual": null
           },
           {
@@ -290,9 +278,9 @@
             "example_usage": "victories = [1, 2, 3, 4]\nupdate_ledger(victories)\n\nvictories = [2, 2, 2]\nupdate_ledger(victories)",
             "example_output": "[1, 3, 6, 10]\n[2, 4, 6]",
             "given_python": "def update_ledger(victories):\n\tpass",
-            "given_java": "public static void updateLedger(List<Integer> victories) {\n    // TODO\n}",
-            "given_cpp": "void updateLedger(std::vector<int>& victories) {\n    // TODO\n}",
-            "given_javascript": "function updateLedger(victories) {\n    // TODO\n}",
+            "given_java": "public static void updateLedger(List<Integer> victories) {\n    \n}",
+            "given_cpp": "void updateLedger(std::vector<int>& victories) {\n    \n}",
+            "given_javascript": "function updateLedger(victories) {\n    \n}",
             "visual": null
           },
           {
@@ -302,9 +290,9 @@
             "example_usage": "deck = ['Knight', 'Wizard', 5, 6]\nshuffle_deck(deck)\n\ndeck = [1, 2, 3, 4, 'Mage', 'Cleric', 'Rogue', 'Paladin']\nshuffle_deck(deck)",
             "example_output": "['Knight', 5, 'Wizard', 6]\n[1, 'Mage', 2, 'Cleric', 3, 'Rogue', 4, 'Paladin']",
             "given_python": "def shuffle_deck(deck):\n\tpass",
-            "given_java": "public static List<Object> shuffleDeck(List<Object> deck) {\n    // TODO\n}",
-            "given_cpp": "std::vector<std::string> shuffleDeck(std::vector<std::string> deck) {\n    // TODO\n}",
-            "given_javascript": "function shuffleDeck(deck) {\n    // TODO\n}",
+            "given_java": "public static List<Object> shuffleDeck(List<Object> deck) {\n    \n}",
+            "given_cpp": "std::vector<std::string> shuffleDeck(std::vector<std::string> deck) {\n    \n}",
+            "given_javascript": "function shuffleDeck(deck) {\n    \n}",
             "visual": null
           }
         ]
@@ -318,9 +306,9 @@
             "example_usage": "transcript = \"retrieve intel from safehouse\"\nreverse_transcript(transcript)\n\ntranscript = \"classified\"\nreverse_transcript(transcript)",
             "example_output": "\"safehouse from intel retrieve\"\n\"classified\"",
             "given_python": "def reverse_transcript(transcript):\n    pass",
-            "given_java": "public static String reverseTranscript(String transcript) {\n    // TODO\n}",
-            "given_cpp": "std::string reverseTranscript(std::string transcript) {\n    // TODO\n}",
-            "given_javascript": "function reverseTranscript(transcript) {\n    // TODO\n}",
+            "given_java": "public static String reverseTranscript(String transcript) {\n    \n}",
+            "given_cpp": "std::string reverseTranscript(std::string transcript) {\n    \n}",
+            "given_javascript": "function reverseTranscript(transcript) {\n    \n}",
             "visual": null
           },
           {
@@ -330,9 +318,9 @@
             "example_usage": "codes = [7, 3, 9, 5]\nselect_discreet_number(codes)\n\ncodes = [1, 100]\nselect_discreet_number(codes)\n\ncodes = [3, 1, 5]\nselect_discreet_number(codes)",
             "example_output": "5\n-1\n3",
             "given_python": "def select_discreet_number(codes):\n    pass",
-            "given_java": "public static int selectDiscreetNumber(List<Integer> codes) {\n    // TODO\n}",
-            "given_cpp": "int selectDiscreetNumber(std::vector<int> codes) {\n    // TODO\n}",
-            "given_javascript": "function selectDiscreetNumber(codes) {\n    // TODO\n}",
+            "given_java": "public static int selectDiscreetNumber(List<Integer> codes) {\n    \n}",
+            "given_cpp": "int selectDiscreetNumber(std::vector<int> codes) {\n    \n}",
+            "given_javascript": "function selectDiscreetNumber(codes) {\n    \n}",
             "visual": null
           },
           {
@@ -342,9 +330,9 @@
             "example_usage": "threat_levels = [5, 3, 2, 4, 1]\npurge_lowest_threats(threat_levels)\n\nthreat_levels = [7, 2, 5, 2]\npurge_lowest_threats(threat_levels)",
             "example_output": "[1, 2, 3, 4, 5]\n[2, 2, 5, 7]",
             "given_python": "def purge_lowest_threats(threat_levels):\n    pass",
-            "given_java": "public static List<Integer> purgeLowestThreats(List<Integer> threatLevels) {\n    // TODO\n}",
-            "given_cpp": "std::vector<int> purgeLowestThreats(std::vector<int> threatLevels) {\n    // TODO\n}",
-            "given_javascript": "function purgeLowestThreats(threatLevels) {\n    // TODO\n}",
+            "given_java": "public static List<Integer> purgeLowestThreats(List<Integer> threatLevels) {\n    \n}",
+            "given_cpp": "std::vector<int> purgeLowestThreats(std::vector<int> threatLevels) {\n    \n}",
+            "given_javascript": "function purgeLowestThreats(threatLevels) {\n    \n}",
             "visual": null
           },
           {
@@ -354,9 +342,9 @@
             "example_usage": "keycode = 841\nsum_digits_from_pad(keycode)\n\nkeycode = 7\nsum_digits_from_pad(keycode)",
             "example_output": "13\n7",
             "given_python": "def sum_digits_from_pad(keycode):\n    pass",
-            "given_java": "public static int sumDigitsFromPad(int keycode) {\n    // TODO\n}",
-            "given_cpp": "int sumDigitsFromPad(int keycode) {\n    // TODO\n}",
-            "given_javascript": "function sumDigitsFromPad(keycode) {\n    // TODO\n}",
+            "given_java": "public static int sumDigitsFromPad(int keycode) {\n    \n}",
+            "given_cpp": "int sumDigitsFromPad(int keycode) {\n    \n}",
+            "given_javascript": "function sumDigitsFromPad(keycode) {\n    \n}",
             "visual": null
           },
           {
@@ -366,9 +354,9 @@
             "example_usage": "protocol = [\"flash\", \"smoke\", \"smoke\"]\nfinal_stealth_level(protocol)\n\nprotocol = [\"cloak\", \"cloak\", \"smoke\"]\nfinal_stealth_level(protocol)",
             "example_output": "2\n4",
             "given_python": "def final_stealth_level(protocol):\n    pass",
-            "given_java": "public static int finalStealthLevel(List<String> protocol) {\n    // TODO\n}",
-            "given_cpp": "int finalStealthLevel(std::vector<std::string> protocol) {\n    // TODO\n}",
-            "given_javascript": "function finalStealthLevel(protocol) {\n    // TODO\n}",
+            "given_java": "public static int finalStealthLevel(List<String> protocol) {\n    \n}",
+            "given_cpp": "int finalStealthLevel(std::vector<std::string> protocol) {\n    \n}",
+            "given_javascript": "function finalStealthLevel(protocol) {\n    \n}",
             "visual": null
           },
           {
@@ -378,9 +366,9 @@
             "example_usage": "agents = [\"Cipher\", \"Recon\", \"Maverick\"]\ncode = \"CRM\"\nis_codename(agents, code)",
             "example_output": "True",
             "given_python": "def is_codename(agents, code):\n    pass",
-            "given_java": "public static boolean isCodename(List<String> agents, String code) {\n    // TODO\n}",
-            "given_cpp": "bool isCodename(std::vector<std::string> agents, std::string code) {\n    // TODO\n}",
-            "given_javascript": "function isCodename(agents, code) {\n    // TODO\n}",
+            "given_java": "public static boolean isCodename(List<String> agents, String code) {\n    \n}",
+            "given_cpp": "bool isCodename(std::vector<std::string> agents, std::string code) {\n    \n}",
+            "given_javascript": "function isCodename(agents, code) {\n    \n}",
             "visual": null
           },
           {
@@ -390,9 +378,9 @@
             "example_usage": "digits = [1, 2, 3, 4]\noptimize_code_pads(digits)\n\ndigits = [3, 6, 9]\noptimize_code_pads(digits)",
             "example_output": "3\n0",
             "given_python": "def optimize_code_pads(digits):\n    pass",
-            "given_java": "public static int optimizeCodePads(List<Integer> digits) {\n    // TODO\n}",
-            "given_cpp": "int optimizeCodePads(std::vector<int> digits) {\n    // TODO\n}",
-            "given_javascript": "function optimizeCodePads(digits) {\n    // TODO\n}",
+            "given_java": "public static int optimizeCodePads(List<Integer> digits) {\n    \n}",
+            "given_cpp": "int optimizeCodePads(std::vector<int> digits) {\n    \n}",
+            "given_javascript": "function optimizeCodePads(digits) {\n    \n}",
             "visual": null
           },
           {
@@ -402,9 +390,9 @@
             "example_usage": "file_A = [\"Agent X\", \"Agent Y\", \"Shadow\"]\nfile_B = [\"Shadow\", \"Whisper\", \"Ghost\"]\ndetect_inconsistencies(file_A, file_B)",
             "example_output": "[\"Agent X\", \"Agent Y\", \"Whisper\", \"Ghost\"]",
             "given_python": "def detect_inconsistencies(file_A, file_B):\n    pass",
-            "given_java": "public static List<String> detectInconsistencies(List<String> fileA, List<String> fileB) {\n    // TODO\n}",
-            "given_cpp": "std::vector<std::string> detectInconsistencies(std::vector<std::string> fileA, std::vector<std::string> fileB) {\n    // TODO\n}",
-            "given_javascript": "function detectInconsistencies(fileA, fileB) {\n    // TODO\n}",
+            "given_java": "public static List<String> detectInconsistencies(List<String> fileA, List<String> fileB) {\n    \n}",
+            "given_cpp": "std::vector<std::string> detectInconsistencies(std::vector<std::string> fileA, std::vector<std::string> fileB) {\n    \n}",
+            "given_javascript": "function detectInconsistencies(fileA, fileB) {\n    \n}",
             "visual": null
           },
           {
@@ -414,9 +402,9 @@
             "example_usage": "trans1 = \"spy\"\ntrans2 = \"net\"\nmerge_transmissions(trans1, trans2)\n\ntrans1 = \"msg\"\ntrans2 = \"decode\"\nmerge_transmissions(trans1, trans2)",
             "example_output": "\"snpeyyt\"\n\"mdsegsacode\"",
             "given_python": "def merge_transmissions(trans1, trans2):\n    pass",
-            "given_java": "public static String mergeTransmissions(String trans1, String trans2) {\n    // TODO\n}",
-            "given_cpp": "std::string mergeTransmissions(std::string trans1, std::string trans2) {\n    // TODO\n}",
-            "given_javascript": "function mergeTransmissions(trans1, trans2) {\n    // TODO\n}",
+            "given_java": "public static String mergeTransmissions(String trans1, String trans2) {\n    \n}",
+            "given_cpp": "std::string mergeTransmissions(std::string trans1, std::string trans2) {\n    \n}",
+            "given_javascript": "function mergeTransmissions(trans1, trans2) {\n    \n}",
             "visual": null
           },
           {
@@ -426,9 +414,9 @@
             "example_usage": "tools = [6, 9, 12]\nweapons = [1, 3]\nfactor = 3\ncount_compatible_pairs(tools, weapons)\n\ntools = [10, 15]\nweapons = [2, 5]\nfactor = 2\ncount_compatible_pairs(tools, weapons)",
             "example_output": "4\n2",
             "given_python": "def count_compatible_pairs(tools, weapons, factor):\n    pass",
-            "given_java": "public static int countCompatiblePairs(List<Integer> tools, List<Integer> weapons, int factor) {\n    // TODO\n}",
-            "given_cpp": "int countCompatiblePairs(std::vector<int> tools, std::vector<int> weapons, int factor) {\n    // TODO\n}",
-            "given_javascript": "function countCompatiblePairs(tools, weapons, factor) {\n    // TODO\n}",
+            "given_java": "public static int countCompatiblePairs(List<Integer> tools, List<Integer> weapons, int factor) {\n    \n}",
+            "given_cpp": "int countCompatiblePairs(std::vector<int> tools, std::vector<int> weapons, int factor) {\n    \n}",
+            "given_javascript": "function countCompatiblePairs(tools, weapons, factor) {\n    \n}",
             "visual": null
           }
         ]
@@ -442,9 +430,9 @@
             "example_usage": "spellbook1 = [\"fire\", \"ball\"]\nspellbook2 = [\"f\", \"ireball\"]\nare_equivalent(spellbook1, spellbook2)",
             "example_output": "True",
             "given_python": "def are_equivalent(spellbook1, spellbook2):\n    pass",
-            "given_java": "public static boolean areEquivalent(String[] spellbook1, String[] spellbook2) {\n    // TODO\n}",
-            "given_cpp": "bool areEquivalent(std::vector<std::string> spellbook1, std::vector<std::string> spellbook2) {\n    // TODO\n}",
-            "given_javascript": "function areEquivalent(spellbook1, spellbook2) {\n    // TODO\n}",
+            "given_java": "public static boolean areEquivalent(String[] spellbook1, String[] spellbook2) {\n    \n}",
+            "given_cpp": "bool areEquivalent(std::vector<std::string> spellbook1, std::vector<std::string> spellbook2) {\n    \n}",
+            "given_javascript": "function areEquivalent(spellbook1, spellbook2) {\n    \n}",
             "visual": null
           },
           {
@@ -454,9 +442,9 @@
             "example_usage": "charms = [\"zap\", \"zapper\", \"boom\", \"abracadabra\"]\ncount_even_length_charms(charms)",
             "example_output": "2",
             "given_python": "def count_even_length_charms(charms):\n    pass",
-            "given_java": "public static int countEvenLengthCharms(List<String> charms) {\n    // TODO\n}",
-            "given_cpp": "int countEvenLengthCharms(std::vector<std::string> charms) {\n    // TODO\n}",
-            "given_javascript": "function countEvenLengthCharms(charms) {\n    // TODO\n}",
+            "given_java": "public static int countEvenLengthCharms(List<String> charms) {\n    \n}",
+            "given_cpp": "int countEvenLengthCharms(std::vector<std::string> charms) {\n    \n}",
+            "given_javascript": "function countEvenLengthCharms(charms) {\n    \n}",
             "visual": null
           },
           {
@@ -466,9 +454,9 @@
             "example_usage": "students = ['Luna', 'Severus', 'Tom Riddle', 'Hermione', 'Tom Riddle']\nforbidden_name = 'Tom Riddle'\nerase_codename(students)",
             "example_output": "[\"Luna\", \"Severus\", \"Hermione\"]",
             "given_python": "def erase_codename(students, forbidden_name):\n    pass",
-            "given_java": "public static void eraseCodename(List<String> students, String forbiddenName) {\n    // TODO\n}",
-            "given_cpp": "void eraseCodename(std::vector<std::string>& students, std::string forbiddenName) {\n    // TODO\n}",
-            "given_javascript": "function eraseCodename(students, forbiddenName) {\n    // TODO\n}",
+            "given_java": "public static void eraseCodename(List<String> students, String forbiddenName) {\n    \n}",
+            "given_cpp": "void eraseCodename(std::vector<std::string>& students, std::string forbiddenName) {\n    \n}",
+            "given_javascript": "function eraseCodename(students, forbiddenName) {\n    \n}",
             "visual": null
           },
           {
@@ -478,9 +466,9 @@
             "example_usage": "scroll_id = 7893\ncount_scroll_digits(scroll_id)",
             "example_output": "4",
             "given_python": "def count_scroll_digits(scroll_id):\n    pass",
-            "given_java": "public static int countScrollDigits(int scrollId) {\n    // TODO\n}",
-            "given_cpp": "int countScrollDigits(int scrollId) {\n    // TODO\n}",
-            "given_javascript": "function countScrollDigits(scrollId) {\n    // TODO\n}",
+            "given_java": "public static int countScrollDigits(int scrollId) {\n    \n}",
+            "given_cpp": "int countScrollDigits(int scrollId) {\n    \n}",
+            "given_javascript": "function countScrollDigits(scrollId) {\n    \n}",
             "visual": null
           },
           {
@@ -490,9 +478,9 @@
             "example_usage": "reagents = [1, 0, 2, 0, 3, 0]\nshift_energy_orbs(reagents)",
             "example_output": "[1, 2, 3, 0, 0, 0]",
             "given_python": "def shift_energy_orbs(reagents):\n    pass",
-            "given_java": "public static List<Integer> shiftEnergyOrbs(List<Integer> reagents) {\n    // TODO\n}",
-            "given_cpp": "std::vector<int> shiftEnergyOrbs(std::vector<int> reagents) {\n    // TODO\n}",
-            "given_javascript": "function shiftEnergyOrbs(reagents) {\n    // TODO\n}",
+            "given_java": "public static List<Integer> shiftEnergyOrbs(List<Integer> reagents) {\n    \n}",
+            "given_cpp": "std::vector<int> shiftEnergyOrbs(std::vector<int> reagents) {\n    \n}",
+            "given_javascript": "function shiftEnergyOrbs(reagents) {\n    \n}",
             "visual": null
           },
           {
@@ -502,9 +490,9 @@
             "example_usage": "chant = \"Accio\"\nreverse_vowel_charms(chant)",
             "example_output": "\"Occia\"",
             "given_python": "def reverse_vowel_charms(chant):\n    pass",
-            "given_java": "public static String reverseVowelCharms(String chant) {\n    // TODO\n}",
-            "given_cpp": "std::string reverseVowelCharms(std::string chant) {\n    // TODO\n}",
-            "given_javascript": "function reverseVowelCharms(chant) {\n    // TODO\n}",
+            "given_java": "public static String reverseVowelCharms(String chant) {\n    \n}",
+            "given_cpp": "std::string reverseVowelCharms(std::string chant) {\n    \n}",
+            "given_javascript": "function reverseVowelCharms(chant) {\n    \n}",
             "visual": null
           },
           {
@@ -514,9 +502,9 @@
             "example_usage": "gains = [-2, 5, -3, 4]\npeak_altitude(gains)",
             "example_output": "6",
             "given_python": "def peak_altitude(gains):\n    pass",
-            "given_java": "public static int peakAltitude(List<Integer> gains) {\n    // TODO\n}",
-            "given_cpp": "int peakAltitude(std::vector<int> gains) {\n    // TODO\n}",
-            "given_javascript": "function peakAltitude(gains) {\n    // TODO\n}",
+            "given_java": "public static int peakAltitude(List<Integer> gains) {\n    \n}",
+            "given_cpp": "int peakAltitude(std::vector<int> gains) {\n    \n}",
+            "given_javascript": "function peakAltitude(gains) {\n    \n}",
             "visual": null
           },
           {
@@ -526,9 +514,9 @@
             "example_usage": "mana_levels = [4, 2, 7, 3]\nmana_diff(mana_levels)",
             "example_output": "[-12, -5, 3, 13]",
             "given_python": "def mana_diff(mana_levels):\n    pass",
-            "given_java": "public static List<Integer> manaDiff(List<Integer> manaLevels) {\n    // TODO\n}",
-            "given_cpp": "std::vector<int> manaDiff(std::vector<int> manaLevels) {\n    // TODO\n}",
-            "given_javascript": "function manaDiff(manaLevels) {\n    // TODO\n}",
+            "given_java": "public static List<Integer> manaDiff(List<Integer> manaLevels) {\n    \n}",
+            "given_cpp": "std::vector<int> manaDiff(std::vector<int> manaLevels) {\n    \n}",
+            "given_javascript": "function manaDiff(manaLevels) {\n    \n}",
             "visual": null
           },
           {
@@ -538,9 +526,9 @@
             "example_usage": "house1 = [\"flame\", \"freeze\", \"levitate\"]\nhouse2 = [\"freeze\", \"illusion\", \"curse\"]\nshared_spells(house1, house2)",
             "example_output": "[\"freeze\"]",
             "given_python": "def shared_spells(house1, house2):\n    pass",
-            "given_java": "public static List<String> sharedSpells(List<String> house1, List<String> house2) {\n    // TODO\n}",
-            "given_cpp": "std::vector<std::string> sharedSpells(std::vector<std::string> house1, std::vector<std::string> house2) {\n    // TODO\n}",
-            "given_javascript": "function sharedSpells(house1, house2) {\n    // TODO\n}",
+            "given_java": "public static List<String> sharedSpells(List<String> house1, List<String> house2) {\n    \n}",
+            "given_cpp": "std::vector<std::string> sharedSpells(std::vector<std::string> house1, std::vector<std::string> house2) {\n    \n}",
+            "given_javascript": "function sharedSpells(house1, house2) {\n    \n}",
             "visual": null
           },
           {
@@ -550,9 +538,9 @@
             "example_usage": "n = 3\ntrust_network = [[1, 3], [2, 3]]\nidentify_sorcerer(trust_network, n)",
             "example_output": "3",
             "given_python": "def identify_sorcerer(trust_network, n):\n    pass",
-            "given_java": "public static int identifySorcerer(List<int[]> trustNetwork, int n) {\n    // TODO\n}",
-            "given_cpp": "int identifySorcerer(std::vector<std::pair<int, int>> trustNetwork, int n) {\n    // TODO\n}",
-            "given_javascript": "function identifySorcerer(trustNetwork, n) {\n    // TODO\n}",
+            "given_java": "public static int identifySorcerer(List<int[]> trustNetwork, int n) {\n    \n}",
+            "given_cpp": "int identifySorcerer(std::vector<std::pair<int, int>> trustNetwork, int n) {\n    \n}",
+            "given_javascript": "function identifySorcerer(trustNetwork, n) {\n    \n}",
             "visual": null
           }
         ]

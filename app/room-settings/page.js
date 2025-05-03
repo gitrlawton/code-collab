@@ -88,7 +88,8 @@ export default function RoomSettings() {
         throw new Error("Could not load the problem set. Please try again.");
       }
 
-      const initialContent = firstProblem.given || "// Start coding here...";
+      const initialContent =
+        firstProblem.given_python || "// Start coding here...";
 
       // Create a new room in Supabase
       const { error } = await supabase.from("rooms").insert([

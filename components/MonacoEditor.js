@@ -1342,74 +1342,76 @@ export default function CollaborativeEditor({ roomId, user }) {
                       .then(async ({ data }) => {
                         if (data) {
                           try {
-                            // Load the problem set
-                            const problemSetsData = await import(
-                              "@/codepath_problem_sets.json"
+                            // Load the problem set using the updated problem-sets module
+                            const { getProblem } = await import(
+                              "@/lib/problem-sets"
                             );
+
                             const subject = data.subject_name;
                             const difficulty = data.difficulty;
                             const setNumber = data.set_number.toString();
                             const questionIndex = data.question_index || 0;
 
-                            // Get the current problem
-                            const problemSet =
-                              problemSetsData.default[subject][difficulty][
-                                setNumber
-                              ];
-                            const currentProblem =
-                              problemSet.problems[questionIndex];
+                            // Get the current problem using the getProblem function
+                            const currentProblem = getProblem(
+                              subject,
+                              difficulty,
+                              setNumber,
+                              questionIndex
+                            );
 
-                            // Get the language-specific starter code
-                            const starterCodeKey = `given_${newLanguage}`;
-                            if (
-                              currentProblem &&
-                              currentProblem[starterCodeKey]
-                            ) {
-                              // Update the editor content with the language-specific starter code
-                              if (editorRef.current) {
-                                // Save cursor and scroll state
-                                const selections =
-                                  editorRef.current.getSelections();
-                                const viewState =
-                                  editorRef.current.saveViewState();
+                            if (currentProblem) {
+                              // Get the language-specific starter code
+                              const starterCodeKey = `given_${newLanguage}`;
+                              if (currentProblem[starterCodeKey]) {
+                                // Update the editor content with the language-specific starter code
+                                if (editorRef.current) {
+                                  // Save cursor and scroll state
+                                  const selections =
+                                    editorRef.current.getSelections();
+                                  const viewState =
+                                    editorRef.current.saveViewState();
 
-                                // Update content state
-                                const newContent =
-                                  currentProblem[starterCodeKey];
-                                setContent(newContent);
+                                  // Update content state
+                                  const newContent =
+                                    currentProblem[starterCodeKey];
+                                  setContent(newContent);
 
-                                // Update editor model
-                                const model = editorRef.current.getModel();
-                                if (model) {
-                                  model.pushEditOperations(
-                                    [],
-                                    [
-                                      {
-                                        range: model.getFullModelRange(),
-                                        text: newContent,
-                                      },
-                                    ],
-                                    () => selections
-                                  );
-                                }
-
-                                // Restore state
-                                requestAnimationFrame(() => {
-                                  if (editorRef.current) {
-                                    editorRef.current.restoreViewState(
-                                      viewState
+                                  // Update editor model
+                                  const model = editorRef.current.getModel();
+                                  if (model) {
+                                    model.pushEditOperations(
+                                      [],
+                                      [
+                                        {
+                                          range: model.getFullModelRange(),
+                                          text: newContent,
+                                        },
+                                      ],
+                                      () => selections
                                     );
-                                    editorRef.current.setSelections(selections);
                                   }
-                                });
 
-                                // Save to localStorage and broadcast changes
-                                localStorage.setItem(
-                                  `room_${roomId}_content`,
-                                  newContent
-                                );
-                                pendingContentRef.current = newContent;
-                                updateContentDebounced();
+                                  // Restore state
+                                  requestAnimationFrame(() => {
+                                    if (editorRef.current) {
+                                      editorRef.current.restoreViewState(
+                                        viewState
+                                      );
+                                      editorRef.current.setSelections(
+                                        selections
+                                      );
+                                    }
+                                  });
+
+                                  // Save to localStorage and broadcast changes
+                                  localStorage.setItem(
+                                    `room_${roomId}_content`,
+                                    newContent
+                                  );
+                                  pendingContentRef.current = newContent;
+                                  updateContentDebounced();
+                                }
                               }
                             }
                           } catch (err) {

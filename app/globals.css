@@ -38,3 +38,7 @@ code {
   word-break: break-word;
   hyphens: auto;
 }
+
+.markdown-content p {
+  margin-bottom: 1em;
+}

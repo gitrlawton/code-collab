@@ -1,0 +1,154 @@
+{
+  "Dictionaries": {
+    "Foundational": {
+      "1": {
+        "problems": [
+          {
+            "problem_number": 1,
+            "problem_name": "Driver Grid",
+            "problem_instructions": "Given two lists of strings `drivers` and `start_times` of length `n`, write a function `grid()` that maps each driver to their starting time.\n\nEach `drivers[i]` corresponds to `start_times[i]`. Assume `len(drivers) == len(start_times)`.",
+            "example_usage": "drivers1 = [\"Verstappen\", \"Hamilton\", \"Leclerc\", \"Alonso\"]\nstart_times1 = [\"1:00 PM\", \"1:03 PM\", \"1:06 PM\", \"1:09 PM\"]\n\ndrivers2 = []\nstart_times2 = []\n\nprint(grid(drivers1, start_times1))\nprint(grid(drivers2, start_times2))",
+            "example_output": "{\"Verstappen\": \"1:00 PM\", \"Hamilton\": \"1:03 PM\", \"Leclerc\": \"1:06 PM\", \"Alonso\": \"1:09 PM\"}\n{}",
+            "given_python": "def grid(drivers, start_times):\n    pass",
+            "given_java": "public static Map<String, String> grid(List<String> drivers, List<String> startTimes) {\n    // TODO\n}",
+            "given_cpp": "std::map<std::string, std::string> grid(std::vector<std::string> drivers, std::vector<std::string> startTimes) {\n    // TODO\n}",
+            "given_javascript": "function grid(drivers, startTimes) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 2,
+            "problem_name": "Driver Lookup",
+            "problem_instructions": "You're building an app for race fans to quickly look up driver schedules. Write a function `get_driver_info()` that takes a string `driver` and a dictionary `race_schedule` mapping driver names to dictionaries with keys `track`, `time`, and `team`. Return the dictionary for the given `driver`, or `{ \"message\": \"Driver not found\" }` if the driver isn't in the schedule.",
+            "example_usage": "race_schedule = {\n    \"Perez\": {\"track\": \"Monaco\", \"time\": \"2:00 PM\", \"team\": \"Red Bull\"},\n    \"Norris\": {\"track\": \"Silverstone\", \"time\": \"3:30 PM\", \"team\": \"McLaren\"},\n    \"Russell\": {\"track\": \"Spa\", \"time\": \"1:15 PM\", \"team\": \"Mercedes\"}\n}\n\nprint(get_driver_info(\"Perez\", race_schedule)) \nprint(get_driver_info(\"Gasly\", race_schedule))",
+            "example_output": "{\"track\": \"Monaco\", \"time\": \"2:00 PM\", \"team\": \"Red Bull\"}\n{\"message\": \"Driver not found\"}",
+            "given_python": "def get_driver_info(driver, race_schedule):\n    pass",
+            "given_java": "public static Map<String, String> getDriverInfo(String driver, Map<String, Map<String, String>> raceSchedule) {\n    // TODO\n}",
+            "given_cpp": "std::map<std::string, std::string> getDriverInfo(std::string driver, std::map<std::string, std::map<std::string, std::string>> raceSchedule) {\n    // TODO\n}",
+            "given_javascript": "function getDriverInfo(driver, raceSchedule) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 3,
+            "problem_name": "Total Tickets Sold",
+            "problem_instructions": "A dictionary `ticket_sales` maps ticket types (e.g., `VIP`, `Grandstand`, `General Admission`) to the number of tickets sold. Write a function `total_tickets()` that returns the sum of all tickets sold.",
+            "example_usage": "ticket_sales = {\"Friday\": 300, \"Saturday\": 1200, \"Sunday\": 950, \"Weekend Pass\": 2100}\nprint(total_tickets(ticket_sales))",
+            "example_output": "4550",
+            "given_python": "def total_tickets(ticket_sales):\n    pass",
+            "given_java": "public static int totalTickets(Map<String, Integer> ticketSales) {\n    // TODO\n}",
+            "given_cpp": "int totalTickets(std::map<std::string, int> ticketSales) {\n    // TODO\n}",
+            "given_javascript": "function totalTickets(ticketSales) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 4,
+            "problem_name": "Track Time Conflicts",
+            "problem_instructions": "Some drivers compete in dual-series events. Given two dictionaries `f1_schedule` and `f2_schedule` mapping driver names to race times, write a function `find_conflicts()` that returns a dictionary of drivers who have identical time slots in both schedules.",
+            "example_usage": "f1_schedule = {\n    \"Verstappen\": \"1:00 PM\",\n    \"Hamilton\": \"2:00 PM\",\n    \"Alonso\": \"3:00 PM\"\n}\n\nf2_schedule = {\n    \"Verstappen\": \"1:00 PM\",\n    \"Hamilton\": \"3:00 PM\",\n    \"Schumacher\": \"4:00 PM\"\n}\n\nprint(find_conflicts(f1_schedule, f2_schedule))",
+            "example_output": "{\"Verstappen\": \"1:00 PM\"}",
+            "given_python": "def find_conflicts(f1_schedule, f2_schedule):\n    pass",
+            "given_java": "public static Map<String, String> findConflicts(Map<String, String> f1Schedule, Map<String, String> f2Schedule) {\n    // TODO\n}",
+            "given_cpp": "std::map<std::string, std::string> findConflicts(std::map<std::string, std::string> f1, std::map<std::string, std::string> f2) {\n    // TODO\n}",
+            "given_javascript": "function findConflicts(f1Schedule, f2Schedule) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 5,
+            "problem_name": "Fan Favorite",
+            "problem_instructions": "During a race weekend, fans vote for their favorite driver. Given a dictionary `votes` mapping fan IDs to driver names, return the driver with the most votes. In case of a tie, return any top driver.",
+            "example_usage": "votes = {\n    1001: \"Hamilton\",\n    1002: \"Leclerc\",\n    1003: \"Hamilton\",\n    1004: \"Leclerc\",\n    1005: \"Verstappen\"\n}\nprint(fan_favorite(votes))",
+            "example_output": "Hamilton",
+            "given_python": "def fan_favorite(votes):\n    pass",
+            "given_java": "public static String fanFavorite(Map<Integer, String> votes) {\n    // TODO\n}",
+            "given_cpp": "std::string fanFavorite(std::map<int, std::string> votes) {\n    // TODO\n}",
+            "given_javascript": "function fanFavorite(votes) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 6,
+            "problem_name": "Top Speed Crowd",
+            "problem_instructions": "You're given a list `audiences` representing the crowd size at different driver performances. Write a function `top_speed_crowd()` that returns the total crowd size of all performances that reached the highest attendance.",
+            "example_usage": "audiences1 = [120, 300, 300, 150, 120, 400]\naudiences2 = [250, 200, 250, 180, 250]\nprint(top_speed_crowd(audiences1))\nprint(top_speed_crowd(audiences2))",
+            "example_output": "400\n750",
+            "given_python": "def top_speed_crowd(audiences):\n    pass",
+            "given_java": "public static int topSpeedCrowd(List<Integer> audiences) {\n    // TODO\n}",
+            "given_cpp": "int topSpeedCrowd(std::vector<int> audiences) {\n    // TODO\n}",
+            "given_javascript": "function topSpeedCrowd(audiences) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 7,
+            "problem_name": "Alternative Pit Strategy",
+            "problem_instructions": "Re-implement your solution to `top_speed_crowd()` using the opposite approach. If your first solution used a dictionary, solve this version without one. Then compare both approaches and decide which is better and why.",
+            "example_usage": "audiences1 = [120, 300, 300, 150, 120, 400]\naudiences2 = [250, 200, 250, 180, 250]\nprint(alternative_pit_strategy(audiences1))\nprint(alternative_pit_strategy(audiences2))",
+            "example_output": "400\n750",
+            "given_python": "def alternative_pit_strategy(audiences):\n    pass",
+            "given_java": "public static int alternativePitStrategy(List<Integer> audiences) {\n    // TODO\n}",
+            "given_cpp": "int alternativePitStrategy(std::vector<int> audiences) {\n    // TODO\n}",
+            "given_javascript": "function alternativePitStrategy(audiences) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 8,
+            "problem_name": "Identical Lap Times",
+            "problem_instructions": "Given a list of lap times `times`, return the number of pairs `(i, j)` such that `i < j` and `times[i] == times[j]`. These represent drivers who posted identical lap times.",
+            "example_usage": "times1 = [1, 2, 3, 1, 1, 3]\ntimes2 = [1, 1, 1, 1]\ntimes3 = [1, 2, 3]\nprint(identical_lap_times(times1))\nprint(identical_lap_times(times2))\nprint(identical_lap_times(times3))",
+            "example_output": "4\n6\n0",
+            "given_python": "def identical_lap_times(times):\n    pass",
+            "given_java": "public static int identicalLapTimes(List<Integer> times) {\n    // TODO\n}",
+            "given_cpp": "int identicalLapTimes(std::vector<int> times) {\n    // TODO\n}",
+            "given_javascript": "function identicalLapTimes(times) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 9,
+            "problem_name": "Pit Crew Reorder Cost",
+            "problem_instructions": "Given two lists `original_order` and `new_order` representing the positions of pit crew members before and after a reshuffle, return the total positional difference. Each name is unique and appears once in each list.",
+            "example_usage": "original_order = [\"Alice\", \"Bob\", \"Charlie\"]\nnew_order = [\"Bob\", \"Alice\", \"Charlie\"]\nprint(pit_crew_reorder_cost(original_order, new_order))",
+            "example_output": "2",
+            "given_python": "def pit_crew_reorder_cost(original_order, new_order):\n    pass",
+            "given_java": "public static int pitCrewReorderCost(List<String> original, List<String> reordered) {\n    // TODO\n}",
+            "given_cpp": "int pitCrewReorderCost(std::vector<std::string> original, std::vector<std::string> reordered) {\n    // TODO\n}",
+            "given_javascript": "function pitCrewReorderCost(original, reordered) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 10,
+            "problem_name": "VIP Badge Check",
+            "problem_instructions": "You're given a string `vip_list` representing allowed badge letters, and a string `entry_list` of all badges scanned at the VIP entrance. Return how many scanned guests were actually VIPs. Badge letters are case-sensitive.",
+            "example_usage": "vip_list = \"aA\"\nentry_list = \"aAAbbbb\"\nprint(vip_badge_check(vip_list, entry_list))",
+            "example_output": "3",
+            "given_python": "def vip_badge_check(vip_list, entry_list):\n    pass",
+            "given_java": "public static int vipBadgeCheck(String vipList, String entryList) {\n    // TODO\n}",
+            "given_cpp": "int vipBadgeCheck(std::string vipList, std::string entryList) {\n    // TODO\n}",
+            "given_javascript": "function vipBadgeCheck(vipList, entryList) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 11,
+            "problem_name": "Strategy Pattern Match",
+            "problem_instructions": "Given a string `pattern` and a string `plan`, return `True` if the `plan` follows the same strategy structure. Each letter in `pattern` must uniquely map to a word in `plan`, and vice versa.",
+            "example_usage": "pattern = \"abba\"\nplan = \"soft hard hard soft\"\nprint(strategy_pattern_match(pattern, plan))",
+            "example_output": "True",
+            "given_python": "def strategy_pattern_match(pattern, plan):\n    pass",
+            "given_java": "public static boolean strategyPatternMatch(String pattern, String plan) {\n    // TODO\n}",
+            "given_cpp": "bool strategyPatternMatch(std::string pattern, std::string plan) {\n    // TODO\n}",
+            "given_javascript": "function strategyPatternMatch(pattern, plan) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 12,
+            "problem_name": "Sort the Drivers",
+            "problem_instructions": "You are given two arrays: `driver_names` and `lap_times`, where `lap_times[i]` is the lap time of `driver_names[i]`. Return `driver_names` sorted in ascending order of lap times.",
+            "example_usage": "driver_names = [\"Lewis\", \"Charles\", \"Sebastian\"]\nlap_times = [78, 74, 80]\nprint(sort_drivers(driver_names, lap_times))",
+            "example_output": "[\"Charles\", \"Lewis\", \"Sebastian\"]",
+            "given_python": "def sort_drivers(driver_names, lap_times):\n    pass",
+            "given_java": "public static List<String> sortDrivers(List<String> driverNames, List<Integer> lapTimes) {\n    // TODO\n}",
+            "given_cpp": "std::vector<std::string> sortDrivers(std::vector<std::string> driverNames, std::vector<int> lapTimes) {\n    // TODO\n}",
+            "given_javascript": "function sortDrivers(driverNames, lapTimes) {\n    // TODO\n}",
+            "visual": null
+          }
+        ]
+      }
+    }
+  }
+}

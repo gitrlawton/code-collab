@@ -5,7 +5,12 @@ import { supabase } from "@/lib/supabase";
 import LoadingSpinner from "./LoadingSpinner";
 import ReactMarkdown from "react-markdown";
 
-export default function CodingQuestion({ onSelectStarterCode, roomId, user, language = 'python' }) {
+export default function CodingQuestion({
+  onSelectStarterCode,
+  roomId,
+  user,
+  language = "python",
+}) {
   const [problemSet, setProblemSet] = useState(null);
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [isOpen, setIsOpen] = useState(true);
@@ -31,24 +36,39 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user, lang
         if (roomError) throw roomError;
         setRoomDetails(roomData);
 
-        // Load the problem set from the JSON file
-        const problemSetsData = await import("@/codepath_problem_sets.json");
+        // Load the problem set from the updated problem-sets module
+        const { getProblem } = await import("@/lib/problem-sets");
 
-        // Navigate to the current problem set based on room details
+        // Get the current problem based on room details
         const subject = roomData.subject_name;
         const difficulty = roomData.difficulty;
         const setNumber = roomData.set_number.toString();
+        const index = roomData.question_index || 0;
 
         try {
-          const currentProblemSet =
-            problemSetsData.default[subject][difficulty][setNumber];
+          // Get the problem using the getProblem function
+          const problem = getProblem(subject, difficulty, setNumber, index);
 
-          setProblemSet(currentProblemSet);
+          if (problem) {
+            // Set the current question
+            setQuestionIndex(index);
+            setCurrentQuestion(problem);
 
-          // Set the current question based on the question_index
-          const index = roomData.question_index || 0;
-          setQuestionIndex(index);
-          setCurrentQuestion(currentProblemSet.problems[index]);
+            // Fetch all problems for this set to store in problemSet
+            const { getProblems } = await import("@/lib/problem-sets");
+            const problems = getProblems(subject, difficulty, setNumber);
+
+            if (problems) {
+              setProblemSet({ problems });
+            } else {
+              console.error("No problems found for this set");
+              setProblemSet(null);
+            }
+          } else {
+            console.error("Problem not found");
+            setProblemSet(null);
+            setCurrentQuestion(null);
+          }
         } catch (err) {
           console.error("Error loading problem set:", err);
           // Handle missing problem set gracefully
@@ -117,20 +137,20 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user, lang
   // Helper function to get the appropriate starter code based on language
   const getLanguageSpecificStarterCode = (problem) => {
     if (!problem) return null;
-    
+
     // Map language to the corresponding property in the problem object
     const languageMap = {
-      javascript: 'given_javascript',
-      python: 'given_python',
-      java: 'given_java',
-      cpp: 'given_cpp'
+      javascript: "given_javascript",
+      python: "given_python",
+      java: "given_java",
+      cpp: "given_cpp",
     };
-    
+
     // Get the property name for the current language
-    const languageProperty = languageMap[language] || 'given_python';
-    
+    const languageProperty = languageMap[language] || "given_python";
+
     // Return the language-specific starter code or fall back to the default given code
-    return problem[languageProperty] || problem.given;
+    return problem[languageProperty];
   };
 
   // Function to handle settings changes separately from question navigation
@@ -138,24 +158,30 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user, lang
     try {
       setLoading(true);
 
-      const problemSetsData = await import("@/codepath_problem_sets.json");
+      // Import the problem-sets functions
+      const { getProblem, getProblems } = await import("@/lib/problem-sets");
 
       try {
-        // Get the new problem set
-        const newProblemSet =
-          problemSetsData.default[subject][difficulty][setNumber.toString()];
+        // Get the problems for this set
+        const problems = getProblems(subject, difficulty, setNumber.toString());
 
-        // Update the problem set
-        setProblemSet(newProblemSet);
+        if (problems) {
+          // Update the problem set
+          setProblemSet({ problems });
 
-        // Reset to the first question in the new problem set
-        setQuestionIndex(0);
-        setCurrentQuestion(newProblemSet.problems[0]);
+          // Reset to the first question in the new problem set
+          setQuestionIndex(0);
+          setCurrentQuestion(problems[0]);
 
-        // Update editor if there's starter code
-        const starterCode = getLanguageSpecificStarterCode(newProblemSet.problems[0]);
-        if (onSelectStarterCode && starterCode) {
-          onSelectStarterCode(starterCode);
+          // Update editor if there's starter code
+          const starterCode = getLanguageSpecificStarterCode(problems[0]);
+          if (onSelectStarterCode && starterCode) {
+            onSelectStarterCode(starterCode);
+          }
+        } else {
+          console.error("No problems found for this set");
+          setProblemSet(null);
+          setCurrentQuestion(null);
         }
       } catch (err) {
         console.error("Error loading problem set after settings change:", err);
@@ -197,7 +223,9 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user, lang
       });
 
       // Update the editor content with the new problem's language-specific starter code
-      const starterCode = getLanguageSpecificStarterCode(problemSet.problems[nextIndex]);
+      const starterCode = getLanguageSpecificStarterCode(
+        problemSet.problems[nextIndex]
+      );
       if (onSelectStarterCode && starterCode) {
         onSelectStarterCode(starterCode);
       }
@@ -235,7 +263,9 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user, lang
       });
 
       // Update the editor content with the new problem's language-specific starter code
-      const starterCode = getLanguageSpecificStarterCode(problemSet.problems[prevIndex]);
+      const starterCode = getLanguageSpecificStarterCode(
+        problemSet.problems[prevIndex]
+      );
       if (onSelectStarterCode && starterCode) {
         onSelectStarterCode(starterCode);
       }
@@ -299,7 +329,11 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user, lang
 
       <div className="mb-4">
         <div className="max-w-none text-black dark:text-gray-200">
-          <ReactMarkdown>{currentQuestion.problem_instructions}</ReactMarkdown>
+          <div className="markdown-content">
+            <ReactMarkdown>
+              {currentQuestion.problem_instructions}
+            </ReactMarkdown>
+          </div>
         </div>
       </div>
 
