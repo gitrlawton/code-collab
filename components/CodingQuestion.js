@@ -5,7 +5,7 @@ import { supabase } from "@/lib/supabase";
 import LoadingSpinner from "./LoadingSpinner";
 import ReactMarkdown from "react-markdown";
 
-export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
+export default function CodingQuestion({ onSelectStarterCode, roomId, user, language = 'python' }) {
   const [problemSet, setProblemSet] = useState(null);
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [isOpen, setIsOpen] = useState(true);
@@ -114,6 +114,25 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
     };
   }, [roomId]);
 
+  // Helper function to get the appropriate starter code based on language
+  const getLanguageSpecificStarterCode = (problem) => {
+    if (!problem) return null;
+    
+    // Map language to the corresponding property in the problem object
+    const languageMap = {
+      javascript: 'given_javascript',
+      python: 'given_python',
+      java: 'given_java',
+      cpp: 'given_cpp'
+    };
+    
+    // Get the property name for the current language
+    const languageProperty = languageMap[language] || 'given_python';
+    
+    // Return the language-specific starter code or fall back to the default given code
+    return problem[languageProperty] || problem.given;
+  };
+
   // Function to handle settings changes separately from question navigation
   const handleSettingsChange = async (subject, difficulty, setNumber) => {
     try {
@@ -134,8 +153,9 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
         setCurrentQuestion(newProblemSet.problems[0]);
 
         // Update editor if there's starter code
-        if (onSelectStarterCode && newProblemSet.problems[0]?.given) {
-          onSelectStarterCode(newProblemSet.problems[0].given);
+        const starterCode = getLanguageSpecificStarterCode(newProblemSet.problems[0]);
+        if (onSelectStarterCode && starterCode) {
+          onSelectStarterCode(starterCode);
         }
       } catch (err) {
         console.error("Error loading problem set after settings change:", err);
@@ -176,9 +196,10 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
         },
       });
 
-      // Update the editor content with the new problem's 'given' code
-      if (onSelectStarterCode && problemSet.problems[nextIndex].given) {
-        onSelectStarterCode(problemSet.problems[nextIndex].given);
+      // Update the editor content with the new problem's language-specific starter code
+      const starterCode = getLanguageSpecificStarterCode(problemSet.problems[nextIndex]);
+      if (onSelectStarterCode && starterCode) {
+        onSelectStarterCode(starterCode);
       }
     } catch (error) {
       console.error("Error updating question:", error);
@@ -213,9 +234,10 @@ export default function CodingQuestion({ onSelectStarterCode, roomId, user }) {
         },
       });
 
-      // Update the editor content with the new problem's 'given' code
-      if (onSelectStarterCode && problemSet.problems[prevIndex].given) {
-        onSelectStarterCode(problemSet.problems[prevIndex].given);
+      // Update the editor content with the new problem's language-specific starter code
+      const starterCode = getLanguageSpecificStarterCode(problemSet.problems[prevIndex]);
+      if (onSelectStarterCode && starterCode) {
+        onSelectStarterCode(starterCode);
       }
     } catch (error) {
       console.error("Error updating question:", error);

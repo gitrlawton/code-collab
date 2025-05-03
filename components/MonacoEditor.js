@@ -1231,6 +1231,7 @@ export default function CollaborativeEditor({ roomId, user }) {
             onSelectStarterCode={handleSelectStarterCode}
             roomId={roomId}
             user={user}
+            language={language}
           />
         </div>
       )}
