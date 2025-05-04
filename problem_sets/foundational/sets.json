@@ -1,0 +1,131 @@
+{
+  "Sets": {
+    "Foundational": {
+      "1": {
+        "theme": "Galactic Botany Expedition",
+        "problems": [
+          {
+            "problem_number": 1,
+            "problem_name": "Sample Set Creation",
+            "problem_instructions": "Your crew collected plant samples on Planet Aurora, but many duplicates registered in the log. Given a list `collected_samples`, write `build_sample_set` to return a set of unique sample names.",
+            "example_usage": "collected_samples = [\"fern\", \"fern\", \"aloe\", \"moss\", \"moss\"]\nprint(build_sample_set(collected_samples))\n\ncollected_samples = []\nprint(build_sample_set(collected_samples))\n\ncollected_samples = [\"orchid\", \"orchid\", \"orchid\"]\nprint(build_sample_set(collected_samples))",
+            "example_output": "{'fern', 'aloe', 'moss'}\nset()\n{'orchid'}",
+            "given_python": "def build_sample_set(collected_samples):\n    pass",
+            "given_java": "public static Set<String> buildSampleSet(List<String> collectedSamples) {\n    // TODO\n}",
+            "given_cpp": "std::set<std::string> buildSampleSet(const std::vector<std::string>& collectedSamples) {\n    // TODO\n}",
+            "given_javascript": "function buildSampleSet(collectedSamples) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 2,
+            "problem_name": "Add New Species",
+            "problem_instructions": "During the survey on Planet Boreas, you encounter a new species. Given a set `observed_species` and a string `new_species`, write `record_species` to add `new_species` into the set and return it.",
+            "example_usage": "observed_species = {'fern', 'aloe'}\nprint(record_species(observed_species, 'moss'))\n\nobserved_species = set()\nprint(record_species(observed_species, 'rose'))\n\nobserved_species = {'cactus'}\nprint(record_species(observed_species, 'cactus'))",
+            "example_output": "{'fern', 'aloe', 'moss'}\n{'rose'}\n{'cactus'}",
+            "given_python": "def record_species(observed_species, new_species):\n    pass",
+            "given_java": "public static Set<String> recordSpecies(Set<String> observedSpecies, String newSpecies) {\n    // TODO\n}",
+            "given_cpp": "std::set<std::string> recordSpecies(std::set<std::string> observedSpecies, const std::string& newSpecies) {\n    // TODO\n}",
+            "given_javascript": "function recordSpecies(observedSpecies, newSpecies) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 3,
+            "problem_name": "Remove Contaminant",
+            "problem_instructions": "A contaminant has tainted some samples in the lab. Given a set `species_set` and a string `contaminant`, write `remove_contaminant` to discard `contaminant` from the set (if present) and return the cleaned set.",
+            "example_usage": "species_set = {'fern', 'aloe', 'ivy'}\nprint(remove_contaminant(species_set, 'ivy'))\n\nspecies_set = {'moss'}\nprint(remove_contaminant(species_set, 'oak'))\n\nspecies_set = set()\nprint(remove_contaminant(species_set, 'x'))",
+            "example_output": "{'fern', 'aloe'}\n{'moss'}\nset()",
+            "given_python": "def remove_contaminant(species_set, contaminant):\n    pass",
+            "given_java": "public static Set<String> removeContaminant(Set<String> speciesSet, String contaminant) {\n    // TODO\n}",
+            "given_cpp": "std::set<std::string> removeContaminant(std::set<std::string> speciesSet, const std::string& contaminant) {\n    // TODO\n}",
+            "given_javascript": "function removeContaminant(speciesSet, contaminant) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 4,
+            "problem_name": "Merge Mission Samples",
+            "problem_instructions": "Your logs from two mission sites need consolidation. Given sets `first_mission_samples` and `second_mission_samples`, write `merge_mission_samples` to return the union of both sets.",
+            "example_usage": "first_mission_samples = {'fern', 'moss'}\nsecond_mission_samples = {'moss', 'lily'}\nprint(merge_mission_samples(first_mission_samples, second_mission_samples))\n\nfirst_mission_samples = set()\nsecond_mission_samples = {'oak'}\nprint(merge_mission_samples(first_mission_samples, second_mission_samples))\n\nfirst_mission_samples = {'rose'}\nsecond_mission_samples = {'rose'}\nprint(merge_mission_samples(first_mission_samples, second_mission_samples))",
+            "example_output": "{'fern', 'moss', 'lily'}\n{'oak'}\n{'rose'}",
+            "given_python": "def merge_mission_samples(first_mission_samples, second_mission_samples):\n    pass",
+            "given_java": "public static Set<String> mergeMissionSamples(Set<String> firstMissionSamples, Set<String> secondMissionSamples) {\n    // TODO\n}",
+            "given_cpp": "std::set<std::string> mergeMissionSamples(const std::set<std::string>& firstMissionSamples, const std::set<std::string>& secondMissionSamples) {\n    // TODO\n}",
+            "given_javascript": "function mergeMissionSamples(first_mission_samples, second_mission_samples) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 5,
+            "problem_name": "Common Species",
+            "problem_instructions": "Compare your findings to the base database. Given sets `mission_species` and `reference_database`, write `common_species` to return their intersection.",
+            "example_usage": "mission_species = {'fern', 'lily', 'rose'}\nreference_database = {'rose', 'lily', 'cactus'}\nprint(common_species(mission_species, reference_database))\n\nmission_species = {'oak'}\nreference_database = {'pine', 'maple'}\nprint(common_species(mission_species, reference_database))\n\nmission_species = set()\nreference_database = set()\nprint(common_species(mission_species, reference_database))",
+            "example_output": "{'lily', 'rose'}\nset()\nset()",
+            "given_python": "def common_species(mission_species, reference_database):\n    pass",
+            "given_java": "public static Set<String> commonSpecies(Set<String> missionSpecies, Set<String> referenceDatabase) {\n    // TODO\n}",
+            "given_cpp": "std::set<std::string> commonSpecies(const std::set<std::string>& missionSpecies, const std::set<std::string>& referenceDatabase) {\n    // TODO\n}",
+            "given_javascript": "function commonSpecies(mission_species, reference_database) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 6,
+            "problem_name": "Unique Species",
+            "problem_instructions": "Identify flora unique to your mission. Given sets `mission_species` and `reference_database`, write `unique_species` to return items in `mission_species` but not in `reference_database`.",
+            "example_usage": "mission_species = {'fern', 'grass', 'moss'}\nreference_database = {'grass'}\nprint(unique_species(mission_species, reference_database))\n\nmission_species = set()\nreference_database = {'ivy'}\nprint(unique_species(mission_species, reference_database))\n\nmission_species = {'oak', 'pine'}\nreference_database = {'oak', 'pine'}\nprint(unique_species(mission_species, reference_database))",
+            "example_output": "{'fern', 'moss'}\nset()\nset()",
+            "given_python": "def unique_species(mission_species, reference_database):\n    pass",
+            "given_java": "public static Set<String> uniqueSpecies(Set<String> missionSpecies, Set<String> referenceDatabase) {\n    // TODO\n}",
+            "given_cpp": "std::set<std::string> uniqueSpecies(const std::set<std::string>& missionSpecies, const std::set<std::string>& referenceDatabase) {\n    // TODO\n}",
+            "given_javascript": "function uniqueSpecies(mission_species, reference_database) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 7,
+            "problem_name": "Exclusive Species",
+            "problem_instructions": "To find species exclusive to one of two planets, write `exclusive_species` that returns the symmetric difference of sets `planet_a_species` and `planet_b_species`.",
+            "example_usage": "planet_a_species = {'fern', 'moss'}\nplanet_b_species = {'moss', 'lily'}\nprint(exclusive_species(planet_a_species, planet_b_species))\n\nplanet_a_species = set()\nplanet_b_species = {'rose'}\nprint(exclusive_species(planet_a_species, planet_b_species))\n\nplanet_a_species = {'cactus'}\nplanet_b_species = {'cactus'}\nprint(exclusive_species(planet_a_species, planet_b_species))",
+            "example_output": "{'fern', 'lily'}\n{'rose'}\nset()",
+            "given_python": "def exclusive_species(planet_a_species, planet_b_species):\n    pass",
+            "given_java": "public static Set<String> exclusiveSpecies(Set<String> planetASpecies, Set<String> planetBSpecies) {\n    // TODO\n}",
+            "given_cpp": "std::set<std::string> exclusiveSpecies(const std::set<std::string>& planetASpecies, const std::set<std::string>& planetBSpecies) {\n    // TODO\n}",
+            "given_javascript": "function exclusiveSpecies(planet_a_species, planet_b_species) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 8,
+            "problem_name": "Subset Validation",
+            "problem_instructions": "Before sending your data home, ensure your findings match known parameters. Given `candidate_species` and `master_list`, write `is_valid_subset` to return `True` if `candidate_species` is a subset of `master_list`, otherwise `False`.",
+            "example_usage": "candidate_species = {'fern', 'moss'}\nmaster_list = {'fern', 'moss', 'ivy'}\nprint(is_valid_subset(candidate_species, master_list))\n\ncandidate_species = {'oak'}\nmaster_list = {'pine'}\nprint(is_valid_subset(candidate_species, master_list))\n\ncandidate_species = set()\nmaster_list = {'rose'}\nprint(is_valid_subset(candidate_species, master_list))",
+            "example_output": "True\nFalse\nTrue",
+            "given_python": "def is_valid_subset(candidate_species, master_list):\n    pass",
+            "given_java": "public static boolean isValidSubset(Set<String> candidateSpecies, Set<String> masterList) {\n    // TODO\n}",
+            "given_cpp": "bool isValidSubset(const std::set<std::string>& candidateSpecies, const std::set<std::string>& masterList) {\n    // TODO\n}",
+            "given_javascript": "function isValidSubset(candidate_species, master_list) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 9,
+            "problem_name": "Superset Check",
+            "problem_instructions": "Your central database should cover local findings. Given `all_mission_species` and `subset_species`, write `is_superset` to return `True` if `all_mission_species` includes every element in `subset_species`, otherwise `False`.",
+            "example_usage": "all_mission_species = {'fern', 'moss', 'ivy'}\nsubset_species = {'ivy'}\nprint(is_superset(all_mission_species, subset_species))\n\nall_mission_species = {'oak'}\nsubset_species = {'oak', 'pine'}\nprint(is_superset(all_mission_species, subset_species))\n\nall_mission_species = set()\nsubset_species = set()\nprint(is_superset(all_mission_species, subset_species))",
+            "example_output": "True\nFalse\nTrue",
+            "given_python": "def is_superset(all_mission_species, subset_species):\n    pass",
+            "given_java": "public static boolean isSuperset(Set<String> allMissionSpecies, Set<String> subsetSpecies) {\n    // TODO\n}",
+            "given_cpp": "bool isSuperset(const std::set<std::string>& allMissionSpecies, const std::set<std::string>& subsetSpecies) {\n    // TODO\n}",
+            "given_javascript": "function is_superset(all_mission_species, subset_species) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 10,
+            "problem_name": "Species Count",
+            "problem_instructions": "Finally, the team needs a quick report on specimen diversity. Given a set `species_set`, write `count_species` to return the number of unique species recorded.",
+            "example_usage": "species_set = {'fern', 'ivy', 'moss'}\nprint(count_species(species_set))\n\nspecies_set = set()\nprint(count_species(species_set))\n\nspecies_set = {'rose'}\nprint(count_species(species_set))",
+            "example_output": "3\n0\n1",
+            "given_python": "def count_species(species_set):\n    pass",
+            "given_java": "public static int countSpecies(Set<String> speciesSet) {\n    // TODO\n}",
+            "given_cpp": "int countSpecies(const std::set<std::string>& speciesSet) {\n    // TODO\n}",
+            "given_javascript": "function count_species(species_set) {\n    // TODO\n}",
+            "visual": null
+          }
+        ]
+      }
+    }
+  }
+}

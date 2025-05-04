@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import CodingQuestion from "@/components/CodingQuestion";
 import { attemptRoomDeletion } from "@/lib/room-utils";
 import RoomSettings from "@/components/RoomSettings";
+import ThemeToggle from "@/components/ThemeToggle";
 
 // Dynamically import Monaco Editor to avoid SSR issues
 const MonacoEditor = dynamic(() => import("@monaco-editor/react"), {
@@ -67,7 +68,7 @@ export default function CollaborativeEditor({ roomId, user }) {
   // Check if screen is too small for editor
   useEffect(() => {
     const checkScreenSize = () => {
-      const mediaQuery = window.matchMedia("(max-width: 1060px)");
+      const mediaQuery = window.matchMedia("(max-width: 1140px)");
       setIsTooSmall(mediaQuery.matches);
     };
 
@@ -1397,6 +1398,22 @@ export default function CollaborativeEditor({ roomId, user }) {
               </button>
             </div>
 
+            <div className="flex items-center gap-1">
+              {users.map((user, index) => (
+                <div
+                  key={user.userId}
+                  className="w-8 h-8 rounded-full bg-foreground text-background flex items-center justify-center text-xs"
+                  title={user.userName}
+                  style={{
+                    backgroundColor: `hsl(${(index * 137) % 360}, 70%, 50%)`,
+                    marginLeft: index > 0 ? "-0.5rem" : "0",
+                  }}
+                >
+                  {user.userName?.charAt(0) || "A"}
+                </div>
+              ))}
+            </div>
+
             <div className="flex items-center gap-2">
               <button
                 onClick={runCode}
@@ -1559,7 +1576,9 @@ export default function CollaborativeEditor({ roomId, user }) {
                 <option value="javascript">JavaScript</option>
               </select>
 
-              <div className="flex items-center gap-1">
+              <ThemeToggle />
+
+              {/* <div className="flex items-center gap-1">
                 {users.map((user, index) => (
                   <div
                     key={user.userId}
@@ -1573,7 +1592,7 @@ export default function CollaborativeEditor({ roomId, user }) {
                     {user.userName?.charAt(0) || "A"}
                   </div>
                 ))}
-              </div>
+              </div> */}
             </div>
           </div>
 

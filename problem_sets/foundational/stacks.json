@@ -1,0 +1,131 @@
+{
+  "Stacks": {
+    "Foundational": {
+      "1": {
+        "theme": "Wizard Tower Trials",
+        "problems": [
+          {
+            "problem_number": 1,
+            "problem_name": "Scroll Assembly",
+            "problem_instructions": "At the base of the tower, the apprentice must gather the initial scrolls. Given the current stack `scroll_stack` and a list of new scrolls `new_scrolls`, write `assemble_scrolls` to push each scroll in `new_scrolls` onto `scroll_stack` in order and return the updated stack.",
+            "example_usage": "scroll_stack = [\"Fireball\", \"Ice Shard\"]\nnew_scrolls = [\"Wind Gust\", \"Earth Shield\"]\nprint(assemble_scrolls(scroll_stack, new_scrolls))\n\nscroll_stack = []\nnew_scrolls = [\"Heal\", \"Barrier\"]\nprint(assemble_scrolls(scroll_stack, new_scrolls))\n\nscroll_stack = [\"Lightning\"]\nnew_scrolls = []\nprint(assemble_scrolls(scroll_stack, new_scrolls))",
+            "example_output": "[\"Fireball\", \"Ice Shard\", \"Wind Gust\", \"Earth Shield\"]\n[\"Heal\", \"Barrier\"]\n[\"Lightning\"]",
+            "given_python": "def assemble_scrolls(scroll_stack, new_scrolls):\n    pass",
+            "given_java": "public static List<String> assembleScrolls(List<String> scrollStack, List<String> newScrolls) {\n    // TODO\n}",
+            "given_cpp": "std::vector<std::string> assembleScrolls(std::vector<std::string> scrollStack, const std::vector<std::string>& newScrolls) {\n    // TODO\n}",
+            "given_javascript": "function assembleScrolls(scrollStack, newScrolls) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 2,
+            "problem_name": "Trial Completion",
+            "problem_instructions": "Having faced the first trials, the wizard completes the top `count_trials` scrolls. Given `scroll_stack` and integer `count_trials`, write `complete_trials` to pop that many scrolls off and return the list of completed scroll names (in the order they were popped).",
+            "example_usage": "scroll_stack = [\"Rune A\", \"Rune B\", \"Rune C\"]\ncount_trials = 2\nprint(complete_trials(scroll_stack, count_trials))\n\nscroll_stack = [\"Sigil X\"]\ncount_trials = 1\nprint(complete_trials(scroll_stack, count_trials))\n\nscroll_stack = [\"Mark I\"]\ncount_trials = 5\nprint(complete_trials(scroll_stack, count_trials))",
+            "example_output": "[\"Rune C\", \"Rune B\"]\n[\"Sigil X\"]\n[\"Mark I\"]",
+            "given_python": "def complete_trials(scroll_stack, count_trials):\n    pass",
+            "given_java": "public static List<String> completeTrials(List<String> scrollStack, int countTrials) {\n    // TODO\n}",
+            "given_cpp": "std::vector<std::string> completeTrials(std::vector<std::string>& scrollStack, int countTrials) {\n    // TODO\n}",
+            "given_javascript": "function completeTrials(scrollStack, countTrials) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 3,
+            "problem_name": "Next Trial Preview",
+            "problem_instructions": "Before ascending, the wizard peeks at the next trial. Given `scroll_stack`, write `peek_next_trial` to return the name of the scroll at the top without removing it, or `None` if the stack is empty.",
+            "example_usage": "scroll_stack = [\"Charm of Light\", \"Veil of Shadows\"]\nprint(peek_next_trial(scroll_stack))\n\nscroll_stack = []\nprint(peek_next_trial(scroll_stack))\n\nscroll_stack = [\"Echo Glyph\"]\nprint(peek_next_trial(scroll_stack))",
+            "example_output": "\"Veil of Shadows\"\nNone\n\"Echo Glyph\"",
+            "given_python": "def peek_next_trial(scroll_stack):\n    pass",
+            "given_java": "public static String peekNextTrial(List<String> scrollStack) {\n    // TODO\n}",
+            "given_cpp": "std::string peekNextTrial(const std::vector<std::string>& scrollStack) {\n    // TODO\n}",
+            "given_javascript": "function peekNextTrial(scrollStack) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 4,
+            "problem_name": "Vault Check",
+            "problem_instructions": "The vault door only opens if no scrolls remain. Given `scroll_stack`, write `is_vault_empty` to return `True` if it’s empty, otherwise `False`.",
+            "example_usage": "scroll_stack = []\nprint(is_vault_empty(scroll_stack))\n\nscroll_stack = [\"Glyph Z\"]\nprint(is_vault_empty(scroll_stack))\n\nscroll_stack = [\"Scroll A\", \"Scroll B\"]\nprint(is_vault_empty(scroll_stack))",
+            "example_output": "True\nFalse\nFalse",
+            "given_python": "def is_vault_empty(scroll_stack):\n    pass",
+            "given_java": "public static boolean isVaultEmpty(List<String> scrollStack) {\n    // TODO\n}",
+            "given_cpp": "bool isVaultEmpty(const std::vector<std::string>& scrollStack) {\n    // TODO\n}",
+            "given_javascript": "function isVaultEmpty(scrollStack) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 5,
+            "problem_name": "Scroll Count Audit",
+            "problem_instructions": "The scribe needs an accurate count of remaining scrolls. Given `scroll_stack`, write `count_scrolls` to return the number of scrolls currently in the stack.",
+            "example_usage": "scroll_stack = [\"A1\", \"B2\", \"C3\"]\nprint(count_scrolls(scroll_stack))\n\nscroll_stack = []\nprint(count_scrolls(scroll_stack))\n\nscroll_stack = [\"X\"]\nprint(count_scrolls(scroll_stack))",
+            "example_output": "3\n0\n1",
+            "given_python": "def count_scrolls(scroll_stack):\n    pass",
+            "given_java": "public static int countScrolls(List<String> scrollStack) {\n    // TODO\n}",
+            "given_cpp": "int countScrolls(const std::vector<std::string>& scrollStack) {\n    // TODO\n}",
+            "given_javascript": "function countScrolls(scrollStack) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 6,
+            "problem_name": "Incantation Balance",
+            "problem_instructions": "To unlock the barrier, the incantation’s brackets must balance. Given `incantation`, write `is_incantation_balanced` to return `True` if every opening `(`, `[`, `{` is correctly closed, otherwise `False`.",
+            "example_usage": "incantation = \"{[()]}\"\nprint(is_incantation_balanced(incantation))\n\nincantation = \"(]{)}\"\nprint(is_incantation_balanced(incantation))\n\nincantation = \"\"\nprint(is_incantation_balanced(incantation))",
+            "example_output": "True\nFalse\nTrue",
+            "given_python": "def is_incantation_balanced(incantation):\n    pass",
+            "given_java": "public static boolean isIncantationBalanced(String incantation) {\n    // TODO\n}",
+            "given_cpp": "bool isIncantationBalanced(const std::string& incantation) {\n    // TODO\n}",
+            "given_javascript": "function isIncantationBalanced(incantation) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 7,
+            "problem_name": "Spell Damage Evaluation",
+            "problem_instructions": "The wizard casts spells in postfix order. Given a list of tokens `postfix_spell` (numbers and `+`, `-`, `*`, `/`), write `evaluate_postfix_spell` to compute the resulting integer (assume integer division). An empty list returns `0`.",
+            "example_usage": "postfix_spell = [\"2\", \"3\", \"*\", \"4\", \"+\"]\nprint(evaluate_postfix_spell(postfix_spell))\n\npostfix_spell = [\"5\", \"1\", \"2\", \"+\", \"4\", \"*\", \"+\", \"3\", \"-\"]\nprint(evaluate_postfix_spell(postfix_spell))\n\npostfix_spell = []\nprint(evaluate_postfix_spell(postfix_spell))",
+            "example_output": "10\n14\n0",
+            "given_python": "def evaluate_postfix_spell(postfix_spell):\n    pass",
+            "given_java": "public static int evaluatePostfixSpell(List<String> postfixSpell) {\n    // TODO\n}",
+            "given_cpp": "int evaluatePostfixSpell(const std::vector<std::string>& postfixSpell) {\n    // TODO\n}",
+            "given_javascript": "function evaluatePostfixSpell(postfixSpell) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 8,
+            "problem_name": "Scroll Order Reversal",
+            "problem_instructions": "A reversal enchantment flips the stack order. Given `scroll_stack`, write `reverse_scroll_stack` to return a new stack with elements in reverse order using only stack operations.",
+            "example_usage": "scroll_stack = [\"A\", \"B\", \"C\"]\nprint(reverse_scroll_stack(scroll_stack))\n\nscroll_stack = []\nprint(reverse_scroll_stack(scroll_stack))\n\nscroll_stack = [\"Solo\"]\nprint(reverse_scroll_stack(scroll_stack))",
+            "example_output": "[\"C\", \"B\", \"A\"]\n[]\n[\"Solo\"]",
+            "given_python": "def reverse_scroll_stack(scroll_stack):\n    pass",
+            "given_java": "public static List<String> reverseScrollStack(List<String> scrollStack) {\n    // TODO\n}",
+            "given_cpp": "std::vector<std::string> reverseScrollStack(const std::vector<std::string>& scrollStack) {\n    // TODO\n}",
+            "given_javascript": "function reverseScrollStack(scrollStack) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 9,
+            "problem_name": "Merge Ancient Scrolls",
+            "problem_instructions": "Two towers’ scroll collections must unite. Given stacks `left_collection` and `right_collection`, write `merge_scroll_collections` to push all from `left_collection` then `right_collection` into a new stack and return it.",
+            "example_usage": "left_collection = [\"L1\", \"L2\"]\nright_collection = [\"R1\", \"R2\"]\nprint(merge_scroll_collections(left_collection, right_collection))\n\nleft_collection = []\nright_collection = [\"Only\"]\nprint(merge_scroll_collections(left_collection, right_collection))\n\nleft_collection = [\"Alone\"]\nright_collection = []\nprint(merge_scroll_collections(left_collection, right_collection))",
+            "example_output": "[\"L1\", \"L2\", \"R1\", \"R2\"]\n[\"Only\"]\n[\"Alone\"]",
+            "given_python": "def merge_scroll_collections(left_collection, right_collection):\n    pass",
+            "given_java": "public static List<String> mergeScrollCollections(List<String> leftCollection, List<String> rightCollection) {\n    // TODO\n}",
+            "given_cpp": "std::vector<std::string> mergeScrollCollections(const std::vector<std::string>& leftCollection, const std::vector<std::string>& rightCollection) {\n    // TODO\n}",
+            "given_javascript": "function mergeScrollCollections(leftCollection, rightCollection) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 10,
+            "problem_name": "Next Greater Spell Power",
+            "problem_instructions": "To navigate traps, the wizard seeks stronger spells. Given a list of integers `power_levels`, write `next_greater_spell_power` to return a list where each position holds the next greater element to its right, or `-1` if none exists.",
+            "example_usage": "power_levels = [4, 5, 2, 25]\nprint(next_greater_spell_power(power_levels))\n\npower_levels = [13, 7, 6, 12]\nprint(next_greater_spell_power(power_levels))\n\npower_levels = []\nprint(next_greater_spell_power(power_levels))",
+            "example_output": "[5, 25, 25, -1]\n[-1, 12, 12, -1]\n[]",
+            "given_python": "def next_greater_spell_power(power_levels):\n    pass",
+            "given_java": "public static List<Integer> nextGreaterSpellPower(List<Integer> powerLevels) {\n    // TODO\n}",
+            "given_cpp": "std::vector<int> nextGreaterSpellPower(const std::vector<int>& powerLevels) {\n    // TODO\n}",
+            "given_javascript": "function nextGreaterSpellPower(powerLevels) {\n    // TODO\n}",
+            "visual": null
+          }
+        ]
+      }
+    }
+  }
+}
