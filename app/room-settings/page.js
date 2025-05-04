@@ -57,6 +57,38 @@ export default function RoomSettings() {
     loadProblemSetOptions();
   }, []);
 
+  // Update available difficulties and sets when subject changes
+  useEffect(() => {
+    // Get available difficulties for the selected subject
+    const difficulties = getDifficulties(subject);
+    setAvailableDifficulties(difficulties);
+
+    // If current difficulty is not available for this subject, reset to first available
+    if (difficulties.length > 0 && !difficulties.includes(difficulty)) {
+      setDifficulty(difficulties[0]);
+    } else {
+      // If difficulty is valid, update available sets
+      const sets = getSetNumbers(subject, difficulty);
+      setAvailableSets(sets);
+
+      // If current setNumber is not in the available sets, reset to first available
+      if (sets.length > 0 && !sets.includes(setNumber)) {
+        setSetNumber(sets[0]);
+      }
+    }
+  }, [subject]);
+
+  // Update available sets when difficulty changes
+  useEffect(() => {
+    const sets = getSetNumbers(subject, difficulty);
+    setAvailableSets(sets);
+
+    // If current setNumber is not in the available sets, reset to first available
+    if (sets.length > 0 && !sets.includes(setNumber)) {
+      setSetNumber(sets[0]);
+    }
+  }, [difficulty]);
+
   useEffect(() => {
     const checkAuth = async () => {
       const {
@@ -125,7 +157,7 @@ export default function RoomSettings() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-[#161616]">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#1a1c1f]">
       {/* Back Button */}
       <button
         className="absolute top-6 left-6 flex items-center text-gray-500 hover:text-gray-800 dark:text-gray-200 dark:hover:text-gray-400 rounded-full p-2 transition cursor-pointer"
@@ -159,7 +191,7 @@ export default function RoomSettings() {
           </p>
         </div>
 
-        <div className="bg-white dark:bg-[#1e1e1e] p-8 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700/50">
+        <div className="bg-white dark:dark:bg-gray-800/30 p-8 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700/50">
           {error && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
               {error}
@@ -174,8 +206,8 @@ export default function RoomSettings() {
               <select
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
-                className="w-full border border-gray-300 text-black dark:text-gray-200 bg-transparent dark:bg-[#2d2d2d] dark:border-white/[.145] dark:hover:ring-1 dark:hover:ring-white/30 rounded-md py-2 px-3 pr-8 cursor-pointer appearance-none"
-                disabled={availableSubjects.length <= 1}
+                className="w-full border border-gray-300 text-black hover:ring-1 hover:ring-black/30 dark:text-gray-200 bg-transparent dark:bg-[#222429] dark:border-white/[.145] dark:hover:ring-1 dark:hover:ring-white/30 rounded-md py-2 px-3 pr-8 cursor-pointer appearance-none"
+                disabled={availableSubjects.length < 1}
               >
                 {availableSubjects.map((subj) => (
                   <option key={subj} value={subj}>
@@ -212,8 +244,8 @@ export default function RoomSettings() {
               <select
                 value={difficulty}
                 onChange={(e) => setDifficulty(e.target.value)}
-                className="w-full border border-gray-300 text-black dark:text-gray-200 bg-transparent dark:bg-[#2d2d2d] dark:border-white/[.145] dark:hover:ring-1 dark:hover:ring-white/30 rounded-md py-2 px-3 pr-8 cursor-pointer appearance-none"
-                disabled={availableDifficulties.length <= 1}
+                className="w-full border border-gray-300 text-black hover:ring-1 hover:ring-black/30 dark:text-gray-200 bg-transparent dark:bg-[#222429] dark:border-white/[.145] dark:hover:ring-1 dark:hover:ring-white/30 rounded-md py-2 px-3 pr-8 cursor-pointer appearance-none"
+                disabled={availableDifficulties.length < 1}
               >
                 {availableDifficulties.map((diff) => (
                   <option key={diff} value={diff}>
@@ -250,8 +282,8 @@ export default function RoomSettings() {
               <select
                 value={setNumber}
                 onChange={(e) => setSetNumber(e.target.value)}
-                className="w-full border border-gray-300 text-black dark:text-gray-200 bg-transparent dark:bg-[#2d2d2d] dark:border-white/[.145] dark:hover:ring-1 dark:hover:ring-white/30 rounded-md py-2 px-3 pr-8 cursor-pointer appearance-none"
-                disabled={availableSets.length <= 1}
+                className="w-full border border-gray-300 text-black hover:ring-1 hover:ring-black/30 dark:text-gray-200 bg-transparent dark:bg-[#222429] dark:border-white/[.145] dark:hover:ring-1 dark:hover:ring-white/30 rounded-md py-2 px-3 pr-8 cursor-pointer appearance-none"
+                disabled={availableSets.length < 1}
               >
                 {availableSets.map((set) => (
                   <option key={set} value={set}>
@@ -285,7 +317,7 @@ export default function RoomSettings() {
               <button
                 onClick={createRoom}
                 disabled={creating}
-                className="rounded-full border border-solid border-black/[.08] dark:text-gray-200 dark:bg-[#2d2d2d] dark:hover:bg-[#3a3a3a] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 w-full cursor-pointer"
+                className="rounded-full border border-solid border-black/[.08] bg-gray-100 dark:text-gray-200 dark:text-gray-300 dark:bg-gray-700/30 dark:hover:bg-gray-600/30 dark:hover:text-white dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-gray-200 dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 w-full cursor-pointer"
               >
                 {creating ? "Creating..." : "Create Room"}
               </button>

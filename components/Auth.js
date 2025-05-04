@@ -30,7 +30,9 @@ export default function Auth() {
 
   return (
     <div className="flex flex-col gap-4 w-full max-w-sm">
-      <h2 className="text-2xl font-bold mb-4 text-center">Sign In</h2>
+      <h2 className="text-2xl font-bold mb-4 text-center dark:text-gray-200">
+        Sign In
+      </h2>
 
       {error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
@@ -41,14 +43,14 @@ export default function Auth() {
       <button
         onClick={() => handleLogin("github")}
         disabled={loading}
-        className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 w-full cursor-pointer"
+        className="rounded-full border border-solid border-black/[.08] dark:text-gray-200 dark:text-gray-300 dark:bg-gray-700/30 dark:hover:bg-gray-600/30 dark:hover:text-white dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 w-full cursor-pointer"
       >
         <Image
           src="/github-mark.svg"
           alt="GitHub logo"
           width={24}
           height={24}
-          className="mr-2"
+          className="mr-2 dark:invert"
         />
         Sign in with GitHub
       </button>
@@ -56,7 +58,7 @@ export default function Auth() {
       <button
         onClick={() => handleLogin("google")}
         disabled={loading}
-        className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 w-full cursor-pointer"
+        className="rounded-full border border-solid border-black/[.08] dark:text-gray-200 dark:text-gray-300 dark:bg-gray-700/30 dark:hover:bg-gray-600/30 dark:hover:text-white dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 w-full cursor-pointer"
       >
         <Image
           src="/google-logo.svg"

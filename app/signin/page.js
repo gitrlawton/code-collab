@@ -47,7 +47,7 @@ export default function SignIn() {
   }
 
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen bg-gradient-to-r from-gray-100 via-white to-gray-100 dark:from-[#1a1c1f] dark:via-[#1a1c1f] dark:to-[#1a1c1f] p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center">
         {/* <Image
           className="dark:invert"
@@ -57,11 +57,13 @@ export default function SignIn() {
           height={38}
           priority
         /> */}
-        <span className="text-5xl font-extrabold tracking-tight">
-          Code Collab
+        <span className="text-5xl font-extrabold tracking-tight dark:text-gray-200">
+          CodeCollab
         </span>
 
-        <h1 className="text-3xl font-bold">Collaborative Code Editor</h1>
+        <h1 className="text-3xl font-bold dark:text-gray-400">
+          Collaborative Code Editor
+        </h1>
 
         <Auth />
       </main>

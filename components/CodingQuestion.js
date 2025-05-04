@@ -304,13 +304,13 @@ export default function CodingQuestion({
       <div className="flex justify-between gap-2 mb-6">
         <button
           onClick={selectPreviousQuestion}
-          className="px-4 py-2 rounded bg-gray-200 dark:bg-[#3a3a3a] hover:bg-gray-300 dark:hover:bg-[#505050] text-gray-800 dark:text-gray-200 dark:border-white/[.145] mr-2 cursor-pointer"
+          className="px-4 py-2 rounded bg-gray-200 dark:bg-gray-700/60 hover:bg-gray-300 dark:hover:bg-gray-600/60 text-gray-800 dark:text-gray-200 dark:border-white/[.145] mr-2 cursor-pointer"
         >
           Previous Question
         </button>
         <button
           onClick={selectNextQuestion}
-          className="px-4 py-2 rounded bg-gray-200 dark:bg-[#3a3a3a] hover:bg-gray-300 dark:hover:bg-[#505050] text-gray-800 dark:text-gray-200 dark:border-white/[.145] ml-2 cursor-pointer"
+          className="px-4 py-2 rounded bg-gray-200 dark:bg-gray-700/60 hover:bg-gray-300 dark:hover:bg-gray-600/60 text-gray-800 dark:text-gray-200 dark:border-white/[.145] ml-2 cursor-pointer"
         >
           Next Question
         </button>
@@ -341,16 +341,16 @@ export default function CodingQuestion({
         <h3 className="font-bold mb-2 text-black dark:text-gray-200">
           Example:
         </h3>
-        <div className="p-3 bg-white dark:bg-[#252525] rounded">
+        <div className="p-3 bg-white dark:bg-gray-700/30 rounded">
           <div>
             <strong className="text-black dark:text-gray-200">Usage:</strong>
-            <pre className="mt-1 p-2 bg-gray-100 dark:bg-[#2d2d2d] dark:text-[#e0e0e0] rounded overflow-x-auto">
+            <pre className="mt-1 p-2 bg-gray-100 dark:bg-[#1a1c1f]/50 dark:text-[#e0e0e0] rounded overflow-x-auto">
               {currentQuestion.example_usage}
             </pre>
           </div>
           <div className="mt-2">
             <strong className="text-black dark:text-gray-200">Output:</strong>
-            <pre className="mt-1 p-2 bg-gray-100 dark:bg-[#2d2d2d] dark:text-[#e0e0e0] rounded overflow-x-auto">
+            <pre className="mt-1 p-2 bg-gray-100 dark:bg-[#1a1c1f]/50 dark:text-[#e0e0e0] rounded overflow-x-auto">
               {currentQuestion.example_output}
             </pre>
           </div>

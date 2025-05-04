@@ -1570,13 +1570,13 @@ export default function CollaborativeEditor({ roomId, user }) {
                     loadPyodideAsync();
                   }
                 }}
-                className="rounded border border-solid border-black/[.08] dark:text-gray-200 dark:bg-gray-700 dark:hover:ring-1 dark:hover:ring-white/30 bg-transparent px-2 py-1 cursor-pointer"
+                className="rounded border border-solid border-black/[.08] bg-gray-200 dark:text-gray-200 dark:bg-gray-700 dark:hover:ring-1 dark:hover:ring-white/30 hover:ring-1 hover:ring-black/30 px-2 py-1 cursor-pointer"
               >
                 <option value="python">Python</option>
                 <option value="javascript">JavaScript</option>
               </select>
 
-              <ThemeToggle />
+              <ThemeToggle className="text-gray-600 hover:text-black hover:bg-[#f2f2f2] dark:text-gray-300 dark:hover:bg-[#2f3237] dark:hover:text-white" />
 
               {/* <div className="flex items-center gap-1">
                 {users.map((user, index) => (
@@ -1617,7 +1617,7 @@ export default function CollaborativeEditor({ roomId, user }) {
 
             {/* Resizable handle */}
             <div
-              className="h-2 cursor-ns-resize bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 flex items-center justify-center"
+              className="h-2 cursor-ns-resize bg-gray-200 dark:bg-[#1a1c1f] flex items-center justify-center"
               onMouseDown={(e) => {
                 e.preventDefault();
                 setIsDragging(true);
@@ -1639,7 +1639,7 @@ export default function CollaborativeEditor({ roomId, user }) {
                   </strong>
                 </div>
 
-                <pre className="bg-gray-100 dark:bg-[#2d2d2d] dark:text-[#e0e0e0] p-4 rounded overflow-auto flex-grow font-mono text-sm">
+                <pre className="bg-gray-100 dark:bg-gray-700/30 dark:text-[#e0e0e0] p-4 rounded overflow-auto flex-grow font-mono text-sm">
                   {output || "Run your code to see output here..."}
                 </pre>
               </div>

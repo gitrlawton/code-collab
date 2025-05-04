@@ -41,19 +41,19 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen dark:bg-[#1a1c1f]">
+    <div className="min-h-screen bg-gradient-to-r from-gray-100 via-white to-gray-100 dark:from-[#1a1c1f] dark:via-[#1a1c1f] dark:to-[#1a1c1f]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex justify-end mb-4">
-          <ThemeToggle className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:bg-[#2f3237] dark:hover:text-white" />
+          <ThemeToggle className="text-gray-700 hover:text-black hover:bg-white dark:text-gray-300 dark:hover:bg-[#2f3237] dark:hover:text-white" />
         </div>
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Hero section - Only shown when user is not logged in */}
-          <div className="flex flex-col gap-6 order-2 md:order-1">
+          <div className="flex flex-col gap-6 order-2 items-center text-center md:text-left md:items-start md:order-1">
             {!user ? (
               // Content for non-logged in users
               <>
-                <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">
-                  Code Collab
+                <h1 className="text-4xl sm:text-5xl font-bold tracking-tight dark:text-gray-200">
+                  CodeCollab
                 </h1>
                 <p className="text-lg text-gray-600 dark:text-gray-300 max-w-lg">
                   Bring your friends, share a room, and code your way through
@@ -64,7 +64,7 @@ export default function Home() {
                   <div className="mt-4">
                     <button
                       onClick={() => router.push("/signin")}
-                      className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 mt-2 cursor-pointer bg-foreground text-background gap-2"
+                      className="rounded-full border border-solid border-black/[.08] dark:text-gray-300 dark:bg-gray-700/30 dark:hover:bg-gray-600/30 dark:hover:text-white dark:border-white/[.145] transition-colors flex items-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 mt-2 cursor-pointer bg-foreground text-background gap-2"
                     >
                       Get Started
                     </button>
@@ -90,8 +90,9 @@ export default function Home() {
                         </div>
                       ))}
                     </div>
-                    <span className="text-sm text-gray-600 dark:text-gray-400">
-                      Join a new wave of programmers solving problems together
+                    <span className="text-sm text-gray-600 dark:text-gray-300">
+                      Join a new wave of programmers solving problems
+                      collaboratively
                     </span>
                   </div>
                 </div>
@@ -103,7 +104,7 @@ export default function Home() {
                   Welcome, {user.user_metadata?.name || "Coder"}!
                 </h2>
                 <p className="text-lg text-gray-600 dark:text-gray-300">
-                  Ready to collaborate?
+                  Ready to collab?
                   <br />
                   Create a new coding room or join an existing one.
                 </p>
@@ -162,7 +163,7 @@ export default function Home() {
 
                   <button
                     onClick={handleSignOut}
-                    className="rounded-full border border-solid border-black/[.08] dark:text-gray-300 dark:hover:bg-gray-700/50 dark:hover:text-white dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 mt-2 cursor-pointer bg-foreground text-background gap-2"
+                    className="rounded-full border border-solid border-black/[.08]  dark:text-gray-300 dark:bg-gray-700/30 dark:hover:bg-gray-600/30 dark:hover:text-white dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-gray-100 dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 mt-2 cursor-pointer bg-foreground text-background gap-2"
                   >
                     Sign Out
                   </button>
@@ -204,15 +205,15 @@ export default function Home() {
                     <circle cx="12" cy="7" r="4"></circle>
                   </svg>
                 </div>
-                <h2 className="text-2xl font-bold text-center">
-                  Welcome to Code Collab
+                <h2 className="text-2xl font-bold text-center dark:text-gray-200">
+                  Welcome to CodeCollab
                 </h2>
                 <p className="text-center text-gray-600 dark:text-gray-300">
                   Sign in to create or join a collaborative coding session.
                 </p>
                 <button
                   onClick={() => router.push("/signin")}
-                  className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 mt-2 cursor-pointer bg-foreground text-background gap-2"
+                  className="rounded-full border border-solid border-black/[.08] dark:text-gray-300 dark:bg-gray-700/30 dark:hover:bg-gray-600/30 dark:hover:text-white dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 mt-2 cursor-pointer bg-foreground text-background gap-2"
                 >
                   Sign In
                 </button>
@@ -242,7 +243,7 @@ export default function Home() {
                   <polyline points="8 6 2 12 8 18"></polyline>
                 </svg>
               </div>
-              <h3 className="text-lg font-bold mb-2">
+              <h3 className="text-lg font-bold mb-2 dark:text-gray-200">
                 Real-time Collaboration
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
@@ -255,7 +256,9 @@ export default function Home() {
               <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-4">
                 <Laptop className="w-6 h-6 text-green-600" />
               </div>
-              <h3 className="text-lg font-bold mb-2">Coding Challenges</h3>
+              <h3 className="text-lg font-bold mb-2 dark:text-gray-200">
+                Coding Challenges
+              </h3>
               <p className="text-gray-600 dark:text-gray-300">
                 Practice with built-in coding challenges and test your solutions
                 in the browser.
@@ -281,7 +284,9 @@ export default function Home() {
                   <line x1="12" y1="22.08" x2="12" y2="12"></line>
                 </svg>
               </div>
-              <h3 className="text-lg font-bold mb-2">Multiple Languages</h3>
+              <h3 className="text-lg font-bold mb-2 dark:text-gray-200">
+                Multiple Languages
+              </h3>
               <p className="text-gray-600 dark:text-gray-300">
                 Support for JS and Python (more to come) with syntax
                 highlighting and code execution.
