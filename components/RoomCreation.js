@@ -21,7 +21,7 @@ export default function RoomCreation({ user }) {
 
       <button
         onClick={goToSettings}
-        className="rounded-full border border-solid border-black/[.08] bg-gray-100 dark:text-gray-300 dark:bg-gray-700/30 dark:hover:bg-gray-600/30 dark:hover:text-white dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-gray-200 dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 cursor-pointer"
+        className="rounded-full border border-solid border-black/[.08] bg-gray-100 dark:text-gray-300 dark:bg-gray-700/30 dark:hover:bg-gray-600/30 dark:hover:text-white dark:border-white/[.145] flex items-center justify-center hover:bg-gray-200 dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 cursor-pointer"
       >
         Create Room
       </button>

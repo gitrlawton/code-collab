@@ -43,7 +43,15 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-r from-gray-100 via-white to-gray-100 dark:from-[#1a1c1f] dark:via-[#1a1c1f] dark:to-[#1a1c1f]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex justify-end mb-4">
+        <div className="flex justify-end mb-4 items-center gap-4">
+          <a
+            href="https://codecollab.canny.io/feature-requests"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-700 hover:text-black dark:text-gray-300 dark:hover:text-white"
+          >
+            Request A Feature
+          </a>
           <ThemeToggle className="text-gray-700 hover:text-black hover:bg-white dark:text-gray-300 dark:hover:bg-[#2f3237] dark:hover:text-white" />
         </div>
         <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -64,7 +72,7 @@ export default function Home() {
                   <div className="mt-4">
                     <button
                       onClick={() => router.push("/signin")}
-                      className="rounded-full border border-solid border-black/[.08] dark:text-gray-300 dark:bg-gray-700/30 dark:hover:bg-gray-600/30 dark:hover:text-white dark:border-white/[.145] transition-colors flex items-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 mt-2 cursor-pointer bg-foreground text-background gap-2"
+                      className="rounded-full border border-solid border-black/[.08] dark:text-gray-300 dark:bg-gray-700/30 dark:hover:bg-gray-600/30 dark:hover:text-white dark:border-white/[.145] flex items-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 mt-2 cursor-pointer bg-foreground text-background gap-2"
                     >
                       Get Started
                     </button>
@@ -163,7 +171,7 @@ export default function Home() {
 
                   <button
                     onClick={handleSignOut}
-                    className="rounded-full border border-solid border-black/[.08]  dark:text-gray-300 dark:bg-gray-700/30 dark:hover:bg-gray-600/30 dark:hover:text-white dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-gray-100 dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 mt-2 cursor-pointer bg-foreground text-background gap-2"
+                    className="rounded-full border border-solid border-black/[.08] dark:text-gray-300 dark:bg-gray-700/30 dark:hover:bg-gray-600/30 dark:hover:text-white dark:border-white/[.145] flex items-center justify-center hover:bg-gray-100 dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 mt-2 cursor-pointer bg-foreground text-background gap-2"
                   >
                     Sign Out
                   </button>
@@ -189,7 +197,7 @@ export default function Home() {
               </div>
             ) : (
               <div className="flex flex-col gap-6 items-center py-8">
-                <div className="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-2">
+                <div className="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-500 dark:text-black flex items-center justify-center mb-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="32"
@@ -213,7 +221,7 @@ export default function Home() {
                 </p>
                 <button
                   onClick={() => router.push("/signin")}
-                  className="rounded-full border border-solid border-black/[.08] dark:text-gray-300 dark:bg-gray-700/30 dark:hover:bg-gray-600/30 dark:hover:text-white dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 mt-2 cursor-pointer bg-foreground text-background gap-2"
+                  className="rounded-full border border-solid border-black/[.08] dark:text-gray-300 dark:bg-gray-700/30 dark:hover:bg-gray-600/30 dark:hover:text-white dark:border-white/[.145] flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 mt-2 cursor-pointer bg-foreground text-background gap-2"
                 >
                   Sign In
                 </button>

@@ -1275,7 +1275,7 @@ export default function CollaborativeEditor({ roomId, user }) {
         </div>
         <button
           onClick={() => router.push("/")}
-          className="mt-4 rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#3a3a3a] hover:border-transparent text-base h-12 px-5 cursor-pointer"
+          className="mt-4 rounded-full border border-solid border-black/[.08] dark:border-white/[.145] flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#3a3a3a] hover:border-transparent text-base h-12 px-5 cursor-pointer"
         >
           Go Back
         </button>
@@ -1306,14 +1306,15 @@ export default function CollaborativeEditor({ roomId, user }) {
           Screen Too Small
         </h3>
         <p className="text-gray-600 dark:text-gray-300">
-          Code Collab was designed to be viewed on screens 1060px and larger.
+          <strong>CodeCollab</strong> was designed to be accessed on screens
+          1140px and larger.
         </p>
         <p className="text-gray-600 dark:text-gray-300 mt-2">
-          Please use a larger device for the best experience.
+          Please return on a larger device or adjust your screen size.
         </p>
         <button
           onClick={() => router.push("/")}
-          className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+          className="mt-6 px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400 dark:text-white dark:bg-gray-600 dark:hover:bg-gray-500 cursor-pointer"
         >
           Back to Home
         </button>

@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/lib/theme-provider";
+import { PostHogProvider } from "@/components/PostHogProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,9 +25,11 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider>
-          <div className="min-h-screen">{children}</div>
-        </ThemeProvider>
+        <PostHogProvider>
+          <ThemeProvider>
+            <div className="min-h-screen">{children}</div>
+          </ThemeProvider>
+        </PostHogProvider>
       </body>
     </html>
   );
