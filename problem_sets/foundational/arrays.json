@@ -1,0 +1,508 @@
+{
+  "Arrays": {
+    "Foundational": {
+      "1": {
+        "theme": "Farm Harvest",
+        "problems": [
+          {
+            "problem_number": 1,
+            "problem_name": "Count Crops",
+            "problem_instructions": "During the dawn roundup at Meadowbrook Farm, a helper records every crop picked in the list `crops`. Write `count_crops()` so the foreman instantly knows how many items went into the wagon.",
+            "example_usage": "print(count_crops([\"corn\", \"wheat\", \"soy\"]))\nprint(count_crops([\"pumpkin\"]))\nprint(count_crops([]))",
+            "example_output": "3\n1\n0",
+            "given_python": "def count_crops(crops):\n    pass",
+            "given_java": "public static int countCrops(List<String> crops){\n    // TODO\n}",
+            "given_cpp": "int countCrops(const std::vector<std::string>& crops){\n    // TODO\n}",
+            "given_javascript": "function countCrops(crops){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 2,
+            "problem_name": "Total Weight",
+            "problem_instructions": "At the barn scales, each crate’s weight (in kilograms) is added to the list `weights`. Create `total_weight()` that reports the combined haul for the accounting ledger.",
+            "example_usage": "print(total_weight([10, 25, 15]))\nprint(total_weight([4]))\nprint(total_weight([]))",
+            "example_output": "50\n4\n0",
+            "given_python": "def total_weight(weights):\n    pass",
+            "given_java": "public static int totalWeight(List<Integer> weights){\n    // TODO\n}",
+            "given_cpp": "int totalWeight(const std::vector<int>& weights){\n    // TODO\n}",
+            "given_javascript": "function totalWeight(weights){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 3,
+            "problem_name": "Average Crate Weight",
+            "problem_instructions": "Quality inspectors want to know the typical crate size. Using list `weights`, return the mean crate weight with `average_weight()`. If no crates were weighed, return `0`.",
+            "example_usage": "print(average_weight([4, 6, 10]))\nprint(average_weight([2]))\nprint(average_weight([]))",
+            "example_output": "6.666666666666667\n2.0\n0",
+            "given_python": "def average_weight(weights):\n    pass",
+            "given_java": "public static double averageWeight(List<Integer> weights){\n    // TODO\n}",
+            "given_cpp": "double averageWeight(const std::vector<int>& weights){\n    // TODO\n}",
+            "given_javascript": "function averageWeight(weights){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 4,
+            "problem_name": "Last Crop Picked",
+            "problem_instructions": "The farmhand occasionally forgets what was loaded last. Given list `crops`, write `last_crop()` that returns the most recently added item, or `None` if nothing has been gathered yet.",
+            "example_usage": "print(last_crop([\"pumpkin\", \"zucchini\"]))\nprint(last_crop([\"apple\"]))\nprint(last_crop([]))",
+            "example_output": "\"zucchini\"\n\"apple\"\nNone",
+            "given_python": "def last_crop(crops):\n    pass",
+            "given_java": "public static String lastCrop(List<String> crops){\n    // TODO\n}",
+            "given_cpp": "std::string lastCrop(const std::vector<std::string>& crops){\n    // TODO\n}",
+            "given_javascript": "function lastCrop(crops){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 5,
+            "problem_name": "Add New Harvest",
+            "problem_instructions": "A surprise batch arrives on a small cart. Implement `add_crop(crops, new_crop)` so the cart’s produce `new_crop` is appended to list `crops`, returning the updated manifest.",
+            "example_usage": "print(add_crop([\"apple\"], \"pear\"))\nprint(add_crop([\"corn\", \"soy\"], \"wheat\"))\nprint(add_crop([], \"corn\"))",
+            "example_output": "[\"apple\", \"pear\"]\n[\"corn\", \"soy\", \"wheat\"]\n[\"corn\"]",
+            "given_python": "def add_crop(crops, new_crop):\n    pass",
+            "given_java": "public static List<String> addCrop(List<String> crops,String newCrop){\n    // TODO\n}",
+            "given_cpp": "std::vector<std::string> addCrop(std::vector<std::string> crops,const std::string& newCrop){\n    // TODO\n}",
+            "given_javascript": "function addCrop(crops,newCrop){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 6,
+            "problem_name": "Double Yield",
+            "problem_instructions": "To forecast next season, agronomists create a what‑if scenario where every crate in `yields` magically doubles. Return that hypothetical list with `double_yield()`.",
+            "example_usage": "print(double_yield([1, 2, 3]))\nprint(double_yield([0]))\nprint(double_yield([]))",
+            "example_output": "[2, 4, 6]\n[0]\n[]",
+            "given_python": "def double_yield(yields):\n    pass",
+            "given_java": "public static List<Integer> doubleYield(List<Integer> yields){\n    // TODO\n}",
+            "given_cpp": "std::vector<int> doubleYield(const std::vector<int>& yields){\n    // TODO\n}",
+            "given_javascript": "function doubleYield(yields){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 7,
+            "problem_name": "Heaviest Crate",
+            "problem_instructions": "During loading, workers need to lift the heaviest crate first. Write `heaviest_crate(weights)` that returns the maximum weight in list `weights`, or `None` if there are no crates.",
+            "example_usage": "print(heaviest_crate([5, 9, 3]))\nprint(heaviest_crate([2]))\nprint(heaviest_crate([]))",
+            "example_output": "9\n2\nNone",
+            "given_python": "def heaviest_crate(weights):\n    pass",
+            "given_java": "public static Integer heaviestCrate(List<Integer> weights){\n    // TODO\n}",
+            "given_cpp": "int heaviestCrate(const std::vector<int>& weights){\n    // TODO\n}",
+            "given_javascript": "function heaviestCrate(weights){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 8,
+            "problem_name": "Check Ripeness",
+            "problem_instructions": "Each fruit in list `ripe` is labelled `True` if it passed ripeness inspection. Create `all_ripe()` that returns `True` only when every fruit is ready for market.",
+            "example_usage": "print(all_ripe([True, True]))\nprint(all_ripe([True, False, True]))\nprint(all_ripe([]))",
+            "example_output": "True\nFalse\nTrue",
+            "given_python": "def all_ripe(ripe):\n    pass",
+            "given_java": "public static boolean allRipe(List<Boolean> ripe){\n    // TODO\n}",
+            "given_cpp": "bool allRipe(const std::vector<bool>& ripe){\n    // TODO\n}",
+            "given_javascript": "function allRipe(ripe){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 9,
+            "problem_name": "Patch Damaged Crate",
+            "problem_instructions": "One crate in `weights` got damaged by rain. Implement `patch_crate(weights, index)` so the crate at position `index` is recorded as `0` weight in a new list; if `index` is invalid, leave the manifest unchanged.",
+            "example_usage": "print(patch_crate([3, 4, 5], 1))\nprint(patch_crate([3, 4, 5], 5))\nprint(patch_crate([], 0))",
+            "example_output": "[3, 0, 5]\n[3, 4, 5]\n[]",
+            "given_python": "def patch_crate(weights, index):\n    pass",
+            "given_java": "public static List<Integer> patchCrate(List<Integer> weights,int index){\n    // TODO\n}",
+            "given_cpp": "std::vector<int> patchCrate(std::vector<int> weights,int index){\n    // TODO\n}",
+            "given_javascript": "function patchCrate(weights,index){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 10,
+            "problem_name": "Longer Harvest Day",
+            "problem_instructions": "Two tractor crews report their daily harvests as lists `day1` and `day2`. Write `longer_day()` that returns whichever crew collected more items; if both harvested the same amount, return `day1`.",
+            "example_usage": "print(longer_day([\"corn\"], [\"wheat\", \"soy\"]))\nprint(longer_day([\"grapes\", \"tomatoes\"], [\"potatoes\", \"carrots\"]))\nprint(longer_day([], []))",
+            "example_output": "[\"wheat\", \"soy\"]\n[\"grapes\", \"tomatoes\"]\n[]",
+            "given_python": "def longer_day(day1, day2):\n    pass",
+            "given_java": "public static List<?> longerDay(List<?> day1,List<?> day2){\n    // TODO\n}",
+            "given_cpp": "template<typename T> std::vector<T> longerDay(const std::vector<T>& day1,const std::vector<T>& day2){\n    // TODO\n}",
+            "given_javascript": "function longerDay(day1,day2){\n    // TODO\n}",
+            "visual": null
+          }
+        ]
+      },
+      "2": {
+        "theme": "Archaeology Expedition",
+        "problems": [
+          {
+            "problem_number": 1,
+            "problem_name": "Find Artifact",
+            "problem_instructions": "Deep beneath the desert, the excavation crew keeps a list `artifacts` of treasures already unearthed. Help the cataloguer with `find_artifact()`. Return `True` if the target `item` is already logged.",
+            "example_usage": "print(find_artifact([\"coin\", \"pot\"], \"coin\"))\nprint(find_artifact([\"mask\"], \"coin\"))\nprint(find_artifact([], \"mask\"))",
+            "example_output": "True\nFalse\nFalse",
+            "given_python": "def find_artifact(artifacts, item):\n    pass",
+            "given_java": "public static boolean findArtifact(List<String> artifacts,String item){\n    // TODO\n}",
+            "given_cpp": "bool findArtifact(const std::vector<std::string>& artifacts,const std::string& item){\n    // TODO\n}",
+            "given_javascript": "function findArtifact(artifacts,item){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 2,
+            "problem_name": "Count Shards",
+            "problem_instructions": "When pottery fragments surface, each shard’s label is appended to `fragments`. Write `count_shards(fragments, label)` to tally how many shards match a given `label`.",
+            "example_usage": "print(count_shards([\"A\", \"B\", \"A\"], \"A\"))\nprint(count_shards([\"B\", \"B\"], \"A\"))\nprint(count_shards([], \"A\"))",
+            "example_output": "2\n0\n0",
+            "given_python": "def count_shards(fragments, label):\n    pass",
+            "given_java": "public static int countShards(List<String> fragments,String label){\n    // TODO\n}",
+            "given_cpp": "int countShards(const std::vector<std::string>& fragments,const std::string& label){\n    // TODO\n}",
+            "given_javascript": "function countShards(fragments,label){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 3,
+            "problem_name": "Unique Finds",
+            "problem_instructions": "At day’s end, the curator needs a list of first‑appearance items only. Build `unique_finds(finds)` that returns the finds list with duplicates removed while preserving discovery order.",
+            "example_usage": "print(unique_finds([\"coin\", \"coin\", \"pot\", \"mask\", \"pot\"]))\nprint(unique_finds([\"spearhead\"]))\nprint(unique_finds([]))",
+            "example_output": "[\"coin\", \"pot\", \"mask\"]\n[\"spearhead\"]\n[]",
+            "given_python": "def unique_finds(finds):\n    pass",
+            "given_java": "public static List<String> uniqueFinds(List<String> finds){\n    // TODO\n}",
+            "given_cpp": "std::vector<std::string> uniqueFinds(const std::vector<std::string>& finds){\n    // TODO\n}",
+            "given_javascript": "function uniqueFinds(finds){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 4,
+            "problem_name": "Reverse Path",
+            "problem_instructions": "Explorers mark their tunnel path in list `path`. If they must retreat, `reverse_path()` should produce that list in exact reverse order.",
+            "example_usage": "print(reverse_path([\"North\", \"East\", \"South\"]))\nprint(reverse_path([\"Entrance\"]))\nprint(reverse_path([]))",
+            "example_output": "[\"South\", \"East\", \"North\"]\n[\"Entrance\"]\n[]",
+            "given_python": "def reverse_path(path):\n    pass",
+            "given_java": "public static List<String> reversePath(List<String> path){\n    // TODO\n}",
+            "given_cpp": "std::vector<std::string> reversePath(const std::vector<std::string>& path){\n    // TODO\n}",
+            "given_javascript": "function reversePath(path){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 5,
+            "problem_name": "Merge Digs",
+            "problem_instructions": "Two trenches finish cataloguing separately in lists `dig1` and `dig2`. Create `merge_digs()` that outputs the combined sequence of finds, with all of `dig1` first.",
+            "example_usage": "print(merge_digs([1], [2, 3]))\nprint(merge_digs([], [2]))\nprint(merge_digs([], []))",
+            "example_output": "[1, 2, 3]\n[2]\n[]",
+            "given_python": "def merge_digs(dig1, dig2):\n    pass",
+            "given_java": "public static List<Integer> mergeDigs(List<Integer> dig1,List<Integer> dig2){\n    // TODO\n}",
+            "given_cpp": "std::vector<int> mergeDigs(const std::vector<int>& dig1,const std::vector<int>& dig2){\n    // TODO\n}",
+            "given_javascript": "function mergeDigs(dig1,dig2){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 6,
+            "problem_name": "Shift Artifacts Left",
+            "problem_instructions": "The display turntable needs artifacts to move one slot left, sending the first piece to the back. Implement `shift_left(arr)` returning that shifted arrangement.",
+            "example_usage": "print(shift_left([\"A\", \"B\", \"C\"]))\nprint(shift_left([\"Relic\"]))\nprint(shift_left([]))",
+            "example_output": "[\"B\", \"C\", \"A\"]\n[\"Relic\"]\n[]",
+            "given_python": "def shift_left(arr):\n    pass",
+            "given_java": "public static List<?> shiftLeft(List<?> arr){\n    // TODO\n}",
+            "given_cpp": "template<typename T> std::vector<T> shiftLeft(const std::vector<T>& arr){\n    // TODO\n}",
+            "given_javascript": "function shiftLeft(arr){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 7,
+            "problem_name": "Insert Tag",
+            "problem_instructions": "Labels in `tags` line a shelving unit. Write `insert_tag(tags, index, tag)` so a new `tag` is placed exactly at shelf `index` (or appended if the unit isn’t that long).",
+            "example_usage": "print(insert_tag([\"A\", \"C\"], 1, \"B\"))\nprint(insert_tag([], 5, \"X\"))\nprint(insert_tag([\"A\"], 0, \"Start\"))",
+            "example_output": "[\"A\", \"B\", \"C\"]\n[\"X\"]\n[\"Start\", \"A\"]",
+            "given_python": "def insert_tag(tags, index, tag):\n    pass",
+            "given_java": "public static List<String> insertTag(List<String> tags,int index,String tag){\n    // TODO\n}",
+            "given_cpp": "std::vector<std::string> insertTag(std::vector<std::string> tags,int index,const std::string& tag){\n    // TODO\n}",
+            "given_javascript": "function insertTag(tags,index,tag){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 8,
+            "problem_name": "Remove Tag",
+            "problem_instructions": "When an exhibit piece is loaned out, its identification `tag` must vanish from the list `tags`. Return the updated list from `remove_tag(tags, tag)` (remove only the first match).",
+            "example_usage": "print(remove_tag([\"mask\", \"coin\", \"coin\"], \"coin\"))\nprint(remove_tag([\"coin\"], \"mask\"))\nprint(remove_tag([], \"A\"))",
+            "example_output": "[\"mask\", \"coin\"]\n[\"coin\"]\n[]",
+            "given_python": "def remove_tag(tags, tag):\n    pass",
+            "given_java": "public static List<String> removeTag(List<String> tags,String tag){\n    // TODO\n}",
+            "given_cpp": "std::vector<std::string> removeTag(std::vector<std::string> tags,const std::string& tag){\n    // TODO\n}",
+            "given_javascript": "function removeTag(tags,tag){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 9,
+            "problem_name": "Filter Heavy Stones",
+            "problem_instructions": "Only stones heavier than a reference `limit` can be scanned today. Write `filter_heavy(weights, limit)` that returns a list of qualifying weights.",
+            "example_usage": "print(filter_heavy([2, 5, 1], 3))\nprint(filter_heavy([4, 4], 4))\nprint(filter_heavy([], 1))",
+            "example_output": "[5]\n[4, 4]\n[]",
+            "given_python": "def filter_heavy(weights, limit):\n    pass",
+            "given_java": "public static List<Integer> filterHeavy(List<Integer> weights,int limit){\n    // TODO\n}",
+            "given_cpp": "std::vector<int> filterHeavy(const std::vector<int>& weights,int limit){\n    // TODO\n}",
+            "given_javascript": "function filterHeavy(weights,limit){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 10,
+            "problem_name": "First Match",
+            "problem_instructions": "The field notebook `finds` lists artifact IDs. Create `first_match(finds, test)` to return the first entry that starts with prefix `test`, or `None` if no match is found.",
+            "example_usage": "print(first_match([\"mask01\", \"map02\"], \"ma\"))\nprint(first_match([\"coin\"], \"x\"))\nprint(first_match([], \"a\"))",
+            "example_output": "\"mask01\"\nNone\nNone",
+            "given_python": "def first_match(finds, test):\n    pass",
+            "given_java": "public static String firstMatch(List<String> finds,String test){\n    // TODO\n}",
+            "given_cpp": "std::string firstMatch(const std::vector<std::string>& finds,const std::string& test){\n    // TODO\n}",
+            "given_javascript": "function firstMatch(finds,test){\n    // TODO\n}",
+            "visual": null
+          }
+        ]
+      },
+
+      "3": {
+        "theme": "Ocean Research",
+        "problems": [
+          {
+            "problem_number": 1,
+            "problem_name": "Sort Temperatures",
+            "problem_instructions": "Oceanographers record surface temperatures in list `temps`. Before plotting, sort the readings numerically in ascending order using `sort_temps()`.",
+            "example_usage": "print(sort_temps([3.1, 2.0, 5.7]))\nprint(sort_temps([4.4]))\nprint(sort_temps([]))",
+            "example_output": "[2.0, 3.1, 5.7]\n[4.4]\n[]",
+            "given_python": "def sort_temps(temps):\n    pass",
+            "given_java": "public static List<Double> sortTemps(List<Double> temps){\n    // TODO\n}",
+            "given_cpp": "std::vector<double> sortTemps(std::vector<double> temps){\n    // TODO\n}",
+            "given_javascript": "function sortTemps(temps){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 2,
+            "problem_name": "Median Depth",
+            "problem_instructions": "Depth sensors log integer values in `depths`. Researchers need the median reading; if `depths` has an even count, average the middle two. Provide the result with `median_depth()`.",
+            "example_usage": "print(median_depth([3, 1, 4]))\nprint(median_depth([1, 2, 3, 4]))\nprint(median_depth([]))",
+            "example_output": "3\n2.5\n0",
+            "given_python": "def median_depth(depths):\n    pass",
+            "given_java": "public static double medianDepth(List<Integer> depths){\n    // TODO\n}",
+            "given_cpp": "double medianDepth(std::vector<int> depths){\n    // TODO\n}",
+            "given_javascript": "function medianDepth(depths){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 3,
+            "problem_name": "Record Breaks",
+            "problem_instructions": "A buoy keeps setting new wave‑height records. Given list `readings`, count with `record_breaks()` how many times a value exceeds every previous reading.",
+            "example_usage": "print(record_breaks([1, 2, 2, 5]))\nprint(record_breaks([4, 3, 2, 1]))\nprint(record_breaks([]))",
+            "example_output": "2\n1\n0",
+            "given_python": "def record_breaks(readings):\n    pass",
+            "given_java": "public static int recordBreaks(List<Integer> readings){\n    // TODO\n}",
+            "given_cpp": "int recordBreaks(const std::vector<int>& readings){\n    // TODO\n}",
+            "given_javascript": "function recordBreaks(readings){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 4,
+            "problem_name": "Longest Rising Streak",
+            "problem_instructions": "Marine scientists look for stretches where sea levels rise day after day. In `levels`, return the length of the longest strictly increasing consecutive streak with `rising_streak()`.",
+            "example_usage": "print(rising_streak([1, 2, 1, 2, 3, 1]))\nprint(rising_streak([5, 4, 3]))\nprint(rising_streak([]))",
+            "example_output": "3\n1\n0",
+            "given_python": "def rising_streak(levels):\n    pass",
+            "given_java": "public static int risingStreak(List<Integer> levels){\n    // TODO\n}",
+            "given_cpp": "int risingStreak(const std::vector<int>& levels){\n    // TODO\n}",
+            "given_javascript": "function risingStreak(levels){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 5,
+            "problem_name": "Rotate Readings",
+            "problem_instructions": "For comparative analysis, analysts rotate the list `readings` right by `k` steps. Build `rotate_readings(readings, k)` that performs this rotation (k may exceed list length).",
+            "example_usage": "print(rotate_readings([1, 2, 3, 4], 1))\nprint(rotate_readings([1, 2, 3, 4], 4))\nprint(rotate_readings([], 3))",
+            "example_output": "[4, 1, 2, 3]\n[1, 2, 3, 4]\n[]",
+            "given_python": "def rotate_readings(readings, k):\n    pass",
+            "given_java": "public static List<Integer> rotateReadings(List<Integer> readings,int k){\n    // TODO\n}",
+            "given_cpp": "std::vector<int> rotateReadings(std::vector<int> readings,int k){\n    // TODO\n}",
+            "given_javascript": "function rotateReadings(readings,k){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 6,
+            "problem_name": "Second Highest Wave",
+            "problem_instructions": "Surfers only care about the second‑tallest wave of the day. From `waves`, return that value via `second_highest()`, or `None` if fewer than two readings exist.",
+            "example_usage": "print(second_highest([3, 1, 4]))\nprint(second_highest([5]))\nprint(second_highest([7, 7]))",
+            "example_output": "3\nNone\n7",
+            "given_python": "def second_highest(waves):\n    pass",
+            "given_java": "public static Integer secondHighest(List<Integer> waves){\n    // TODO\n}",
+            "given_cpp": "int secondHighest(const std::vector<int>& waves){\n    // TODO\n}",
+            "given_javascript": "function secondHighest(waves){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 7,
+            "problem_name": "Remove Consecutive Duplicates",
+            "problem_instructions": "Some sensors repeat values if unchanged. Clean list `data` using `dedup_consecutive()` to remove only consecutive duplicates, keeping first occurrences.",
+            "example_usage": "print(dedup_consecutive([1, 1, 2, 2, 2, 3]))\nprint(dedup_consecutive([4, 4, 4, 4]))\nprint(dedup_consecutive([]))",
+            "example_output": "[1, 2, 3]\n[4]\n[]",
+            "given_python": "def dedup_consecutive(data):\n    pass",
+            "given_java": "public static List<Integer> dedupConsecutive(List<Integer> data){\n    // TODO\n}",
+            "given_cpp": "std::vector<int> dedupConsecutive(const std::vector<int>& data){\n    // TODO\n}",
+            "given_javascript": "function dedupConsecutive(data){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 8,
+            "problem_name": "Compare Sequences",
+            "problem_instructions": "Two submersibles record light levels. Confirm if their logs `a` and `b` are exactly identical with `same_sequence()`.",
+            "example_usage": "print(same_sequence([1, 2, 3], [1, 2, 3]))\nprint(same_sequence([1], []))\nprint(same_sequence([], []))",
+            "example_output": "True\nFalse\nTrue",
+            "given_python": "def same_sequence(a, b):\n    pass",
+            "given_java": "public static boolean sameSequence(List<Integer> a,List<Integer> b){\n    // TODO\n}",
+            "given_cpp": "bool sameSequence(const std::vector<int>& a,const std::vector<int>& b){\n    // TODO\n}",
+            "given_javascript": "function sameSequence(a,b){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 9,
+            "problem_name": "Running Totals",
+            "problem_instructions": "To visualize cumulative oxygen consumption, compute running sums of `values` with `running_totals()` and return the resulting list.",
+            "example_usage": "print(running_totals([1, 2, 3]))\nprint(running_totals([5]))\nprint(running_totals([]))",
+            "example_output": "[1, 3, 6]\n[5]\n[]",
+            "given_python": "def running_totals(values):\n    pass",
+            "given_java": "public static List<Integer> runningTotals(List<Integer> values){\n    // TODO\n}",
+            "given_cpp": "std::vector<int> runningTotals(const std::vector<int>& values){\n    // TODO\n}",
+            "given_javascript": "function runningTotals(values){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 10,
+            "problem_name": "Partition Around Mean",
+            "problem_instructions": "Samples in `values` are split for two labs: those below the overall mean and those equal or above. Return `[below, above]` from `partition_mean(values)`.",
+            "example_usage": "print(partition_mean([1, 2, 3, 4]))\nprint(partition_mean([2, 2, 2]))\nprint(partition_mean([]))",
+            "example_output": "[[1], [2, 3, 4]]\n[[], [2, 2, 2]]\n[[], []]",
+            "given_python": "def partition_mean(values):\n    pass",
+            "given_java": "public static List<List<Integer>> partitionMean(List<Integer> values){\n    // TODO\n}",
+            "given_cpp": "std::pair<std::vector<int>,std::vector<int>> partitionMean(const std::vector<int>& values){\n    // TODO\n}",
+            "given_javascript": "function partitionMean(values){\n    // TODO\n}",
+            "visual": null
+          }
+        ]
+      },
+
+      "4": {
+        "theme": "Music Festival Logistics",
+        "problems": [
+          {
+            "problem_number": 1,
+            "problem_name": "Two‑Ticket Budget",
+            "problem_instructions": "Fans have a set `budget` and a list `prices` for ticket categories. Build `two_ticket_budget()` that returns `True` if any two distinct ticket prices sum exactly to `budget`.",
+            "example_usage": "print(two_ticket_budget([10, 15, 20], 25))\nprint(two_ticket_budget([5, 5, 5], 10))\nprint(two_ticket_budget([7], 14))",
+            "example_output": "True\nTrue\nFalse",
+            "given_python": "def two_ticket_budget(prices, budget):\n    pass",
+            "given_java": "public static boolean twoTicketBudget(List<Integer> prices,int budget){\n    // TODO\n}",
+            "given_cpp": "bool twoTicketBudget(const std::vector<int>& prices,int budget){\n    // TODO\n}",
+            "given_javascript": "function twoTicketBudget(prices,budget){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 2,
+            "problem_name": "Max Crowd Window",
+            "problem_instructions": "Security reviews minute‑by‑minute crowd counts in `crowd`. Using window size `k`, write `max_crowd_window()` to return the largest total of any consecutive `k` minutes.",
+            "example_usage": "print(max_crowd_window([1, 3, 5, 2, 1], 3))\nprint(max_crowd_window([4, 4, 4], 2))\nprint(max_crowd_window([4], 1))",
+            "example_output": "10\n8\n4",
+            "given_python": "def max_crowd_window(crowd, k):\n    pass",
+            "given_java": "public static int maxCrowdWindow(List<Integer> crowd,int k){\n    // TODO\n}",
+            "given_cpp": "int maxCrowdWindow(const std::vector<int>& crowd,int k){\n    // TODO\n}",
+            "given_javascript": "function maxCrowdWindow(crowd,k){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 3,
+            "problem_name": "Stage Schedule Palindrome",
+            "problem_instructions": "To create symmetrical vibes, organizers check if list `schedule` of act codes is a palindrome. Provide a boolean result via `is_schedule_palindrome()`.",
+            "example_usage": "print(is_schedule_palindrome([\"A\",\"B\",\"A\"]))\nprint(is_schedule_palindrome([\"A\",\"B\",\"C\"]))\nprint(is_schedule_palindrome([]))",
+            "example_output": "True\nFalse\nTrue",
+            "given_python": "def is_schedule_palindrome(schedule):\n    pass",
+            "given_java": "public static boolean isSchedulePalindrome(List<String> schedule){\n    // TODO\n}",
+            "given_cpp": "bool isSchedulePalindrome(const std::vector<std::string>& schedule){\n    // TODO\n}",
+            "given_javascript": "function isSchedulePalindrome(schedule){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 4,
+            "problem_name": "Separate Odd‑Even Buses",
+            "problem_instructions": "Shuttles numbered in `buses` line up to enter the venue. For smoother traffic, put all odd numbers first (order preserved) followed by evens with `separate_odd_even()`.",
+            "example_usage": "print(separate_odd_even([1, 2, 3, 4]))\nprint(separate_odd_even([2, 4, 6]))\nprint(separate_odd_even([]))",
+            "example_output": "[1, 3, 2, 4]\n[2, 4, 6]\n[]",
+            "given_python": "def separate_odd_even(buses):\n    pass",
+            "given_java": "public static List<Integer> separateOddEven(List<Integer> buses){\n    // TODO\n}",
+            "given_cpp": "std::vector<int> separateOddEven(const std::vector<int>& buses){\n    // TODO\n}",
+            "given_javascript": "function separateOddEven(buses){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 5,
+            "problem_name": "Compress Schedule",
+            "problem_instructions": "Set lists like `acts` may include the same act repeated back‑to‑back. Build `compress_schedule()` returning `[act, count]` pairs for each consecutive run.",
+            "example_usage": "print(compress_schedule([\"DJ\", \"DJ\", \"Band\"]))\nprint(compress_schedule([\"MC\"]))\nprint(compress_schedule([]))",
+            "example_output": "[[\"DJ\", 2], [\"Band\", 1]]\n[[\"MC\", 1]]\n[]",
+            "given_python": "def compress_schedule(acts):\n    pass",
+            "given_java": "public static List<List<Object>> compressSchedule(List<String> acts){\n    // TODO\n}",
+            "given_cpp": "std::vector<std::pair<std::string,int>> compressSchedule(const std::vector<std::string>& acts){\n    // TODO\n}",
+            "given_javascript": "function compressSchedule(acts){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 6,
+            "problem_name": "Decompress Schedule",
+            "problem_instructions": "Stage managers often undo compression. Given `pairs` from `compress_schedule`, return the fully expanded running order with `decompress_schedule()`.",
+            "example_usage": "print(decompress_schedule([[\"DJ\", 2], [\"Band\", 1]]))\nprint(decompress_schedule([[\"Solo\", 3]]))\nprint(decompress_schedule([]))",
+            "example_output": "[\"DJ\", \"DJ\", \"Band\"]\n[\"Solo\", \"Solo\", \"Solo\"]\n[]",
+            "given_python": "def decompress_schedule(pairs):\n    pass",
+            "given_java": "public static List<String> decompressSchedule(List<List<Object>> pairs){\n    // TODO\n}",
+            "given_cpp": "std::vector<std::string> decompressSchedule(const std::vector<std::pair<std::string,int>>& pairs){\n    // TODO\n}",
+            "given_javascript": "function decompressSchedule(pairs){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 7,
+            "problem_name": "Trim Empty Slots",
+            "problem_instructions": "Cancellations leave `None` slots in the timetable. Produce a cleaned list `trim_slots(slots)` without the empty elements.",
+            "example_usage": "print(trim_slots([\"A\", None, \"B\", None]))\nprint(trim_slots([None]))\nprint(trim_slots([]))",
+            "example_output": "[\"A\", \"B\"]\n[]\n[]",
+            "given_python": "def trim_slots(slots):\n    pass",
+            "given_java": "public static List<String> trimSlots(List<String> slots){\n    // TODO\n}",
+            "given_cpp": "std::vector<std::string> trimSlots(const std::vector<std::string>& slots){\n    // TODO\n}",
+            "given_javascript": "function trimSlots(slots){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 8,
+            "problem_name": "Earliest Start Time",
+            "problem_instructions": "List `times` holds performer start minutes past noon. Return the minimum value with `earliest_start()` so gates open appropriately.",
+            "example_usage": "print(earliest_start([15, 10, 20]))\nprint(earliest_start([30]))\nprint(earliest_start([]))",
+            "example_output": "10\n30\nNone",
+            "given_python": "def earliest_start(times):\n    pass",
+            "given_java": "public static Integer earliestStart(List<Integer> times){\n    // TODO\n}",
+            "given_cpp": "int earliestStart(const std::vector<int>& times){\n    // TODO\n}",
+            "given_javascript": "function earliestStart(times){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 9,
+            "problem_name": "Remove Stage",
+            "problem_instructions": "If a secondary stage `index` gets cancelled, create `remove_stage(stages, index)` that returns the lineup without that stage; ignore invalid indices.",
+            "example_usage": "print(remove_stage([\"Main\", \"Side\"], 0))\nprint(remove_stage([\"A\", \"B\"], 3))\nprint(remove_stage([], 0))",
+            "example_output": "[\"Side\"]\n[\"A\", \"B\"]\n[]",
+            "given_python": "def remove_stage(stages, index):\n    pass",
+            "given_java": "public static List<String> removeStage(List<String> stages,int index){\n    // TODO\n}",
+            "given_cpp": "std::vector<std::string> removeStage(std::vector<std::string> stages,int index){\n    // TODO\n}",
+            "given_javascript": "function removeStage(stages,index){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 10,
+            "problem_name": "Longest Act Name Length",
+            "problem_instructions": "Marketing needs banner lengths. Return the length of the longest string in list `acts` with `longest_act_len()`; if the list is empty, return `0`.",
+            "example_usage": "print(longest_act_len([\"DJ\", \"Headliner\", \"MC\"]))\nprint(longest_act_len([\"Solo\"]))\nprint(longest_act_len([]))",
+            "example_output": "9\n4\n0",
+            "given_python": "def longest_act_len(acts):\n    pass",
+            "given_java": "public static int longestActLen(List<String> acts){\n    // TODO\n}",
+            "given_cpp": "int longestActLen(const std::vector<std::string>& acts){\n    // TODO\n}",
+            "given_javascript": "function longestActLen(acts){\n    // TODO\n}",
+            "visual": null
+          }
+        ]
+      }
+    }
+  }
+}

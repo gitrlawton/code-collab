@@ -20,6 +20,7 @@ export default function CollaborativeEditor({ roomId, user }) {
   const [cursors, setCursors] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isTooSmall, setIsTooSmall] = useState(false);
   const editorRef = useRef(null);
   const presenceChannelRef = useRef(null);
   const isLocalChangeRef = useRef(false);
@@ -32,6 +33,10 @@ export default function CollaborativeEditor({ roomId, user }) {
   const [isRunning, setIsRunning] = useState(false);
   const [showQuestion, setShowQuestion] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
+  const [outputHeight, setOutputHeight] = useState(240); // Default output height
+  const [isDragging, setIsDragging] = useState(false);
+  const resizeStartYRef = useRef(0);
+  const initialHeightRef = useRef(240);
   const [roomSettings, setRoomSettings] = useState({
     subject_name: "",
     difficulty: "Standard",
@@ -57,6 +62,23 @@ export default function CollaborativeEditor({ roomId, user }) {
     return () => {
       isMounted = false;
     };
+  }, []);
+
+  // Check if screen is too small for editor
+  useEffect(() => {
+    const checkScreenSize = () => {
+      const mediaQuery = window.matchMedia("(max-width: 1060px)");
+      setIsTooSmall(mediaQuery.matches);
+    };
+
+    // Initial check
+    checkScreenSize();
+
+    // Add listener for window resize
+    window.addEventListener("resize", checkScreenSize);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
   // Add this new function to handle starter code selection
@@ -1199,6 +1221,43 @@ export default function CollaborativeEditor({ roomId, user }) {
     };
   }, []);
 
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (!isDragging) return;
+
+      // Calculate height change based on initial position
+      // Moving up (smaller Y) should increase output height
+      const deltaY = resizeStartYRef.current - e.clientY;
+      const newHeight = Math.max(
+        120,
+        Math.min(500, initialHeightRef.current + deltaY)
+      );
+      setOutputHeight(newHeight);
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+      document.body.style.userSelect = "";
+      document.body.style.cursor = "";
+    };
+
+    if (isDragging) {
+      // Prevent text selection during drag
+      document.body.style.userSelect = "none";
+      document.body.style.cursor = "ns-resize";
+
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseup", handleMouseUp);
+    }
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+      document.body.style.userSelect = "";
+      document.body.style.cursor = "";
+    };
+  }, [isDragging]);
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -1215,9 +1274,47 @@ export default function CollaborativeEditor({ roomId, user }) {
         </div>
         <button
           onClick={() => router.push("/")}
-          className="mt-4 rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 cursor-pointer"
+          className="mt-4 rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#3a3a3a] hover:border-transparent text-base h-12 px-5 cursor-pointer"
         >
           Go Back
+        </button>
+      </div>
+    );
+  }
+
+  if (isTooSmall) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen p-6 bg-gray-100 dark:bg-gray-800 text-center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="64"
+          height="64"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="mb-4 text-gray-500 dark:text-gray-400"
+        >
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+          <line x1="8" y1="21" x2="16" y2="21"></line>
+          <line x1="12" y1="17" x2="12" y2="21"></line>
+        </svg>
+        <h3 className="text-lg font-semibold mb-2 text-gray-800 dark:text-gray-200">
+          Screen Too Small
+        </h3>
+        <p className="text-gray-600 dark:text-gray-300">
+          Code Collab was designed to be viewed on screens 1060px and larger.
+        </p>
+        <p className="text-gray-600 dark:text-gray-300 mt-2">
+          Please use a larger device for the best experience.
+        </p>
+        <button
+          onClick={() => router.push("/")}
+          className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+        >
+          Back to Home
         </button>
       </div>
     );
@@ -1480,32 +1577,50 @@ export default function CollaborativeEditor({ roomId, user }) {
             </div>
           </div>
 
-          <div className="flex-grow grid grid-rows-[1fr_auto]">
-            <MonacoEditor
-              height="100%"
-              language={language}
-              value={content}
-              onChange={handleEditorChange}
-              onMount={handleEditorDidMount}
-              theme="vs-dark"
-              options={{
-                minimap: { enabled: false },
-                scrollBeyondLastLine: false,
-                fontSize: 14,
-                wordWrap: "on",
-                automaticLayout: true,
-              }}
-            />
+          <div className="flex-grow grid grid-rows-[1fr_auto] min-h-0 w-full overflow-hidden">
+            <div className="min-h-0 w-full">
+              <MonacoEditor
+                height="100%"
+                language={language}
+                value={content}
+                onChange={handleEditorChange}
+                onMount={handleEditorDidMount}
+                theme="vs-dark"
+                options={{
+                  minimap: { enabled: false },
+                  scrollBeyondLastLine: false,
+                  fontSize: 14,
+                  wordWrap: "on",
+                  automaticLayout: true,
+                }}
+              />
+            </div>
 
-            <div className="border-t border-black/[.08] dark:border-white/[.145]">
-              <div className="border-t border-black/[.08] dark:border-white/[.145] p-2">
+            {/* Resizable handle */}
+            <div
+              className="h-2 cursor-ns-resize bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 flex items-center justify-center"
+              onMouseDown={(e) => {
+                e.preventDefault();
+                setIsDragging(true);
+                resizeStartYRef.current = e.clientY;
+                initialHeightRef.current = outputHeight;
+              }}
+            >
+              <div className="w-16 h-1 bg-gray-400 dark:bg-gray-500 rounded-full"></div>
+            </div>
+
+            <div
+              style={{ height: `${outputHeight}px` }}
+              className="border-t border-black/[.08] dark:border-white/[.145] overflow-hidden"
+            >
+              <div className="p-2 h-full flex flex-col">
                 <div className="flex items-center justify-between mb-2">
                   <strong className="text-black dark:text-gray-200">
                     Output:
                   </strong>
                 </div>
 
-                <pre className="bg-gray-100 dark:bg-[#2d2d2d] dark:text-[#e0e0e0] p-4 rounded overflow-auto h-32 font-mono text-sm">
+                <pre className="bg-gray-100 dark:bg-[#2d2d2d] dark:text-[#e0e0e0] p-4 rounded overflow-auto flex-grow font-mono text-sm">
                   {output || "Run your code to see output here..."}
                 </pre>
               </div>

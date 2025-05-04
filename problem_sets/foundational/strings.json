@@ -1,0 +1,509 @@
+{
+  "Strings": {
+    "Foundational": {
+      "1": {
+        "theme": "Bakery Bliss",
+        "problems": [
+          {
+            "problem_number": 1,
+            "problem_name": "Bread Length",
+            "problem_instructions": "At the morning display, the baker’s assistant needs to show loaf name lengths. Given a string `bread`, write `bread_length()` that returns the number of characters in that label.",
+            "example_usage": "print(bread_length(\"Sourdough\"))\nprint(bread_length(\"Baguette\"))\nprint(bread_length(\"\"))",
+            "example_output": "9\n8\n0",
+            "given_python": "def bread_length(bread):\n    pass",
+            "given_java": "public static int breadLength(String bread) {\n    // TODO\n}",
+            "given_cpp": "int breadLength(const std::string& bread) {\n    // TODO\n}",
+            "given_javascript": "function breadLength(bread) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 2,
+            "problem_name": "Recipe Title‑Case",
+            "problem_instructions": "For the in‑house cookbook, every recipe title must appear in title case. Given a lowercase `title`, create `title_case()` that returns the string with each word capitalised.",
+            "example_usage": "print(title_case(\"chocolate chip muffin\"))\nprint(title_case(\"banana bread\"))\nprint(title_case(\"eclair\"))",
+            "example_output": "\"Chocolate Chip Muffin\"\n\"Banana Bread\"\n\"Eclair\"",
+            "given_python": "def title_case(title):\n    pass",
+            "given_java": "public static String titleCase(String title) {\n    // TODO\n}",
+            "given_cpp": "std::string titleCase(const std::string& title) {\n    // TODO\n}",
+            "given_javascript": "function titleCase(title) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 3,
+            "problem_name": "Combine Flavors",
+            "problem_instructions": "Today’s flavor list is printed on one line. Given a list `flavors`, build `combine_flavors()` that joins them with a comma‑space.",
+            "example_usage": "print(combine_flavors([\"vanilla\", \"pecan\", \"strawberry\"]))\nprint(combine_flavors([\"lemon\"]))\nprint(combine_flavors([]))",
+            "example_output": "\"vanilla, pecan, strawberry\"\n\"lemon\"\n\"\"",
+            "given_python": "def combine_flavors(flavors):\n    pass",
+            "given_java": "public static String combineFlavors(List<String> flavors) {\n    // TODO\n}",
+            "given_cpp": "std::string combineFlavors(const std::vector<std::string>& flavors) {\n    // TODO\n}",
+            "given_javascript": "function combineFlavors(flavors) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 4,
+            "problem_name": "Ingredient Count",
+            "problem_instructions": "A recipe line lists ingredients separated by spaces. Implement `ingredient_count()` to return how many ingredients appear in `recipe_line`.",
+            "example_usage": "print(ingredient_count(\"flour sugar eggs butter\"))\nprint(ingredient_count(\"yeast salt\"))\nprint(ingredient_count(\"\"))",
+            "example_output": "4\n2\n0",
+            "given_python": "def ingredient_count(recipe_line):\n    pass",
+            "given_java": "public static int ingredientCount(String recipeLine) {\n    // TODO\n}",
+            "given_cpp": "int ingredientCount(const std::string& recipeLine) {\n    // TODO\n}",
+            "given_javascript": "function ingredientCount(recipeLine) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 5,
+            "problem_name": "Find Secret Ingredient",
+            "problem_instructions": "The pastry chef hides a secret flavor in the notes. Given a string `note` and target `secret`, write `find_secret()` that returns the index of the first occurrence or `-1`.",
+            "example_usage": "print(find_secret(\"Add love and cinnamon\", \"cinnamon\"))\nprint(find_secret(\"vanilla sugar\", \"honey\"))\nprint(find_secret(\"\", \"salt\"))",
+            "example_output": "13\n-1\n-1",
+            "given_python": "def find_secret(note, secret):\n    pass",
+            "given_java": "public static int findSecret(String note, String secret) {\n    // TODO\n}",
+            "given_cpp": "int findSecret(const std::string& note, const std::string& secret) {\n    // TODO\n}",
+            "given_javascript": "function findSecret(note, secret) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 6,
+            "problem_name": "Sugar Swap",
+            "problem_instructions": "The bakery is switching recipes from sugar to honey. Build `sugar_swap(text)` to replace every exact word \"sugar\" with \"honey\".",
+            "example_usage": "print(sugar_swap(\"Use sugar in the glaze\"))\nprint(sugar_swap(\"sugar sugar sugar\"))\nprint(sugar_swap(\"sweetener\"))",
+            "example_output": "\"Use honey in the glaze\"\n\"honey honey honey\"\n\"sweetener\"",
+            "given_python": "def sugar_swap(text):\n    pass",
+            "given_java": "public static String sugarSwap(String text) {\n    // TODO\n}",
+            "given_cpp": "std::string sugarSwap(const std::string& text) {\n    // TODO\n}",
+            "given_javascript": "function sugarSwap(text) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 7,
+            "problem_name": "Split Orders",
+            "problem_instructions": "Online pre‑orders arrive in one string `orders` separated by semicolons. Write `split_orders()` returning a list of trimmed individual orders.",
+            "example_usage": "print(split_orders(\"Baguette;Croissant ; Pain au chocolat\"))\nprint(split_orders(\"Loaf\"))\nprint(split_orders(\"\"))",
+            "example_output": "[\"Baguette\", \"Croissant\", \"Pain au chocolat\"]\n[\"Loaf\"]\n[]",
+            "given_python": "def split_orders(orders):\n    pass",
+            "given_java": "public static List<String> splitOrders(String orders) {\n    // TODO\n}",
+            "given_cpp": "std::vector<std::string> splitOrders(const std::string& orders) {\n    // TODO\n}",
+            "given_javascript": "function splitOrders(orders) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 8,
+            "problem_name": "Palindrome Pastry",
+            "problem_instructions": "A novelty pastry is magical if its name is a palindrome (ignoring spaces and case). Implement `is_palindrome_pastry(name)` returning `True` or `False`.",
+            "example_usage": "print(is_palindrome_pastry(\"Taco cat\"))\nprint(is_palindrome_pastry(\"Croissant\"))\nprint(is_palindrome_pastry(\"\"))",
+            "example_output": "True\nFalse\nTrue",
+            "given_python": "def is_palindrome_pastry(name):\n    pass",
+            "given_java": "public static boolean isPalindromePastry(String name) {\n    // TODO\n}",
+            "given_cpp": "bool isPalindromePastry(const std::string& name) {\n    // TODO\n}",
+            "given_javascript": "function isPalindromePastry(name) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 9,
+            "problem_name": "Count Letter Occurrences",
+            "problem_instructions": "For a decorative sign, count how many times a given `letter` appears in `label` (case‑sensitive) using `count_letter()`.",
+            "example_usage": "print(count_letter(\"Brioche\", \"o\"))\nprint(count_letter(\"Brioche\", \"B\"))\nprint(count_letter(\"\", \"a\"))",
+            "example_output": "1\n1\n0",
+            "given_python": "def count_letter(label, letter):\n    pass",
+            "given_java": "public static int countLetter(String label, String letter) {\n    // TODO\n}",
+            "given_cpp": "int countLetter(const std::string& label, char letter) {\n    // TODO\n}",
+            "given_javascript": "function countLetter(label, letter) {\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 10,
+            "problem_name": "Most Frequent Character",
+            "problem_instructions": "Display analytics need the most common character in `text`. Write `most_frequent_char()` that returns the top character.  In the case of a tie, return any top character.",
+            "example_usage": "print(most_frequent_char(\"babka brownie biscotti\"))\nprint(most_frequent_char(\"aaaAAA\"))\nprint(most_frequent_char(\"\"))",
+            "example_output": "\"b\"\n\"a\"\n\"\"",
+            "given_python": "def most_frequent_char(text):\n    pass",
+            "given_java": "public static char mostFrequentChar(String text) {\n    // TODO\n}",
+            "given_cpp": "char mostFrequentChar(const std::string& text) {\n    // TODO\n}",
+            "given_javascript": "function mostFrequentChar(text) {\n    // TODO\n}",
+            "visual": null
+          }
+        ]
+      },
+
+      "2": {
+        "theme": "Intergalactic Transmission",
+        "problems": [
+          {
+            "problem_number": 1,
+            "problem_name": "Signal Length",
+            "problem_instructions": "A deep‑space probe flashes its call‑sign `signal`. Build `signal_length()` that returns how many characters are in the signal.",
+            "example_usage": "print(signal_length(\"ZX‑414A\"))\nprint(signal_length(\"SOS\"))\nprint(signal_length(\"\"))",
+            "example_output": "7\n3\n0",
+            "given_python": "def signal_length(signal):\n    pass",
+            "given_java": "public static int signalLength(String signal){\n    // TODO\n}",
+            "given_cpp": "int signalLength(const std::string& signal){\n    // TODO\n}",
+            "given_javascript": "function signalLength(signal){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 2,
+            "problem_name": "Normalize Call‑Sign",
+            "problem_instructions": "Space Traffic Control logs every call‑sign in uppercase. Write `normalize_call_sign(cs)` that returns `cs` converted to upper case.",
+            "example_usage": "print(normalize_call_sign(\"rover‑12\"))\nprint(normalize_call_sign(\"Probe\"))\nprint(normalize_call_sign(\"\"))",
+            "example_output": "\"ROVER‑12\"\n\"PROBE\"\n\"\"",
+            "given_python": "def normalize_call_sign(cs):\n    pass",
+            "given_java": "public static String normalizeCallSign(String cs){\n    // TODO\n}",
+            "given_cpp": "std::string normalizeCallSign(const std::string& cs){\n    // TODO\n}",
+            "given_javascript": "function normalizeCallSign(cs){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 3,
+            "problem_name": "Combine Coordinates",
+            "problem_instructions": "A rover transmits waypoint list `coords`. Build `combine_coords()` that joins them with `-` in order.",
+            "example_usage": "print(combine_coords([\"A1\",\"B2\",\"C3\"]))\nprint(combine_coords([\"X\"]))\nprint(combine_coords([]))",
+            "example_output": "\"A1-B2-C3\"\n\"X\"\n\"\"",
+            "given_python": "def combine_coords(coords):\n    pass",
+            "given_java": "public static String combineCoords(List<String> coords){\n    // TODO\n}",
+            "given_cpp": "std::string combineCoords(const std::vector<std::string>& coords){\n    // TODO\n}",
+            "given_javascript": "function combineCoords(coords){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 4,
+            "problem_name": "Segment Counter",
+            "problem_instructions": "Telemetry packets separate fields with `|`. Create `segment_count(packet)` that returns how many segments are in `packet`.",
+            "example_usage": "print(segment_count(\"TEMP|24.6|OK\"))\nprint(segment_count(\"DATA\"))\nprint(segment_count(\"\"))",
+            "example_output": "3\n1\n1",
+            "given_python": "def segment_count(packet):\n    pass",
+            "given_java": "public static int segmentCount(String packet){\n    // TODO\n}",
+            "given_cpp": "int segmentCount(const std::string& packet){\n    // TODO\n}",
+            "given_javascript": "function segmentCount(packet){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 5,
+            "problem_name": "Find Distress Code",
+            "problem_instructions": "Search `message` for emergency sequence `code`. Return `True` from `find_distress()` if the substring appears.",
+            "example_usage": "print(find_distress(\"~~SOS~~\", \"SOS\"))\nprint(find_distress(\"ALL CLEAR\", \"SOS\"))\nprint(find_distress(\"\", \"X\"))",
+            "example_output": "True\nFalse\nFalse",
+            "given_python": "def find_distress(message, code):\n    pass",
+            "given_java": "public static boolean findDistress(String message,String code){\n    // TODO\n}",
+            "given_cpp": "bool findDistress(const std::string& message,const std::string& code){\n    // TODO\n}",
+            "given_javascript": "function findDistress(message,code){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 6,
+            "problem_name": "Swap Frequency Band",
+            "problem_instructions": "Ground Control updates all references from \"MHz\" to \"kHz\". Implement `swap_band(text)` to make the change.",
+            "example_usage": "print(swap_band(\"145 MHz\"))\nprint(swap_band(\"No band\"))\nprint(swap_band(\"MHzMHz\"))",
+            "example_output": "\"145 kHz\"\n\"No band\"\n\"kHzkHz\"",
+            "given_python": "def swap_band(text):\n    pass",
+            "given_java": "public static String swapBand(String text){\n    // TODO\n}",
+            "given_cpp": "std::string swapBand(const std::string& text){\n    // TODO\n}",
+            "given_javascript": "function swapBand(text){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 7,
+            "problem_name": "Split Transmission List",
+            "problem_instructions": "Relay satellites forward comma‑separated IDs. Create `split_transmissions()` returning a list of trimmed IDs from `line`.",
+            "example_usage": "print(split_transmissions(\"X1, Y2 ,Z3\"))\nprint(split_transmissions(\"ID\"))\nprint(split_transmissions(\"\"))",
+            "example_output": "[\"X1\", \"Y2\", \"Z3\"]\n[\"ID\"]\n[]",
+            "given_python": "def split_transmissions(line):\n    pass",
+            "given_java": "public static List<String> splitTransmissions(String line){\n    // TODO\n}",
+            "given_cpp": "std::vector<std::string> splitTransmissions(const std::string& line){\n    // TODO\n}",
+            "given_javascript": "function splitTransmissions(line){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 8,
+            "problem_name": "Mirror Signal",
+            "problem_instructions": "Emergency beacons sometimes reverse their payload for redundancy. Write `mirror_signal(sig)` that returns `sig` reversed.",
+            "example_usage": "print(mirror_signal(\"EVAC\"))\nprint(mirror_signal(\"A\"))\nprint(mirror_signal(\"\"))",
+            "example_output": "\"CAVE\"\n\"A\"\n\"\"",
+            "given_python": "def mirror_signal(sig):\n    pass",
+            "given_java": "public static String mirrorSignal(String sig){\n    // TODO\n}",
+            "given_cpp": "std::string mirrorSignal(const std::string& sig){\n    // TODO\n}",
+            "given_javascript": "function mirrorSignal(sig){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 9,
+            "problem_name": "Trim Antenna Noise",
+            "problem_instructions": "Telemetry strings may have leading/trailing `@` noise. Implement `trim_noise(raw)` to strip those symbols from both ends.",
+            "example_usage": "print(trim_noise(\"@@STATUS@@\"))\nprint(trim_noise(\"@OK\"))\nprint(trim_noise(\"READY\"))",
+            "example_output": "\"STATUS\"\n\"OK\"\n\"READY\"",
+            "given_python": "def trim_noise(raw):\n    pass",
+            "given_java": "public static String trimNoise(String raw){\n    // TODO\n}",
+            "given_cpp": "std::string trimNoise(const std::string& raw){\n    // TODO\n}",
+            "given_javascript": "function trimNoise(raw){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 10,
+            "problem_name": "Repeat Beacon",
+            "problem_instructions": "During solar flares, probes repeat a short `beacon` `n` times with no gap. Build `repeat_beacon(beacon, n)`.",
+            "example_usage": "print(repeat_beacon(\"PING\", 3))\nprint(repeat_beacon(\"X\", 1))\nprint(repeat_beacon(\"ALERT\", 0))",
+            "example_output": "\"PINGPINGPING\"\n\"X\"\n\"\"",
+            "given_python": "def repeat_beacon(beacon, n):\n    pass",
+            "given_java": "public static String repeatBeacon(String beacon,int n){\n    // TODO\n}",
+            "given_cpp": "std::string repeatBeacon(const std::string& beacon,int n){\n    // TODO\n}",
+            "given_javascript": "function repeatBeacon(beacon,n){\n    // TODO\n}",
+            "visual": null
+          }
+        ]
+      },
+
+      "3": {
+        "theme": "Pirate Logbook",
+        "problems": [
+          {
+            "problem_number": 1,
+            "problem_name": "Format Ship Name",
+            "problem_instructions": "Captains prefer dramatic titles. Given a ship `name`, return it wrapped as \"The <name>!\" using `format_ship()`.",
+            "example_usage": "print(format_ship(\"Dreadnought\"))\nprint(format_ship(\"Revenge\"))\nprint(format_ship(\"\"))",
+            "example_output": "\"The Dreadnought!\"\n\"The Revenge!\"\n\"The !\"",
+            "given_python": "def format_ship(name):\n    pass",
+            "given_java": "public static String formatShip(String name){\n    // TODO\n}",
+            "given_cpp": "std::string formatShip(const std::string& name){\n    // TODO\n}",
+            "given_javascript": "function formatShip(name){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 2,
+            "problem_name": "Split Cargo Manifest",
+            "problem_instructions": "A cargo line uses semicolons. Write `split_manifest(line)` returning a list of trimmed cargo items.",
+            "example_usage": "print(split_manifest(\"rum ; gold; spices\"))\nprint(split_manifest(\"doubloons\"))\nprint(split_manifest(\"\"))",
+            "example_output": "[\"rum\", \"gold\", \"spices\"]\n[\"doubloons\"]\n[]",
+            "given_python": "def split_manifest(line):\n    pass",
+            "given_java": "public static List<String> splitManifest(String line){\n    // TODO\n}",
+            "given_cpp": "std::vector<std::string> splitManifest(const std::string& line){\n    // TODO\n}",
+            "given_javascript": "function splitManifest(line){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 3,
+            "problem_name": "Title‑Case Port",
+            "problem_instructions": "Ports must be logged in title case. Create `title_port(port)` to capitalise each word.",
+            "example_usage": "print(title_port(\"tortuga bay\"))\nprint(title_port(\"nassau\"))\nprint(title_port(\"\"))",
+            "example_output": "\"Tortuga Bay\"\n\"Nassau\"\n\"\"",
+            "given_python": "def title_port(port):\n    pass",
+            "given_java": "public static String titlePort(String port){\n    // TODO\n}",
+            "given_cpp": "std::string titlePort(const std::string& port){\n    // TODO\n}",
+            "given_javascript": "function titlePort(port){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 4,
+            "problem_name": "Count Vowels in Island",
+            "problem_instructions": "Island names are sung in shanties. Count vowels (a,e,i,o,u) in `name` case‑insensitively with `island_vowels()`.",
+            "example_usage": "print(island_vowels(\"Barbados\"))\nprint(island_vowels(\"Cuba\"))\nprint(island_vowels(\"\"))",
+            "example_output": "4\n2\n0",
+            "given_python": "def island_vowels(name):\n    pass",
+            "given_java": "public static int islandVowels(String name){\n    // TODO\n}",
+            "given_cpp": "int islandVowels(const std::string& name){\n    // TODO\n}",
+            "given_javascript": "function islandVowels(name){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 5,
+            "problem_name": "First Treasure Marker",
+            "problem_instructions": "On a map string `chart`, locate the first occurrence of marker `mark` using `first_marker()`; return ‑1 if absent.",
+            "example_usage": "print(first_marker(\"X..X..\", \"X\"))\nprint(first_marker(\"....\", \"X\"))\nprint(first_marker(\"\", \"X\"))",
+            "example_output": "0\n-1\n-1",
+            "given_python": "def first_marker(chart, mark):\n    pass",
+            "given_java": "public static int firstMarker(String chart,String mark){\n    // TODO\n}",
+            "given_cpp": "int firstMarker(const std::string& chart,const std::string& mark){\n    // TODO\n}",
+            "given_javascript": "function firstMarker(chart,mark){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 6,
+            "problem_name": "Replace Rum with Water",
+            "problem_instructions": "Supplies run low, so every whole word \"rum\" (case‑insensitive) must be logged as \"water\". Implement `sobriety_mode(text)`.",
+            "example_usage": "print(sobriety_mode(\"Rum for everyone!\"))\nprint(sobriety_mode(\"RUM rum RuM\"))\nprint(sobriety_mode(\"juice\"))",
+            "example_output": "\"water for everyone!\"\n\"water water water\"\n\"juice\"",
+            "given_python": "def sobriety_mode(text):\n    pass",
+            "given_java": "public static String sobrietyMode(String text){\n    // TODO\n}",
+            "given_cpp": "std::string sobrietyMode(const std::string& text){\n    // TODO\n}",
+            "given_javascript": "function sobrietyMode(text){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 7,
+            "problem_name": "Crop Log Entry",
+            "problem_instructions": "Long log lines must fit the captain’s tiny journal. Write `crop_entry(entry, n)` that truncates `entry` to the first `n` characters plus \"...\" if needed.",
+            "example_usage": "print(crop_entry(\"Spotted merchant vessel off starboard\", 15))\nprint(crop_entry(\"Short\", 10))\nprint(crop_entry(\"\", 5))",
+            "example_output": "\"Spotted mercha...\"\n\"Short\"\n\"\"",
+            "given_python": "def crop_entry(entry, n):\n    pass",
+            "given_java": "public static String cropEntry(String entry,int n){\n    // TODO\n}",
+            "given_cpp": "std::string cropEntry(const std::string& entry,int n){\n    // TODO\n}",
+            "given_javascript": "function cropEntry(entry,n){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 8,
+            "problem_name": "Toggle Case Shanty",
+            "problem_instructions": "For dramatic effect, the first mate flips every letter’s case in a sea shanty. Implement `toggle_case(song)`.",
+            "example_usage": "print(toggle_case(\"Yo Ho HO\"))\nprint(toggle_case(\"Pirate\"))\nprint(toggle_case(\"\"))",
+            "example_output": "\"yO hO ho\"\n\"pIRATE\"\n\"\"",
+            "given_python": "def toggle_case(song):\n    pass",
+            "given_java": "public static String toggleCase(String song){\n    // TODO\n}",
+            "given_cpp": "std::string toggleCase(const std::string& song){\n    // TODO\n}",
+            "given_javascript": "function toggleCase(song){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 9,
+            "problem_name": "Clean Extra Gaps",
+            "problem_instructions": "Deck logs often have extra spaces. Build `clean_gaps(text)` that trims ends and collapses multiple spaces into one.",
+            "example_usage": "print(clean_gaps(\"  Raise   the  sails  \"))\nprint(clean_gaps(\"Anchors   aweigh\"))\nprint(clean_gaps(\"\"))",
+            "example_output": "\"Raise the sails\"\n\"Anchors aweigh\"\n\"\"",
+            "given_python": "def clean_gaps(text):\n    pass",
+            "given_java": "public static String cleanGaps(String text){\n    // TODO\n}",
+            "given_cpp": "std::string cleanGaps(const std::string& text){\n    // TODO\n}",
+            "given_javascript": "function cleanGaps(text){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 10,
+            "problem_name": "Palindrome Map Code",
+            "problem_instructions": "A secret map code is valid if it reads the same backward once spaces and case are removed. Return the boolean from `is_map_palindrome(code)`.",
+            "example_usage": "print(is_map_palindrome(\"Yo ho Hoy\"))\nprint(is_map_palindrome(\"Dead men tell no tales\"))\nprint(is_map_palindrome(\"\"))",
+            "example_output": "True\nFalse\nTrue",
+            "given_python": "def is_map_palindrome(code):\n    pass",
+            "given_java": "public static boolean isMapPalindrome(String code){\n    // TODO\n}",
+            "given_cpp": "bool isMapPalindrome(const std::string& code){\n    // TODO\n}",
+            "given_javascript": "function isMapPalindrome(code){\n    // TODO\n}",
+            "visual": null
+          }
+        ]
+      },
+
+      "4": {
+        "theme": "Cybersecurity Heist",
+        "problems": [
+          {
+            "problem_number": 1,
+            "problem_name": "Trim Whitespace Path",
+            "problem_instructions": "Hackers pasted a file `path` with stray spaces. Build `trim_path(path)` that strips leading/trailing whitespace.",
+            "example_usage": "print(trim_path(\"  /var/log  \"))\nprint(trim_path(\"/etc\"))\nprint(trim_path(\"\"))",
+            "example_output": "\"/var/log\"\n\"/etc\"\n\"\"",
+            "given_python": "def trim_path(path):\n    pass",
+            "given_java": "public static String trimPath(String path){\n    // TODO\n}",
+            "given_cpp": "std::string trimPath(const std::string& path){\n    // TODO\n}",
+            "given_javascript": "function trimPath(path){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 2,
+            "problem_name": "Mask Account Number",
+            "problem_instructions": "Create `mask_account(num)` that replaces every digit in `num` except the last four with `*`, leaving dashes intact.",
+            "example_usage": "print(mask_account(\"1234-5678-9012-3456\"))\nprint(mask_account(\"1111\"))\nprint(mask_account(\"\"))",
+            "example_output": "\"****-****-****-3456\"\n\"1111\"\n\"\"",
+            "given_python": "def mask_account(num):\n    pass",
+            "given_java": "public static String maskAccount(String num){\n    // TODO\n}",
+            "given_cpp": "std::string maskAccount(const std::string& num){\n    // TODO\n}",
+            "given_javascript": "function maskAccount(num){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 3,
+            "problem_name": "Digits‑Only PIN",
+            "problem_instructions": "Security checks PIN codes. Return `True` from `valid_pin(pin)` if `pin` is exactly 4 or 6 digits.",
+            "example_usage": "print(valid_pin(\"5312\"))\nprint(valid_pin(\"12a4\"))\nprint(valid_pin(\"123456\"))",
+            "example_output": "True\nFalse\nTrue",
+            "given_python": "def valid_pin(pin):\n    pass",
+            "given_java": "public static boolean validPin(String pin){\n    // TODO\n}",
+            "given_cpp": "bool validPin(const std::string& pin){\n    // TODO\n}",
+            "given_javascript": "function validPin(pin){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 4,
+            "problem_name": "Uppercase Hex",
+            "problem_instructions": "Logs store hexadecimal in uppercase. Write `uppercase_hex(hex_str)` to convert letters A‑F to uppercase.",
+            "example_usage": "print(uppercase_hex(\"deadbeef\"))\nprint(uppercase_hex(\"Cafe\"))\nprint(uppercase_hex(\"\"))",
+            "example_output": "\"DEADBEEF\"\n\"CAFE\"\n\"\"",
+            "given_python": "def uppercase_hex(hex_str):\n    pass",
+            "given_java": "public static String uppercaseHex(String hexStr){\n    // TODO\n}",
+            "given_cpp": "std::string uppercaseHex(const std::string& hexStr){\n    // TODO\n}",
+            "given_javascript": "function uppercaseHex(hexStr){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 5,
+            "problem_name": "Word Count Log",
+            "problem_instructions": "For quick analytics, count words in `entry` (space separated) using `log_word_count()`.",
+            "example_usage": "print(log_word_count(\"Access granted temporary\"))\nprint(log_word_count(\"Error\"))\nprint(log_word_count(\"\"))",
+            "example_output": "3\n1\n0",
+            "given_python": "def log_word_count(entry):\n    pass",
+            "given_java": "public static int logWordCount(String entry){\n    // TODO\n}",
+            "given_cpp": "int logWordCount(const std::string& entry){\n    // TODO\n}",
+            "given_javascript": "function logWordCount(entry){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 6,
+            "problem_name": "Strip Special Characters",
+            "problem_instructions": "Clean an ID string by removing any character not a letter or digit using `strip_special(id_str)`.",
+            "example_usage": "print(strip_special(\"alpha#42$!\"))\nprint(strip_special(\"clean\"))\nprint(strip_special(\"\"))",
+            "example_output": "\"alpha42\"\n\"clean\"\n\"\"",
+            "given_python": "def strip_special(id_str):\n    pass",
+            "given_java": "public static String stripSpecial(String idStr){\n    // TODO\n}",
+            "given_cpp": "std::string stripSpecial(const std::string& idStr){\n    // TODO\n}",
+            "given_javascript": "function stripSpecial(idStr){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 7,
+            "problem_name": "Swap Case Password",
+            "problem_instructions": "Auditors flip case on a password for obscurity. Implement `swap_case_pw(pw)`.",
+            "example_usage": "print(swap_case_pw(\"SeCuRe\"))\nprint(swap_case_pw(\"123abcABC\"))\nprint(swap_case_pw(\"\"))",
+            "example_output": "\"sEcUrE\"\n\"123ABCabc\"\n\"\"",
+            "given_python": "def swap_case_pw(pw):\n    pass",
+            "given_java": "public static String swapCasePw(String pw){\n    // TODO\n}",
+            "given_cpp": "std::string swapCasePw(const std::string& pw){\n    // TODO\n}",
+            "given_javascript": "function swapCasePw(pw){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 8,
+            "problem_name": "Starts With Prefix",
+            "problem_instructions": "Check if `key` starts with security `prefix` using `starts_with()`.",
+            "example_usage": "print(starts_with(\"AUTH-99AB\", \"AUTH-\"))\nprint(starts_with(\"KEY\", \"AUTH\"))\nprint(starts_with(\"\", \"A\"))",
+            "example_output": "True\nFalse\nFalse",
+            "given_python": "def starts_with(key, prefix):\n    pass",
+            "given_java": "public static boolean startsWith(String key,String prefix){\n    // TODO\n}",
+            "given_cpp": "bool startsWith(const std::string& key,const std::string& prefix){\n    // TODO\n}",
+            "given_javascript": "function startsWith(key,prefix){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 9,
+            "problem_name": "Last Log Line",
+            "problem_instructions": "Logs separate lines with `\\n`. Return the final line from `log` using `last_line()`.",
+            "example_usage": "print(last_line(\"INIT\\nRUNNING\\nDONE\"))\nprint(last_line(\"SINGLE\"))\nprint(last_line(\"\"))",
+            "example_output": "\"DONE\"\n\"SINGLE\"\n\"\"",
+            "given_python": "def last_line(log):\n    pass",
+            "given_java": "public static String lastLine(String log){\n    // TODO\n}",
+            "given_cpp": "std::string lastLine(const std::string& log){\n    // TODO\n}",
+            "given_javascript": "function lastLine(log){\n    // TODO\n}",
+            "visual": null
+          },
+          {
+            "problem_number": 10,
+            "problem_name": "Longest Token Length",
+            "problem_instructions": "Find the length of the longest space‑separated word in `sentence` via `longest_token_len()`.",
+            "example_usage": "print(longest_token_len(\"Encrypt everything swiftly\"))\nprint(longest_token_len(\"short\"))\nprint(longest_token_len(\"\"))",
+            "example_output": "8\n5\n0",
+            "given_python": "def longest_token_len(sentence):\n    pass",
+            "given_java": "public static int longestTokenLen(String sentence){\n    // TODO\n}",
+            "given_cpp": "int longestTokenLen(const std::string& sentence){\n    // TODO\n}",
+            "given_javascript": "function longestTokenLen(sentence){\n    // TODO\n}",
+            "visual": null
+          }
+        ]
+      }
+    }
+  }
+}

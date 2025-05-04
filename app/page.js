@@ -124,7 +124,9 @@ export default function Home() {
                       </li>
                       <li className="flex items-center gap-2">
                         <span className="text-black dark:text-gray-300">•</span>
-                        <span>Join a friend's room via their room code</span>
+                        <span>
+                          Join a friend&apos;s room via their room code
+                        </span>
                       </li>
                     </ul>
                   </div>
