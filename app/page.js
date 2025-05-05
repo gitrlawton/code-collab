@@ -43,16 +43,16 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-r from-gray-100 via-white to-gray-100 dark:from-[#1a1c1f] dark:via-[#1a1c1f] dark:to-[#1a1c1f]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex justify-end mb-4 items-center gap-4">
+        <div className="flex justify-center mb-4 items-center gap-4 mb-10">
           <a
             href="https://codecollab.canny.io/feature-requests"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-gray-700 hover:text-black dark:text-gray-300 dark:hover:text-white"
+            className="rounded border border-solid border-black/[.08] dark:text-gray-300 dark:hover:bg-gray-600/30 dark:hover:text-white dark:border-white/[.145] flex items-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] text-gray-700 hover:text-black h-8 px-4 cursor-pointer"
           >
-            Request A Feature
+            Request a Feature
           </a>
-          <ThemeToggle className="text-gray-700 hover:text-black hover:bg-white dark:text-gray-300 dark:hover:bg-[#2f3237] dark:hover:text-white" />
+          <ThemeToggle className="text-gray-700 hover:text-black dark:text-gray-300 dark:hover:bg-[#2f3237] dark:hover:text-white" />
         </div>
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Hero section - Only shown when user is not logged in */}
@@ -64,7 +64,7 @@ export default function Home() {
                   CodeCollab
                 </h1>
                 <p className="text-lg text-gray-600 dark:text-gray-300 max-w-lg">
-                  Bring your friends, share a room, and code your way through
+                  Bring your friends, share an editor, and code your way through
                   solving DSA problems—together.
                 </p>
 
@@ -99,15 +99,15 @@ export default function Home() {
                       ))}
                     </div>
                     <span className="text-sm text-gray-600 dark:text-gray-300">
-                      Join a new wave of programmers solving problems
-                      collaboratively
+                      Join a new wave of programmers practicing data structures
+                      and algorithms collaboratively
                     </span>
                   </div>
                 </div>
               </>
             ) : (
               // Content for logged in users
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-6 order-1">
                 <h2 className="text-3xl font-bold dark:text-gray-200">
                   Welcome, {user.user_metadata?.name || "Coder"}!
                 </h2>
@@ -145,14 +145,14 @@ export default function Home() {
           </div>
 
           {/* Auth/Content section */}
-          <div className="order-1 md:order-2 bg-white dark:bg-gray-800/50 p-8 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700/50 backdrop-blur-sm">
+          <div className="order-2 bg-white dark:bg-gray-800/50 p-8 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700/50 backdrop-blur-sm">
             {loading ? (
               <div className="flex justify-center py-12">
                 <LoadingSpinner />
               </div>
             ) : user ? (
               <div className="flex flex-col gap-8">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-wrap items-start justify-between gap-4">
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 rounded-full bg-foreground dark:bg-gray-700 text-background flex items-center justify-center text-lg font-medium">
                       {user.user_metadata?.name?.charAt(0) ||
@@ -171,7 +171,7 @@ export default function Home() {
 
                   <button
                     onClick={handleSignOut}
-                    className="rounded-full border border-solid border-black/[.08] dark:text-gray-300 dark:bg-gray-700/30 dark:hover:bg-gray-600/30 dark:hover:text-white dark:border-white/[.145] flex items-center justify-center hover:bg-gray-100 dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 mt-2 cursor-pointer bg-foreground text-background gap-2"
+                    className="rounded-full border border-solid border-black/[.08] dark:text-gray-300 dark:bg-gray-700/30 dark:hover:bg-gray-600/30 dark:hover:text-white dark:border-white/[.145] flex items-center justify-center hover:bg-gray-100 dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 cursor-pointer bg-foreground text-background gap-2 flex-shrink-0 mt-2 sm:mt-0"
                   >
                     Sign Out
                   </button>
