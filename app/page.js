@@ -43,7 +43,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-r from-gray-100 via-white to-gray-100 dark:from-[#1a1c1f] dark:via-[#1a1c1f] dark:to-[#1a1c1f]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex justify-center mb-4 items-center gap-4 mb-10">
+        <div className="flex justify-center mb-4 items-center gap-4 mb-20 md:mb-26">
           <a
             href="https://codecollab.canny.io/feature-requests"
             target="_blank"
@@ -54,11 +54,11 @@ export default function Home() {
           </a>
           <ThemeToggle className="text-gray-700 hover:text-black dark:text-gray-300 dark:hover:bg-[#2f3237] dark:hover:text-white" />
         </div>
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="grid md:grid-cols-2 gap-12 ">
           {/* Hero section - Only shown when user is not logged in */}
-          <div className="flex flex-col gap-6 order-2 items-center text-center md:text-left md:items-start md:order-1">
-            {!user ? (
-              // Content for non-logged in users
+          {!user ? (
+            <div className="flex flex-col gap-6 order-2 items-center justify-center text-center md:order-1">
+              {/* Content for non-logged in users */}
               <>
                 <h1 className="text-4xl sm:text-5xl font-bold tracking-tight dark:text-gray-200">
                   CodeCollab
@@ -72,7 +72,7 @@ export default function Home() {
                   <div className="mt-4">
                     <button
                       onClick={() => router.push("/signin")}
-                      className="rounded-full border border-solid border-black/[.08] dark:text-gray-300 dark:bg-gray-700/30 dark:hover:bg-gray-600/30 dark:hover:text-white dark:border-white/[.145] flex items-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 mt-2 cursor-pointer bg-foreground text-background gap-2"
+                      className="rounded-full border border-solid border-black/[.08] dark:text-gray-300 dark:bg-gray-700/30 dark:hover:bg-gray-600/30 dark:hover:text-white dark:border-white/[.145] hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 mt-2 cursor-pointer bg-foreground text-background gap-2"
                     >
                       Get Started
                     </button>
@@ -99,50 +99,48 @@ export default function Home() {
                       ))}
                     </div>
                     <span className="text-sm text-gray-600 dark:text-gray-300">
-                      Join a new wave of programmers practicing data structures
-                      and algorithms collaboratively
+                      Join programmers practicing data structures and algorithms
+                      collaboratively
                     </span>
                   </div>
                 </div>
               </>
-            ) : (
-              // Content for logged in users
-              <div className="flex flex-col gap-6 order-1">
-                <h2 className="text-3xl font-bold dark:text-gray-200">
-                  Welcome, {user.user_metadata?.name || "Coder"}!
-                </h2>
-                <p className="text-lg text-gray-600 dark:text-gray-300">
-                  Ready to collab?
-                  <br />
-                  Create a new coding room or join an existing one.
-                </p>
+            </div>
+          ) : (
+            <div className="flex flex-col justify-center items-center md:items-start gap-6 order-1">
+              {/* Content for logged in users */}
+              <h2 className="text-3xl font-bold text-center md:text-left dark:text-gray-200">
+                Welcome, {user.user_metadata?.name || "Coder"}!
+              </h2>
+              <p className="text-lg text-center md:text-left text-gray-600 dark:text-gray-300">
+                Ready to collab?
+                <br />
+                Create a new coding room or join an existing one.
+              </p>
 
-                <div className="mt-4 space-y-6">
-                  <div className="bg-white dark:bg-gray-800/30 p-6 rounded-lg border border-gray-100 dark:border-gray-700/50">
-                    <h3 className="text-lg font-semibold dark:text-gray-300 mb-3 flex items-center gap-2">
-                      Quick Tips
-                    </h3>
-                    <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-                      <li className="flex items-center gap-2">
-                        <span className="text-black dark:text-gray-300">•</span>
-                        <span>Create a room to start a new coding session</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <span className="text-black dark:text-gray-300">•</span>
-                        <span>Share the room code with friends</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <span className="text-black dark:text-gray-300">•</span>
-                        <span>
-                          Join a friend&apos;s room via their room code
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
+              <div className="mt-4 space-y-6">
+                <div className="bg-white dark:bg-gray-800/30 p-6 rounded-lg border border-gray-100 dark:border-gray-700/50">
+                  <h3 className="text-lg font-semibold dark:text-gray-300 mb-3 flex items-center gap-2">
+                    Quick Tips
+                  </h3>
+                  <ul className="space-y-2 text-gray-600 dark:text-gray-300">
+                    <li className="flex items-center gap-2">
+                      <span className="text-black dark:text-gray-300">•</span>
+                      <span>Create a room to start a new coding session</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="text-black dark:text-gray-300">•</span>
+                      <span>Share the room code with friends</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="text-black dark:text-gray-300">•</span>
+                      <span>Join a friend&apos;s room via their room code</span>
+                    </li>
+                  </ul>
                 </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
 
           {/* Auth/Content section */}
           <div className="order-2 bg-white dark:bg-gray-800/50 p-8 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700/50 backdrop-blur-sm">
@@ -171,7 +169,7 @@ export default function Home() {
 
                   <button
                     onClick={handleSignOut}
-                    className="rounded-full border border-solid border-black/[.08] dark:text-gray-300 dark:bg-gray-700/30 dark:hover:bg-gray-600/30 dark:hover:text-white dark:border-white/[.145] flex items-center justify-center hover:bg-gray-100 dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 cursor-pointer bg-foreground text-background gap-2 flex-shrink-0 mt-2 sm:mt-0"
+                    className="rounded-full border border-solid border-black/[.08] dark:text-gray-300 dark:bg-gray-700/30 dark:hover:bg-gray-600/30 dark:hover:text-white dark:border-white/[.145] flex items-center justify-center hover:bg-gray-100 dark:hover:bg-[#1a1a1a] hover:border-transparent text-base h-12 px-5 cursor-pointer bg-foreground text-background gap-2 flex-shrink-0 mt-2 sm:mt-0 w-full sm:w-auto md:w-full lg:w-auto"
                   >
                     Sign Out
                   </button>
@@ -232,28 +230,30 @@ export default function Home() {
 
         {/* Features section - Only shown when user is not logged in */}
         {!user && (
-          <div className="mt-24 grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="mt-12 md:mt-24 grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white dark:bg-gray-800/30 p-6 rounded-lg border border-gray-100 dark:border-gray-700/50">
-              <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mb-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="text-blue-600 dark:text-blue-400"
-                >
-                  <polyline points="16 18 22 12 16 6"></polyline>
-                  <polyline points="8 6 2 12 8 18"></polyline>
-                </svg>
+              <div className="md:flex md:flex-col md:items-start flex flex-row items-center">
+                <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mb-4 md:mb-4 mr-3 md:mr-0">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-blue-600 dark:text-blue-400"
+                  >
+                    <polyline points="16 18 22 12 16 6"></polyline>
+                    <polyline points="8 6 2 12 8 18"></polyline>
+                  </svg>
+                </div>
+                <h3 className="text-lg font-bold md:mb-2 mb-4 dark:text-gray-200">
+                  Real-time Collaboration
+                </h3>
               </div>
-              <h3 className="text-lg font-bold mb-2 dark:text-gray-200">
-                Real-time Collaboration
-              </h3>
               <p className="text-gray-600 dark:text-gray-300">
                 Code together with your friends in real-time with live cursor
                 tracking and instant updates.
@@ -261,12 +261,14 @@ export default function Home() {
             </div>
 
             <div className="bg-white dark:bg-gray-800/30 p-6 rounded-lg border border-gray-100 dark:border-gray-700/50">
-              <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-4">
-                <Laptop className="w-6 h-6 text-green-600" />
+              <div className="md:flex md:flex-col md:items-start flex flex-row items-center">
+                <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-4 md:mb-4 mr-3 md:mr-0">
+                  <Laptop className="w-6 h-6 text-green-600" />
+                </div>
+                <h3 className="text-lg font-bold md:mb-2 mb-4 dark:text-gray-200">
+                  Coding Challenges
+                </h3>
               </div>
-              <h3 className="text-lg font-bold mb-2 dark:text-gray-200">
-                Coding Challenges
-              </h3>
               <p className="text-gray-600 dark:text-gray-300">
                 Practice with built-in coding challenges and test your solutions
                 in the browser.
@@ -274,27 +276,29 @@ export default function Home() {
             </div>
 
             <div className="bg-white dark:bg-gray-800/30 p-6 rounded-lg border border-gray-100 dark:border-gray-700/50">
-              <div className="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mb-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="text-purple-600 dark:text-purple-400"
-                >
-                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                  <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                </svg>
+              <div className="md:flex md:flex-col md:items-start flex flex-row items-center">
+                <div className="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mb-4 md:mb-4 mr-3 md:mr-0">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-purple-600 dark:text-purple-400"
+                  >
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                  </svg>
+                </div>
+                <h3 className="text-lg font-bold md:mb-2 mb-4 dark:text-gray-200">
+                  Multiple Languages
+                </h3>
               </div>
-              <h3 className="text-lg font-bold mb-2 dark:text-gray-200">
-                Multiple Languages
-              </h3>
               <p className="text-gray-600 dark:text-gray-300">
                 Support for JS and Python (more to come) with syntax
                 highlighting and code execution.

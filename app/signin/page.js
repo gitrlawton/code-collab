@@ -61,7 +61,7 @@ export default function SignIn() {
           CodeCollab
         </span>
 
-        <h1 className="text-3xl font-bold dark:text-gray-400">
+        <h1 className="text-3xl font-bold dark:text-gray-400 text-center">
           Collaborative Code Editor
         </h1>
 

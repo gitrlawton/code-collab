@@ -179,14 +179,14 @@ export default function RoomSettings() {
             d="M15.75 19.5L8.25 12l7.5-7.5"
           />
         </svg>
-        <span className="font-medium">Back</span>
+        <span className="hidden sm:block font-medium">Back</span>
       </button>
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-24">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-center md:text-left text-black dark:text-gray-200 ">
+          <h1 className="text-3xl font-bold text-center lg:text-left text-black dark:text-gray-200 ">
             Room Settings
           </h1>
-          <p className="text-gray-600 dark:text-gray-300 mt-2 text-center md:text-left">
+          <p className="text-gray-600 dark:text-gray-300 mt-2 text-center lg:text-left">
             Configure your room
           </p>
         </div>
