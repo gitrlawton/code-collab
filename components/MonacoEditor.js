@@ -46,6 +46,8 @@ export default function CollaborativeEditor({ roomId, user }) {
   // Add Pyodide state
   const [pyodide, setPyodide] = useState(null);
   const [isPyodideLoading, setIsPyodideLoading] = useState(false);
+  const [showCopyNotification, setShowCopyNotification] = useState(false);
+  const [notificationFading, setNotificationFading] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -1259,6 +1261,27 @@ export default function CollaborativeEditor({ roomId, user }) {
     };
   }, [isDragging]);
 
+  // Handle copying room code to clipboard
+  const handleCopyRoomCode = useCallback(() => {
+    // Prevent showing a new notification if one is already visible
+    if (showCopyNotification) return;
+
+    navigator.clipboard.writeText(roomId);
+    setShowCopyNotification(true);
+    setNotificationFading(false);
+
+    // Set a timeout to start fading after 1.5 seconds
+    setTimeout(() => {
+      setNotificationFading(true);
+    }, 1500);
+
+    // Hide notification after 2.5 seconds
+    setTimeout(() => {
+      setShowCopyNotification(false);
+      setNotificationFading(false);
+    }, 2500);
+  }, [roomId, showCopyNotification]);
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -1342,28 +1365,46 @@ export default function CollaborativeEditor({ roomId, user }) {
               <h2 className="text-lg font-bold text-black dark:text-gray-200">
                 Room: {roomId}
               </h2>
-              <button
-                onClick={() => {
-                  navigator.clipboard.writeText(roomId);
-                }}
-                className="ml-2 p-2 rounded hover:bg-[#f2f2f2] dark:text-gray-200 dark:hover:bg-[#3a3a3a] cursor-pointer"
-                title="Copy room code"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+              <div className="relative">
+                <button
+                  onClick={handleCopyRoomCode}
+                  className="ml-2 p-2 rounded hover:bg-[#f2f2f2] dark:text-gray-200 dark:hover:bg-[#3a3a3a] cursor-pointer"
+                  title="Copy room code"
                 >
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                </svg>
-              </button>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <rect
+                      x="9"
+                      y="9"
+                      width="13"
+                      height="13"
+                      rx="2"
+                      ry="2"
+                    ></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                </button>
+                {showCopyNotification && (
+                  <div
+                    className={`absolute left-0 mt-1 px-2 py-1 border border-solid border-[#E0E0E0] dark:border-[#3A3A3A] text-sm bg-[#F2F4F6] dark:bg-[#2C2F33] text-[#1A1A1A] dark:text-white rounded shadow-lg whitespace-nowrap z-50 ${
+                      notificationFading
+                        ? "opacity-0 transition-opacity duration-1000"
+                        : "opacity-100"
+                    }`}
+                  >
+                    Room code copied to clipboard
+                  </div>
+                )}
+              </div>
 
               {/* Settings Button */}
               <button

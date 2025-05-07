@@ -157,7 +157,7 @@ export default function RoomSettings() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-[#1a1c1f]">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#1a1c1f] flex items-center justify-center">
       {/* Back Button */}
       <button
         className="absolute top-6 left-6 flex items-center text-gray-500 hover:text-gray-800 dark:text-gray-200 dark:hover:text-gray-400 rounded-full p-2 transition cursor-pointer"
@@ -181,17 +181,17 @@ export default function RoomSettings() {
         </svg>
         <span className="hidden sm:block font-medium">Back</span>
       </button>
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-center lg:text-left text-black dark:text-gray-200 ">
+      <div className="w-full max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-8 text-center">
+          <h1 className="text-3xl font-bold text-black dark:text-gray-200">
             Room Settings
           </h1>
-          <p className="text-gray-600 dark:text-gray-300 mt-2 text-center lg:text-left">
+          <p className="text-gray-600 dark:text-gray-300 mt-2">
             Configure your room
           </p>
         </div>
 
-        <div className="bg-white dark:dark:bg-gray-800/30 p-8 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700/50">
+        <div className="bg-white dark:bg-gray-800/30 p-8 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700/50 mx-auto">
           {error && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
               {error}
