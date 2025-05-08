@@ -85,6 +85,20 @@ export default function RootLayout({ children }) {
               .dark {
                 transition: none !important;
               }
+              
+              /* Theme toggle icon styles for immediate rendering */
+              .theme-toggle-icon-light {
+                display: block;
+              }
+              .theme-toggle-icon-dark {
+                display: none;
+              }
+              html.dark .theme-toggle-icon-light {
+                display: none;
+              }
+              html.dark .theme-toggle-icon-dark {
+                display: block;
+              }
             `,
           }}
         />

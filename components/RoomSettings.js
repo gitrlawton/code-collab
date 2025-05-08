@@ -229,7 +229,7 @@ export default function RoomSettings({
       <div className="relative flex items-center justify-center h-full">
         <div
           ref={modalRef}
-          className="bg-white dark:bg-gray-800/30 rounded-lg p-6 w-full max-w-md shadow-xl border border-gray-100 dark:border-gray-700/50"
+          className="bg-white dark:bg-[#1a1d20] rounded-lg p-6 w-full max-w-md shadow-xl border border-gray-100 dark:border-white/[.145]"
         >
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-bold text-black dark:text-gray-200">

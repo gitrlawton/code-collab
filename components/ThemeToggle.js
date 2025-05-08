@@ -6,43 +6,29 @@ import { useEffect, useState } from "react";
 
 export default function ThemeToggle({ className = "" }) {
   const { theme, toggleTheme } = useTheme();
-  // Initialize with null to avoid rendering any icon initially
-  const [initialTheme, setInitialTheme] = useState(null);
+  const [mounted, setMounted] = useState(false);
 
-  // Check document class on first render
+  // Set mounted to true after component mounts
   useEffect(() => {
-    // Directly check the document class
-    const isDark = document.documentElement.classList.contains("dark");
-    setInitialTheme(isDark ? "dark" : "light");
+    setMounted(true);
   }, []);
 
-  // If initialTheme is null, we haven't checked the document class yet
-  // This prevents any icon from showing until we know the correct theme
-  if (initialTheme === null) {
-    return (
-      <button
-        className={`rounded border border-solid border-black/[.08] dark:border-white/[.145] flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] text-base h-8 w-8 cursor-pointer ${className}`}
-      >
-        <span className="h-5 w-5"></span>
-      </button>
-    );
-  }
-
-  // Use the theme from context for subsequent renders
-  // But use initialTheme for the first render
-  const displayTheme = theme || initialTheme;
+  // Basic button styles that don't depend on JavaScript
+  const buttonClasses = `rounded border border-solid border-black/[.08] dark:border-white/[.145] flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] text-base h-8 w-8 cursor-pointer ${className}`;
 
   return (
     <button
-      onClick={toggleTheme}
-      className={`rounded border border-solid border-black/[.08] dark:border-white/[.145] flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] text-base h-8 w-8 cursor-pointer ${className}`}
-      aria-label={`Switch to ${displayTheme === "light" ? "dark" : "light"} theme`}
+      onClick={mounted ? toggleTheme : undefined}
+      className={buttonClasses}
+      aria-label="Toggle theme"
     >
-      {displayTheme === "light" ? (
-        <Moon className="h-5 w-5" />
-      ) : (
-        <Sun className="h-5 w-5" />
-      )}
+      {/* 
+        These classes are defined in layout.js <style> tag
+        and will show/hide based on the dark class on <html>
+        that's set by the preload script before any JS loads
+      */}
+      <Moon className={`h-5 w-5 theme-toggle-icon-light`} />
+      <Sun className={`h-5 w-5 theme-toggle-icon-dark`} />
     </button>
   );
 }
