@@ -22,8 +22,10 @@ export default function CollaborativeEditor({ roomId, user }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isTooSmall, setIsTooSmall] = useState(false);
+  const [explicitlyLeft, setExplicitlyLeft] = useState({});
   const editorRef = useRef(null);
   const presenceChannelRef = useRef(null);
+  const userPresenceRef = useRef({});
   const isLocalChangeRef = useRef(false);
   const versionRef = useRef(1);
   const debounceTimerRef = useRef(null);
@@ -126,6 +128,22 @@ export default function CollaborativeEditor({ roomId, user }) {
   // Function to handle cleanup for user leaving the room
   const leaveRoom = async () => {
     try {
+      // Mark as explicitly left
+      setExplicitlyLeft(prev => ({
+        ...prev,
+        [user.id]: true
+      }));
+
+      // Send an explicit leave message to other users
+      await supabase.channel(`room:${roomId}:user-status`).send({
+        type: "broadcast",
+        event: "user-left",
+        payload: {
+          userId: user.id,
+          userName: user.user_metadata?.name || "Anonymous",
+        },
+      });
+      
       // Log user leaving
       console.log(
         `%c${user.user_metadata?.name || "Anonymous"} left the room...`,
@@ -709,17 +727,56 @@ export default function CollaborativeEditor({ roomId, user }) {
         // Store the reference
         presenceChannelRef.current = presenceChannel;
 
+        // Create a custom broadcast channel for explicit leave events
+        const userStatusChannel = supabase.channel(`room:${roomId}:user-status`);
+        
+        // Subscribe to explicit leave events
+        userStatusChannel
+          .on('broadcast', { event: 'user-left' }, (payload) => {
+            const { userId, userName } = payload.payload;
+            
+            console.log(`%c${userName} explicitly left the room...`, "color: red");
+            
+            // Mark this user as explicitly left
+            setExplicitlyLeft(prev => ({
+              ...prev,
+              [userId]: true
+            }));
+            
+            // Remove from users list
+            setUsers(prevUsers => prevUsers.filter(user => user.userId !== userId));
+            
+            // Remove cursor
+            setCursors(prev => {
+              const updated = { ...prev };
+              delete updated[userId];
+              return updated;
+            });
+          })
+          .subscribe();
+
         const presenceSubscription = presenceChannel
           .on("presence", { event: "join" }, async ({ newPresences }) => {
-            // Update users list first
+            // Update users list first, but only for users who haven't explicitly left
             setUsers((prevUsers) => {
               const updatedUsers = [...prevUsers];
               newPresences.forEach((presence) => {
-                if (!updatedUsers.some((u) => u.userId === presence.userId)) {
+                const alreadyExists = updatedUsers.some((u) => u.userId === presence.userId);
+                const hasExplicitlyLeft = explicitlyLeft[presence.userId];
+                
+                // Only add if not already in the list and hasn't explicitly left
+                if (!alreadyExists && !hasExplicitlyLeft) {
                   updatedUsers.push(presence);
                 }
               });
               return updatedUsers;
+            });
+            
+            // Store our own presence data for potential reconnection
+            newPresences.forEach(presence => {
+              if (presence.userId === user.id) {
+                userPresenceRef.current = presence;
+              }
             });
 
             // Only sync content if we're the longest-present user
@@ -772,67 +829,23 @@ export default function CollaborativeEditor({ roomId, user }) {
             }
           })
           .on("presence", { event: "leave" }, ({ leftPresences }) => {
-            // Log user leaving in red
+            // For each left presence, check if they explicitly left
             leftPresences.forEach((presence) => {
-              console.log(
-                `%c${presence.userName} left the room...`,
-                "color: red"
-              );
-            });
-
-            setUsers((prevUsers) => {
-              const updatedUsers = prevUsers.filter(
-                (user) =>
-                  !leftPresences.some((left) => left.userId === user.userId)
-              );
-
-              // Check if this was the last user leaving
-              if (updatedUsers.length === 0) {
-                console.log(
-                  "%cAll users have left. Cleaning up room...",
-                  "color: red"
-                );
-                // Use the utility function for deletion
-                try {
-                  attemptRoomDeletion(roomId, supabase)
-                    .then((success) => {
-                      if (success) {
-                        console.log(
-                          `%cRoom ${roomId} deleted successfully`,
-                          "color: red"
-                        );
-                      } else {
-                        console.log(
-                          `%cUnable to delete room ${roomId}`,
-                          "color: red"
-                        );
-                      }
-                    })
-                    .catch((err) => {
-                      console.log(
-                        `%cError during room deletion: ${err.message}`,
-                        "color: red"
-                      );
-                    });
-                } catch (err) {
-                  console.log(
-                    `%cException in room deletion: ${err.message}`,
-                    "color: red"
-                  );
-                }
+              console.log(`Presence leave event detected for ${presence.userName}`);
+              
+              // If we haven't seen an explicit leave message, this could be just tabbing away
+              // Don't remove from users list unless they've explicitly left
+              if (!explicitlyLeft[presence.userId]) {
+                console.log(`${presence.userName} may have tabbed away, not removing`);
+              } else {
+                console.log(`${presence.userName} explicitly left, removing from UI`);
               }
-
-              return updatedUsers;
             });
 
-            // Remove cursor for users who left
-            setCursors((prev) => {
-              const updated = { ...prev };
-              leftPresences.forEach((presence) => {
-                delete updated[presence.userId];
-              });
-              return updated;
-            });
+            // We don't update the users list here - rely on explicit leave events instead
+            
+            // If this was the last real user, we might want to clean up the room
+            // This is now handled by the explicit leave events
           });
 
         // Subscribe first, then track presence after subscription is complete
@@ -969,10 +982,44 @@ export default function CollaborativeEditor({ roomId, user }) {
         if (storedLanguage) {
           setLanguage(storedLanguage);
         }
+        
+        // Just retrack our presence when returning to the tab
+        if (presenceChannelRef.current && user) {
+          console.log("Re-establishing presence after tab visibility change");
+          
+          // Force a retrack to ensure we're still listed
+          presenceChannelRef.current.track({
+            userId: user.id,
+            userName: user.user_metadata?.name || "Anonymous",
+          });
+        }
       }
     };
 
     const handleBeforeUnload = () => {
+      // Send an explicit leave message when closing tab/window
+      try {
+        if (user && roomId) {
+          // Mark as explicitly left first
+          setExplicitlyLeft(prev => ({
+            ...prev,
+            [user.id]: true
+          }));
+          
+          // This is a best-effort attempt to notify of leaving when closing tab
+          supabase.channel(`room:${roomId}:user-status`).send({
+            type: "broadcast",
+            event: "user-left",
+            payload: {
+              userId: user.id,
+              userName: user.user_metadata?.name || "Anonymous",
+            },
+          });
+        }
+      } catch (error) {
+        // Cannot handle errors during page unload
+      }
+      
       // Log user leaving when they close the tab or navigate away
       console.log(
         `%c${user.user_metadata?.name || "Anonymous"} left the room...`,
@@ -1703,7 +1750,7 @@ export default function CollaborativeEditor({ roomId, user }) {
                 <pre className="bg-gray-100 dark:bg-gray-700/30 dark:text-[#e0e0e0] p-4 rounded overflow-auto flex-grow font-mono text-sm">
                   {hasRunBefore
                     ? output
-                    : output || "Run your code to see output here..."}
+                    : output || "Run your code to see the output here..."}
                 </pre>
               </div>
             </div>

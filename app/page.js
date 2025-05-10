@@ -110,7 +110,9 @@ export default function Home() {
             <div className="flex flex-col justify-center items-center md:items-start gap-6 order-1">
               {/* Content for logged in users */}
               <h2 className="text-3xl font-bold text-center md:text-left dark:text-gray-200">
-                Welcome, {user.user_metadata?.name || "Coder"}!
+                {user.user_metadata?.name
+                  ? `Welcome, ${user.user_metadata.name}!`
+                  : "Welcome!"}
               </h2>
               <p className="text-lg text-center md:text-left text-gray-600 dark:text-gray-300">
                 Ready to collab?
