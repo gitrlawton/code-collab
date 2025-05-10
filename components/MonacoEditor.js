@@ -32,6 +32,7 @@ export default function CollaborativeEditor({ roomId, user }) {
   const router = useRouter();
   const [output, setOutput] = useState("");
   const [isRunning, setIsRunning] = useState(false);
+  const [hasRunBefore, setHasRunBefore] = useState(false);
   const [showQuestion, setShowQuestion] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
   const [outputHeight, setOutputHeight] = useState(240); // Default output height
@@ -220,6 +221,7 @@ export default function CollaborativeEditor({ roomId, user }) {
 
     setIsRunning(true);
     setOutput(""); // Clear previous output
+    setHasRunBefore(true); // Mark that we've run code at least once
 
     try {
       // Create a proxy console to capture logs
@@ -539,6 +541,9 @@ export default function CollaborativeEditor({ roomId, user }) {
         // Check if we have content in localStorage (from a previous session)
         const localContent = localStorage.getItem(`room_${roomId}_content`);
 
+        // Check if we have a stored language preference
+        const storedLanguage = localStorage.getItem(`room_${roomId}_language`);
+
         // Get room data from database
         const { data, error } = await supabase
           .from("rooms")
@@ -563,26 +568,31 @@ export default function CollaborativeEditor({ roomId, user }) {
           await saveContentImmediately(localContent);
         }
 
-        // Set the programming language based on the content
-        let languageToUse = data.language || "javascript";
-        if (
-          contentToUse.trim().startsWith("def ") ||
-          (contentToUse.includes("import ") && contentToUse.includes("print("))
-        ) {
-          languageToUse = "python";
-        } else if (
-          contentToUse.includes("public class") ||
-          contentToUse.includes("private class")
-        ) {
-          languageToUse = "java";
-        } else if (
-          contentToUse.includes("#include") &&
-          (contentToUse.includes("<iostream>") ||
-            contentToUse.includes("<stdio.h>"))
-        ) {
-          languageToUse = "cpp";
-        } else {
-          languageToUse = "javascript"; // Explicitly default to JavaScript
+        // Set the programming language based on the content (only if we don't have a stored language)
+        let languageToUse = storedLanguage || data.language || "javascript";
+
+        // Only auto-detect language if we don't have a stored preference
+        if (!storedLanguage) {
+          if (
+            contentToUse.trim().startsWith("def ") ||
+            (contentToUse.includes("import ") &&
+              contentToUse.includes("print("))
+          ) {
+            languageToUse = "python";
+          } else if (
+            contentToUse.includes("public class") ||
+            contentToUse.includes("private class")
+          ) {
+            languageToUse = "java";
+          } else if (
+            contentToUse.includes("#include") &&
+            (contentToUse.includes("<iostream>") ||
+              contentToUse.includes("<stdio.h>"))
+          ) {
+            languageToUse = "cpp";
+          } else {
+            languageToUse = "javascript"; // Explicitly default to JavaScript
+          }
         }
 
         setContent(contentToUse || "// Start coding here...");
@@ -949,6 +959,15 @@ export default function CollaborativeEditor({ roomId, user }) {
         const currentContent = editorRef.current.getValue();
         if (currentContent && currentContent !== "// Start coding here...") {
           saveContentImmediately(currentContent);
+
+          // Store current language in localStorage to preserve it
+          localStorage.setItem(`room_${roomId}_language`, language);
+        }
+      } else if (document.visibilityState === "visible") {
+        // When returning to the tab, restore the language if it exists
+        const storedLanguage = localStorage.getItem(`room_${roomId}_language`);
+        if (storedLanguage) {
+          setLanguage(storedLanguage);
         }
       }
     };
@@ -1682,7 +1701,9 @@ export default function CollaborativeEditor({ roomId, user }) {
                 </div>
 
                 <pre className="bg-gray-100 dark:bg-gray-700/30 dark:text-[#e0e0e0] p-4 rounded overflow-auto flex-grow font-mono text-sm">
-                  {output || "Run your code to see output here..."}
+                  {hasRunBefore
+                    ? output
+                    : output || "Run your code to see output here..."}
                 </pre>
               </div>
             </div>
