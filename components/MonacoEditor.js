@@ -62,8 +62,29 @@ export default function CollaborativeEditor({ roomId, user }) {
   useEffect(() => {
     let isMounted = true;
 
-    // Don't load Pyodide automatically on component mount
-    // It will be loaded on-demand when the user selects Python
+    // Load Pyodide automatically on component mount
+    const initializePyodide = async () => {
+      try {
+        if (!pyodide && !isPyodideLoading) {
+          console.log("Preloading Pyodide interpreter...");
+          setIsPyodideLoading(true);
+          const pyodideInstance = await loadPyodideInstance();
+          if (isMounted) {
+            setPyodide(pyodideInstance);
+            setIsPyodideLoading(false);
+            console.log("Pyodide preloaded successfully");
+          }
+        }
+      } catch (err) {
+        console.error("Error preloading Pyodide:", err);
+        if (isMounted) {
+          setIsPyodideLoading(false);
+        }
+      }
+    };
+
+    // Start loading Pyodide
+    initializePyodide();
 
     return () => {
       isMounted = false;
@@ -129,9 +150,9 @@ export default function CollaborativeEditor({ roomId, user }) {
   const leaveRoom = async () => {
     try {
       // Mark as explicitly left
-      setExplicitlyLeft(prev => ({
+      setExplicitlyLeft((prev) => ({
         ...prev,
-        [user.id]: true
+        [user.id]: true,
       }));
 
       // Send an explicit leave message to other users
@@ -143,7 +164,7 @@ export default function CollaborativeEditor({ roomId, user }) {
           userName: user.user_metadata?.name || "Anonymous",
         },
       });
-      
+
       // Log user leaving
       console.log(
         `%c${user.user_metadata?.name || "Anonymous"} left the room...`,
@@ -728,26 +749,33 @@ export default function CollaborativeEditor({ roomId, user }) {
         presenceChannelRef.current = presenceChannel;
 
         // Create a custom broadcast channel for explicit leave events
-        const userStatusChannel = supabase.channel(`room:${roomId}:user-status`);
-        
+        const userStatusChannel = supabase.channel(
+          `room:${roomId}:user-status`
+        );
+
         // Subscribe to explicit leave events
         userStatusChannel
-          .on('broadcast', { event: 'user-left' }, (payload) => {
+          .on("broadcast", { event: "user-left" }, (payload) => {
             const { userId, userName } = payload.payload;
-            
-            console.log(`%c${userName} explicitly left the room...`, "color: red");
-            
+
+            console.log(
+              `%c${userName} explicitly left the room...`,
+              "color: red"
+            );
+
             // Mark this user as explicitly left
-            setExplicitlyLeft(prev => ({
+            setExplicitlyLeft((prev) => ({
               ...prev,
-              [userId]: true
+              [userId]: true,
             }));
-            
+
             // Remove from users list
-            setUsers(prevUsers => prevUsers.filter(user => user.userId !== userId));
-            
+            setUsers((prevUsers) =>
+              prevUsers.filter((user) => user.userId !== userId)
+            );
+
             // Remove cursor
-            setCursors(prev => {
+            setCursors((prev) => {
               const updated = { ...prev };
               delete updated[userId];
               return updated;
@@ -761,9 +789,11 @@ export default function CollaborativeEditor({ roomId, user }) {
             setUsers((prevUsers) => {
               const updatedUsers = [...prevUsers];
               newPresences.forEach((presence) => {
-                const alreadyExists = updatedUsers.some((u) => u.userId === presence.userId);
+                const alreadyExists = updatedUsers.some(
+                  (u) => u.userId === presence.userId
+                );
                 const hasExplicitlyLeft = explicitlyLeft[presence.userId];
-                
+
                 // Only add if not already in the list and hasn't explicitly left
                 if (!alreadyExists && !hasExplicitlyLeft) {
                   updatedUsers.push(presence);
@@ -771,9 +801,9 @@ export default function CollaborativeEditor({ roomId, user }) {
               });
               return updatedUsers;
             });
-            
+
             // Store our own presence data for potential reconnection
-            newPresences.forEach(presence => {
+            newPresences.forEach((presence) => {
               if (presence.userId === user.id) {
                 userPresenceRef.current = presence;
               }
@@ -831,19 +861,25 @@ export default function CollaborativeEditor({ roomId, user }) {
           .on("presence", { event: "leave" }, ({ leftPresences }) => {
             // For each left presence, check if they explicitly left
             leftPresences.forEach((presence) => {
-              console.log(`Presence leave event detected for ${presence.userName}`);
-              
+              console.log(
+                `Presence leave event detected for ${presence.userName}`
+              );
+
               // If we haven't seen an explicit leave message, this could be just tabbing away
               // Don't remove from users list unless they've explicitly left
               if (!explicitlyLeft[presence.userId]) {
-                console.log(`${presence.userName} may have tabbed away, not removing`);
+                console.log(
+                  `${presence.userName} may have tabbed away, not removing`
+                );
               } else {
-                console.log(`${presence.userName} explicitly left, removing from UI`);
+                console.log(
+                  `${presence.userName} explicitly left, removing from UI`
+                );
               }
             });
 
             // We don't update the users list here - rely on explicit leave events instead
-            
+
             // If this was the last real user, we might want to clean up the room
             // This is now handled by the explicit leave events
           });
@@ -982,11 +1018,11 @@ export default function CollaborativeEditor({ roomId, user }) {
         if (storedLanguage) {
           setLanguage(storedLanguage);
         }
-        
+
         // Just retrack our presence when returning to the tab
         if (presenceChannelRef.current && user) {
           console.log("Re-establishing presence after tab visibility change");
-          
+
           // Force a retrack to ensure we're still listed
           presenceChannelRef.current.track({
             userId: user.id,
@@ -1001,11 +1037,11 @@ export default function CollaborativeEditor({ roomId, user }) {
       try {
         if (user && roomId) {
           // Mark as explicitly left first
-          setExplicitlyLeft(prev => ({
+          setExplicitlyLeft((prev) => ({
             ...prev,
-            [user.id]: true
+            [user.id]: true,
           }));
-          
+
           // This is a best-effort attempt to notify of leaving when closing tab
           supabase.channel(`room:${roomId}:user-status`).send({
             type: "broadcast",
@@ -1019,7 +1055,7 @@ export default function CollaborativeEditor({ roomId, user }) {
       } catch (error) {
         // Cannot handle errors during page unload
       }
-      
+
       // Log user leaving when they close the tab or navigate away
       console.log(
         `%c${user.user_metadata?.name || "Anonymous"} left the room...`,
