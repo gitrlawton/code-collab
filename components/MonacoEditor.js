@@ -51,6 +51,12 @@ export default function CollaborativeEditor({ roomId, user }) {
   const [isPyodideLoading, setIsPyodideLoading] = useState(false);
   const [showCopyNotification, setShowCopyNotification] = useState(false);
   const [notificationFading, setNotificationFading] = useState(false);
+  const [showLanguageNotification, setShowLanguageNotification] =
+    useState(false);
+  const [languageNotificationFading, setLanguageNotificationFading] =
+    useState(false);
+  const fadeTimeoutRef = useRef(null);
+  const hideTimeoutRef = useRef(null);
 
   useEffect(() => {
     return () => {
@@ -1587,6 +1593,34 @@ export default function CollaborativeEditor({ roomId, user }) {
                   const newLanguage = e.target.value;
                   setLanguage(newLanguage);
 
+                  // Clear existing timeouts
+                  if (fadeTimeoutRef.current) {
+                    clearTimeout(fadeTimeoutRef.current);
+                    fadeTimeoutRef.current = null;
+                  }
+                  if (hideTimeoutRef.current) {
+                    clearTimeout(hideTimeoutRef.current);
+                    hideTimeoutRef.current = null;
+                  }
+
+                  // Reset notification state
+                  setShowLanguageNotification(true);
+                  setLanguageNotificationFading(false);
+
+                  // Set a timeout to start fading after 1.5 seconds
+                  fadeTimeoutRef.current = setTimeout(() => {
+                    setLanguageNotificationFading(true);
+                  }, 1500);
+
+                  // Hide notification after 2.5 seconds
+                  hideTimeoutRef.current = setTimeout(() => {
+                    setShowLanguageNotification(false);
+                    setLanguageNotificationFading(false);
+                  }, 2500);
+
+                  // Save language preference to localStorage
+                  localStorage.setItem(`room_${roomId}_language`, newLanguage);
+
                   // Get current question's starter code for the selected language
                   if (roomId && showQuestion) {
                     // Fetch the current problem data
@@ -1719,6 +1753,23 @@ export default function CollaborativeEditor({ roomId, user }) {
                 <option value="python">Python</option>
                 <option value="javascript">JavaScript</option>
               </select>
+
+              <div className="relative">
+                {showLanguageNotification && (
+                  <div
+                    className={`absolute right-0 mt-5 px-2 py-1 border border-solid border-[#E0E0E0] dark:border-[#3A3A3A] text-sm bg-[#F2F4F6] dark:bg-[#2C2F33] text-[#1A1A1A] dark:text-white rounded shadow-lg whitespace-nowrap z-50 ${
+                      languageNotificationFading
+                        ? "opacity-0 transition-opacity duration-1000"
+                        : "opacity-100"
+                    }`}
+                  >
+                    Language changed to{" "}
+                    {language === "javascript"
+                      ? "JavaScript"
+                      : language.charAt(0).toUpperCase() + language.slice(1)}
+                  </div>
+                )}
+              </div>
 
               <ThemeToggle className="text-gray-600 hover:text-black hover:bg-[#f2f2f2] dark:text-gray-300 dark:hover:bg-[#2f3237] dark:hover:text-white" />
 
