@@ -1570,7 +1570,7 @@ export default function CollaborativeEditor({ roomId, user }) {
                 disabled={
                   isRunning || (language === "python" && isPyodideLoading)
                 }
-                className="ml-4 px-3 py-1 text-sm bg-gray-200 text-black rounded hover:bg-gray-300 dark:text-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center cursor-pointer"
+                className="ml-4 px-3 py-1 text-sm bg-gray-200 text-black rounded hover:bg-gray-300 dark:text-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 disabled:bg-gray-400 dark:disabled:bg-gray-800 flex items-center justify-center cursor-pointer"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -1581,11 +1581,9 @@ export default function CollaborativeEditor({ roomId, user }) {
                 >
                   <polygon points="6,4 16,10 6,16" />
                 </svg>
-                {isRunning
-                  ? "Running..."
-                  : isPyodideLoading && language === "python"
-                    ? "Loading Python..."
-                    : "Run"}
+                {isPyodideLoading && language === "python"
+                  ? "Loading Python..."
+                  : "Run"}
               </button>
               <select
                 value={language}
