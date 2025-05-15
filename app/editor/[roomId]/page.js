@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import CollaborativeEditor from "@/components/MonacoEditor";
+import LoadingScreen from "@/components/LoadingScreen";
 
 export default function EditorPage() {
   // Use the useParams hook instead of destructuring from props
@@ -46,11 +47,7 @@ export default function EditorPage() {
   }, [router]);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-foreground"></div>
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   return <CollaborativeEditor roomId={roomId} user={user} />;

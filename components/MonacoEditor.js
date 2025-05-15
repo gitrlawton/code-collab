@@ -8,6 +8,7 @@ import CodingQuestion from "@/components/CodingQuestion";
 import { attemptRoomDeletion } from "@/lib/room-utils";
 import RoomSettings from "@/components/RoomSettings";
 import ThemeToggle from "@/components/ThemeToggle";
+import LoadingScreen from "./LoadingScreen"; // Import the LoadingScreen component
 
 // Dynamically import Monaco Editor to avoid SSR issues
 const MonacoEditor = dynamic(() => import("@monaco-editor/react"), {
@@ -1391,11 +1392,7 @@ export default function CollaborativeEditor({ roomId, user }) {
   }, [roomId, showCopyNotification]);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-foreground"></div>
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   if (error) {

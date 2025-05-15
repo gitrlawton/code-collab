@@ -89,20 +89,30 @@ export default function CodingQuestion({
       .channel(`room:${roomId}:question`)
       .on("broadcast", { event: "question_change" }, async (payload) => {
         const newIndex = payload.payload.questionIndex;
-        console.log(`Question change event received: switching to index ${newIndex}`);
-        
+        console.log(
+          `Question change event received: switching to index ${newIndex}`
+        );
+
         // Update local state for the index
         setQuestionIndex(newIndex);
-        
+
         // If we already have the problem set loaded, update immediately
-        if (problemSet && problemSet.problems && problemSet.problems[newIndex]) {
+        if (
+          problemSet &&
+          problemSet.problems &&
+          problemSet.problems[newIndex]
+        ) {
           setCurrentQuestion(problemSet.problems[newIndex]);
           console.log("Updated current question from local problem set");
-          
+
           // Also update the editor content
-          const starterCode = getLanguageSpecificStarterCode(problemSet.problems[newIndex]);
+          const starterCode = getLanguageSpecificStarterCode(
+            problemSet.problems[newIndex]
+          );
           if (onSelectStarterCode && starterCode) {
-            console.log("Updating editor with starter code from question change event");
+            console.log(
+              "Updating editor with starter code from question change event"
+            );
             onSelectStarterCode(starterCode);
           }
         } else {
@@ -117,35 +127,44 @@ export default function CodingQuestion({
               .single();
 
             if (roomError) throw roomError;
-            
+
             // Load the problem set
-            const { getProblem, getProblems } = await import("@/lib/problem-sets");
-            
+            const { getProblem, getProblems } = await import(
+              "@/lib/problem-sets"
+            );
+
             // Get the problem using the getProblem function
             const subject = roomData.subject_name;
             const difficulty = roomData.difficulty;
             const setNumber = roomData.set_number.toString();
-            
+
             // Get the problems for this set
             const problems = getProblems(subject, difficulty, setNumber);
-            
+
             if (problems) {
               // Update the problem set
               setProblemSet({ problems });
-              
+
               // Update to the specific question that was changed
               setCurrentQuestion(problems[newIndex]);
               console.log("Updated current question from reloaded problem set");
-              
+
               // Update the editor with the new starter code
-              const starterCode = getLanguageSpecificStarterCode(problems[newIndex]);
+              const starterCode = getLanguageSpecificStarterCode(
+                problems[newIndex]
+              );
               if (onSelectStarterCode && starterCode) {
-                console.log("Updating editor with starter code from reloaded problem");
+                console.log(
+                  "Updating editor with starter code from reloaded problem"
+                );
                 onSelectStarterCode(starterCode);
               }
             }
           } catch (err) {
-            console.error("Error reloading problem set after question change:", err);
+            console.error(
+              "Error reloading problem set after question change:",
+              err
+            );
           }
         }
       })
