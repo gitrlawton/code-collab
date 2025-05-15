@@ -1391,6 +1391,35 @@ export default function CollaborativeEditor({ roomId, user }) {
     }, 2500);
   }, [roomId, showCopyNotification]);
 
+  useEffect(() => {
+    if (!roomId) return;
+
+    // Subscribe to language change events
+    const channel = supabase.channel(`room:${roomId}:language`);
+
+    channel
+      .on("broadcast", { event: "language-change" }, (payload) => {
+        const {
+          language: newLanguage,
+          userId,
+          userName,
+          timestamp,
+        } = payload.payload;
+
+        // Update language state
+        setLanguage(newLanguage);
+
+        // Show a notification about language change
+        const notification = `[${new Date(timestamp).toLocaleTimeString()}] ${userName} changed the language to ${newLanguage}`;
+        setOutput((prev) => `${notification}\n\n${prev || ""}`);
+      })
+      .subscribe();
+
+    return () => {
+      channel.unsubscribe();
+    };
+  }, [roomId]);
+
   if (loading) {
     return <LoadingScreen />;
   }
@@ -1615,6 +1644,19 @@ export default function CollaborativeEditor({ roomId, user }) {
 
                   // Save language preference to localStorage
                   localStorage.setItem(`room_${roomId}_language`, newLanguage);
+
+                  // Broadcast language change to all users in the room
+                  supabase.channel(`room:${roomId}:language`).send({
+                    type: "broadcast",
+                    event: "language-change",
+                    payload: {
+                      language: newLanguage,
+                      userId: user.id,
+                      userName:
+                        user?.user_metadata?.name || user?.email || "Anonymous",
+                      timestamp: new Date().toISOString(),
+                    },
+                  });
 
                   // Get current question's starter code for the selected language
                   if (roomId && showQuestion) {
