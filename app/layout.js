@@ -14,8 +14,50 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "CodeCollab",
-  description: "Collaborative DSA practice",
+  title: "CodeCollab | Real-Time Collaborative Code Editor for DSA Practice",
+  description:
+    "CodeCollab is a real-time collaborative code editor designed for practicing Data Structures and Algorithms. Work together with peers, interview prep, and enhance your coding skills.",
+  keywords:
+    "collaborative code editor, pair programming, DSA practice, algorithm practice, coding interview prep, real-time collaboration, code sharing",
+  authors: [{ name: "CodeCollab Team" }],
+  creator: "CodeCollab",
+  publisher: "CodeCollab",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL("https://codecollab.fyi"),
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "CodeCollab | Collaborative Code Editor",
+    description:
+      "Practice DSA problems together in real-time. Perfect for interview preparation and skill enhancement.",
+    url: "https://codecollab.fyi",
+    siteName: "CodeCollab",
+    locale: "en_US",
+    type: "website",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  category: "Technology",
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({ children }) {

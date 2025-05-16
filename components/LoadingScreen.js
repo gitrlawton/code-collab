@@ -7,7 +7,7 @@ export default function LoadingScreen({
     <div className="flex flex-col items-center justify-center min-h-screen gap-4">
       <div className="relative w-32 h-32 flex items-center justify-center">
         {/* Code brackets with fixed width to ensure consistent spacing */}
-        <div className="w-32 flex justify-between">
+        <div className="w-24 flex justify-between">
           <span className="text-3xl text-foreground">&#123;</span>
           <span className="text-3xl text-foreground">&#125;</span>
         </div>

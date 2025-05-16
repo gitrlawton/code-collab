@@ -1409,8 +1409,14 @@ export default function CollaborativeEditor({ roomId, user }) {
         // Update language state
         setLanguage(newLanguage);
 
+        // Format language name with proper capitalization
+        const formattedLanguage =
+          newLanguage === "javascript"
+            ? "JavaScript"
+            : newLanguage.charAt(0).toUpperCase() + newLanguage.slice(1);
+
         // Show a notification about language change
-        const notification = `[${new Date(timestamp).toLocaleTimeString()}] ${userName} changed the language to ${newLanguage}`;
+        const notification = `[${new Date(timestamp).toLocaleTimeString()}] ${userName} changed the room's language to ${formattedLanguage}.`;
         setOutput((prev) => `${notification}\n\n${prev || ""}`);
       })
       .subscribe();
